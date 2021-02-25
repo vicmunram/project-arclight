@@ -15,6 +15,11 @@ public class PlayerMovement : MonoBehaviour {
     public float dashRate = 0.1f;
     private float nextDash;
     private bool isDashing;
+    public float punchSpeed = 20f;
+    public float punchCharge = 0.25f;
+    public float punchPreparingTime = 2;
+    private bool isPunching;
+    private bool isPreparing;
 
     // Start is called before the first frame update
     void Start(){
@@ -29,14 +34,39 @@ public class PlayerMovement : MonoBehaviour {
             nextDash = Time.time + dashRate;
             StartCoroutine(Dash());
         }
-        else if(!isDashing){
+        else if(Input.GetKeyDown(KeyCode.Mouse0) && !isPunching) {
+            float startTime = Time.time;
+            StartCoroutine(Punch(startTime));
+        }
+        else if(!isPunching && !isDashing){
             SpeedControl();
         }
     }
 
     void FixedUpdate(){
-        if(!isDashing) {
+        if(!isPunching && !isDashing) {
             MovePlayer();
+            RotationControl();
+        }
+    }
+    void OnCollisionEnter2D(Collision2D collision) {
+        if(collision.gameObject.tag == "Wall") {
+            speed = 1;
+            if(isPunching){
+                isPunching = false;
+            }
+        }
+    }
+    void OnCollisionStay2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Wall") {
+            foreach(ContactPoint2D hitpos in collision.contacts){
+                if(Mathf.Sign(movement.x * hitpos.normal.x) == -1){
+                    movement.x = 0;
+                }
+                if(Mathf.Sign(movement.y * hitpos.normal.y) == -1){
+                    movement.y = 0;
+                }
+            }
         }
     }
 
@@ -58,21 +88,50 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void SpeedControl() {
-        if(input.x != 0 || input.y !=0){
-            if(speed <= maxSpeed) {
-                speed = speed + acc;
-                if (speed > maxSpeed) {
-                    speed = maxSpeed;
-                }
-            }
+        if(isPreparing){
+            speed = 1;
         }
         else{
-            if(speed != 0){
-                speed = speed/2;
-                if(speed < 0.1){
-                    speed = 0;
+            if(input.x != 0 || input.y !=0){
+                if(speed <= maxSpeed) {
+                    speed = speed + acc;
+                    if (speed > maxSpeed) {
+                        speed = maxSpeed;
+                    }
                 }
             }
+            else{
+                if(speed != 0){
+                    speed = speed/2;
+                    if(speed < 0.1){
+                        speed = 0;
+                    }
+                }
+            }
+        }   
+    }
+
+    private void RotationControl() {
+        Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector3 dir = Input.mousePosition - pos;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+    }
+
+    IEnumerator Punch (float startTime) {
+        movement = input;
+        while(Input.GetKey(KeyCode.Mouse0) && Time.time-startTime <= punchPreparingTime){
+            isPreparing = true;
+            yield return null;
+        }
+        isPreparing = false;
+        if(Time.time - startTime >= punchCharge && Time.time - startTime < punchPreparingTime){
+            isPunching = true;
+            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+            Vector3 dir = Input.mousePosition - pos;
+            movement = new Vector2(dir.x,dir.y).normalized;
+            speed = punchSpeed;
+            rb.velocity = movement * speed;
         }
     }
 
