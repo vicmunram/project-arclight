@@ -4,6 +4,7 @@ public class PlayerControl : MonoBehaviour
 {
     private bool canInteract;
     private Vector3 checkpoint;
+    private int hits = 2;
 
     private Vector2 boxSize = new Vector2(0.1f, 0.1f);
 
@@ -18,9 +19,10 @@ public class PlayerControl : MonoBehaviour
         {
             this.CheckInteraction();
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (hits < 1)
         {
             this.transform.position = checkpoint;
+            hits = 2;
         }
     }
 
@@ -54,6 +56,16 @@ public class PlayerControl : MonoBehaviour
     public void SetCheckpoint(Vector3 position)
     {
         checkpoint = position;
+    }
+
+    public int GetHits()
+    {
+        return hits;
+    }
+
+    public void SetHits(int hits)
+    {
+        this.hits = hits;
     }
 
 }

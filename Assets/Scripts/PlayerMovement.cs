@@ -6,7 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public float maxSpeed = 10f;
     public float speed = 0f;
-    public float acc = 0.1f;
+    public float acc = 0.05f;
+    public float accInc = 0.001f;
 
     public Rigidbody2D rb;
     public CircleCollider2D cc;
@@ -21,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float punchPreparingTime = 2;
     private bool isPunching;
     private bool isPreparing;
+    private bool isRepelled;
+    private Collision2D col;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +35,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GetPlayerInput();
         if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash)
         {
             nextDash = Time.time + dashRate;
@@ -43,15 +45,16 @@ public class PlayerMovement : MonoBehaviour
             float startTime = Time.time;
             StartCoroutine(Punch(startTime));
         }
-        else if (!isPunching && !isDashing)
+        else if (!isPunching && !isDashing && !isRepelled)
         {
+            GetPlayerInput();
             SpeedControl();
         }
     }
 
     void FixedUpdate()
     {
-        if (!isPunching && !isDashing)
+        if (!isPunching && !isDashing && !isRepelled)
         {
             MovePlayer();
             RotationControl();
@@ -62,10 +65,18 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Wall")
         {
             speed = 1;
-            if (isPunching)
-            {
-                isPunching = false;
-            }
+        }
+        if (collision.gameObject.tag == "SpikeWall")
+        {
+            PlayerControl playerControl = this.GetComponent<PlayerControl>();
+            int currentHits = isPunching ? 0 : playerControl.GetHits() - 1;
+            playerControl.SetHits(currentHits);
+            col = collision;
+            StartCoroutine(Repel());
+        }
+        if (isPunching)
+        {
+            isPunching = false;
         }
     }
     void OnCollisionStay2D(Collision2D collision)
@@ -120,10 +131,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (speed <= maxSpeed)
                 {
-                    speed = speed + acc;
-                    if (speed > maxSpeed)
+                    accInc = accInc + 0.001f;
+                    speed = speed + acc * Mathf.Pow(1.001f, accInc);
+                    if (speed >= maxSpeed)
                     {
                         speed = maxSpeed;
+                        accInc = 0.001f;
+                        acc = 0.05f;
                     }
                 }
             }
@@ -131,6 +145,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (speed != 0)
                 {
+                    acc = 0.05f;
+                    accInc = 0.001f;
                     speed = speed / 2;
                     if (speed < 0.1)
                     {
@@ -151,7 +167,6 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Punch(float startTime)
     {
-        movement = input;
         while (Input.GetKey(KeyCode.Mouse0) && Time.time - startTime <= punchPreparingTime)
         {
             isPreparing = true;
@@ -173,10 +188,21 @@ public class PlayerMovement : MonoBehaviour
     {
         float oldSpeed = speed;
         isDashing = true;
-        speed = 30;
-        rb.velocity = movement * speed;
+        rb.velocity = movement * speed * 3;
         yield return new WaitForSeconds(0.03f);
         speed = oldSpeed;
         isDashing = false;
+    }
+
+    IEnumerator Repel()
+    {
+        isRepelled = true;
+        ContactPoint2D hitpos = col.GetContact(0);
+        speed = 6.5f;
+        movement = Vector2.Reflect(movement, hitpos.normal);
+        rb.velocity = movement * speed;
+        yield return new WaitForSeconds(0.25f);
+        speed = 0.25f;
+        isRepelled = false;
     }
 }
