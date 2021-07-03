@@ -4,99 +4,82 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // Speed control
     public float maxSpeed = 10f;
     public float speed = 0f;
-    public float acc = 0.05f;
-    public float accInc = 0.001f;
+    public float defaultAcc = 0.25f;
+    public float acc;
+    public float defaultAccInc = 0.001f;
+    public float accInc;
 
+    // Movement and collisions
     public Rigidbody2D rb;
     public CircleCollider2D cc;
     Vector2 input;
     public Vector2 movement = new Vector2(0, 0);
+    private Collision2D col;
+    private bool isRepelled;
 
-    public float dashRate = 0.1f;
+    // Dash
+    public float dashRate = 0.75f;
     private float nextDash;
     private bool isDashing;
-    public float punchSpeed = 20f;
+
+    // Punch
+    public float punchSpeed = 30f;
     public float punchCharge = 0.25f;
     public float punchPreparingTime = 2;
     private bool isPunching;
     private bool isPreparing;
-    private bool isRepelled;
-    private Collision2D col;
+    private Collider2D enemyHit;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         cc = GetComponent<CircleCollider2D>();
+        acc = defaultAcc;
+        accInc = defaultAccInc;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash)
+        if (isPunching)
         {
-            nextDash = Time.time + dashRate;
-            StartCoroutine(Dash());
+            CheckCollisions();
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && !isPunching)
+        else
         {
-            float startTime = Time.time;
-            StartCoroutine(Punch(startTime));
-        }
-        else if (!isPunching && !isDashing && !isRepelled)
-        {
-            GetPlayerInput();
-            SpeedControl();
+            if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash)
+            {
+                nextDash = Time.time + dashRate;
+                StartCoroutine(Dash());
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && !isPunching)
+            {
+                float startTime = Time.time;
+                StartCoroutine(Punch(startTime));
+            }
+            else if (!isPunching && !isDashing && !isRepelled)
+            {
+                GetPlayerInput();
+                SpeedControl();
+            }
         }
     }
 
     void FixedUpdate()
     {
-        if (!isPunching && !isDashing && !isRepelled)
+        if (!isDashing && !isRepelled)
         {
             MovePlayer();
-            RotationControl();
-        }
-    }
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Wall")
-        {
-            speed = 1;
-        }
-        if (collision.gameObject.tag == "SpikeWall")
-        {
-            PlayerControl playerControl = this.GetComponent<PlayerControl>();
-            int currentHits = isPunching ? 0 : playerControl.GetHits() - 1;
-            playerControl.SetHits(currentHits);
-            col = collision;
-            StartCoroutine(Repel());
-        }
-        if (isPunching)
-        {
-            isPunching = false;
-        }
-    }
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Wall")
-        {
-            foreach (ContactPoint2D hitpos in collision.contacts)
+            if (!isPunching)
             {
-                if (Mathf.Sign(movement.x * hitpos.normal.x) == -1)
-                {
-                    movement.x = 0;
-                }
-                if (Mathf.Sign(movement.y * hitpos.normal.y) == -1)
-                {
-                    movement.y = 0;
-                }
+                RotationControl();
             }
         }
     }
 
+    // Input and basic movement
     private void GetPlayerInput()
     {
         input.x = Input.GetAxis("Horizontal");
@@ -123,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isPreparing)
         {
-            speed = 1;
+            speed = speed >= 1 ? 1 : speed;
         }
         else
         {
@@ -131,13 +114,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (speed <= maxSpeed)
                 {
-                    accInc = accInc + 0.001f;
+                    accInc = accInc + defaultAccInc;
                     speed = speed + acc * Mathf.Pow(1.001f, accInc);
                     if (speed >= maxSpeed)
                     {
                         speed = maxSpeed;
-                        accInc = 0.001f;
-                        acc = 0.05f;
+                        acc = defaultAcc;
+                        accInc = defaultAccInc;
                     }
                 }
             }
@@ -145,8 +128,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (speed != 0)
                 {
-                    acc = 0.05f;
-                    accInc = 0.001f;
+                    acc = defaultAcc;
+                    accInc = defaultAccInc;
                     speed = speed / 2;
                     if (speed < 0.1)
                     {
@@ -165,6 +148,107 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }
 
+    // Collisions
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        col = collision;
+        string colTag = collision.gameObject.tag;
+
+        if (colTag == "Wall" || (colTag == "Mirror" && !isPunching))
+        {
+            speed = 1;
+            ResetPunch();
+        }
+        if (colTag == "SpikeWall" || colTag == "Enemy")
+        {
+            ReceiveHit();
+            ResetPunch();
+        }
+    }
+    void OnCollisionStay2D(Collision2D collision)
+    {
+        string colTag = collision.gameObject.tag;
+        foreach (ContactPoint2D hitpos in collision.contacts)
+        {
+            if (Mathf.Sign(movement.x * hitpos.normal.x) == -1)
+            {
+                movement.x = 0;
+            }
+            if (Mathf.Sign(movement.y * hitpos.normal.y) == -1)
+            {
+                movement.y = 0;
+            }
+        }
+    }
+
+    private void CheckCollisions()
+    {
+        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsPunching(11, movement, transform, cc, true);
+        RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
+        RaycastHit2D[] hitsBack = RaycastUtils.CastHitsPunching(11, movement, transform, cc, false);
+        RaycastHit2D closerHitBack = RaycastUtils.GetCloserHit(hitsBack, transform);
+
+        if (closerHitFront.collider)
+        {
+            string colTag = closerHitFront.collider.tag;
+            if (colTag == "Mirror")
+            {
+                cc.enabled = true;
+                Reflect(closerHitFront.normal);
+                cc.enabled = false;
+            }
+            else if (colTag == "Enemy")
+            {
+                enemyHit = closerHitFront.collider;
+                //Destroy(enemyHit.gameObject);
+            }
+            else if (colTag != "Checkpoint")
+            {
+                cc.enabled = true;
+            }
+        }
+
+        if (closerHitBack.collider)
+        {
+            string colTag = closerHitBack.collider.tag;
+            if (closerHitBack.collider.Equals(enemyHit))
+            {
+                Destroy(enemyHit.gameObject);
+                cc.enabled = true;
+                isPunching = false;
+                speed = maxSpeed;
+            }
+        }
+    }
+
+    // Auxiliar methods
+    private void Reflect(Vector2 normal)
+    {
+        movement = Vector2.Reflect(movement, normal);
+        float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+    }
+
+    private void ReceiveHit()
+    {
+        PlayerControl playerControl = this.GetComponent<PlayerControl>();
+        int currentHits = isPunching ? 0 : playerControl.GetHits() - 1;
+        playerControl.SetHits(currentHits);
+        if (currentHits != 0)
+        {
+            StartCoroutine(Repel(col.GetContact(0).normal));
+        }
+    }
+
+    private void ResetPunch()
+    {
+        if (isPunching)
+        {
+            isPunching = false;
+        }
+    }
+
+    // Coroutines
     IEnumerator Punch(float startTime)
     {
         while (Input.GetKey(KeyCode.Mouse0) && Time.time - startTime <= punchPreparingTime)
@@ -180,8 +264,20 @@ public class PlayerMovement : MonoBehaviour
             Vector3 dir = Input.mousePosition - pos;
             movement = new Vector2(dir.x, dir.y).normalized;
             speed = punchSpeed;
+            cc.enabled = false;
             rb.velocity = movement * speed;
         }
+    }
+
+    IEnumerator Repel(Vector2 normal)
+    {
+        isRepelled = true;
+        speed = 6.5f;
+        Reflect(normal);
+        rb.velocity = movement * speed;
+        yield return new WaitForSeconds(0.25f);
+        speed = 0.25f;
+        isRepelled = false;
     }
 
     IEnumerator Dash()
@@ -192,17 +288,5 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.03f);
         speed = oldSpeed;
         isDashing = false;
-    }
-
-    IEnumerator Repel()
-    {
-        isRepelled = true;
-        ContactPoint2D hitpos = col.GetContact(0);
-        speed = 6.5f;
-        movement = Vector2.Reflect(movement, hitpos.normal);
-        rb.velocity = movement * speed;
-        yield return new WaitForSeconds(0.25f);
-        speed = 0.25f;
-        isRepelled = false;
     }
 }

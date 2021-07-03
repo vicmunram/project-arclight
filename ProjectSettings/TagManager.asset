@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Wall
   - SpikeWall
+  - Mirror
+  - Enemy
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
