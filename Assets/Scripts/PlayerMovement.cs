@@ -45,19 +45,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isPunching)
         {
-            CheckCollisions();
+            CheckPunchingCollisions();
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash)
-            {
-                nextDash = Time.time + dashRate;
-                StartCoroutine(Dash());
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse0) && !isPunching)
+            CheckCollisions();
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !isPunching)
             {
                 float startTime = Time.time;
                 StartCoroutine(Punch(startTime));
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash && !isPreparing)
+            {
+                nextDash = Time.time + dashRate;
+                StartCoroutine(Dash());
             }
             else if (!isPunching && !isDashing && !isRepelled)
             {
@@ -143,8 +144,8 @@ public class PlayerMovement : MonoBehaviour
     private void RotationControl()
     {
         Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-        Vector3 dir = Input.mousePosition - pos;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Vector3 lookingAt = Input.mousePosition - pos;
+        float angle = Mathf.Atan2(lookingAt.y, lookingAt.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }
 
@@ -154,12 +155,12 @@ public class PlayerMovement : MonoBehaviour
         col = collision;
         string colTag = collision.gameObject.tag;
 
-        if (colTag == "Wall" || (colTag == "Mirror" && !isPunching))
+        if (colTag == "Solid" || (colTag == "Mirror" && !isPunching) || colTag == "Transparent")
         {
             speed = 1;
             ResetPunch();
         }
-        if (colTag == "SpikeWall" || colTag == "Enemy")
+        if (colTag == "Danger" || colTag == "Enemy")
         {
             ReceiveHit();
             ResetPunch();
@@ -181,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckCollisions()
+    private void CheckPunchingCollisions()
     {
         RaycastHit2D[] hitsFront = RaycastUtils.CastHitsPunching(11, movement, transform, cc, true);
         RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
@@ -190,19 +191,17 @@ public class PlayerMovement : MonoBehaviour
 
         if (closerHitFront.collider)
         {
+            Debug.Log(closerHitFront.collider.tag);
             string colTag = closerHitFront.collider.tag;
             if (colTag == "Mirror")
             {
-                cc.enabled = true;
                 Reflect(closerHitFront.normal);
-                cc.enabled = false;
             }
             else if (colTag == "Enemy")
             {
                 enemyHit = closerHitFront.collider;
-                //Destroy(enemyHit.gameObject);
             }
-            else if (colTag != "Checkpoint")
+            else if (colTag != "Checkpoint" && colTag != "Transparent" && colTag != "Abysm")
             {
                 cc.enabled = true;
             }
@@ -218,6 +217,16 @@ public class PlayerMovement : MonoBehaviour
                 isPunching = false;
                 speed = maxSpeed;
             }
+        }
+    }
+
+    private void CheckCollisions()
+    {
+        RaycastHit2D[] hits = RaycastUtils.CastHits(20, transform, cc);
+        int abysmCollisions = RaycastUtils.CountCollisionsByTag(hits, "Abysm");
+        if (abysmCollisions > 14)
+        {
+            this.GetComponent<PlayerControl>().SetHits(0);
         }
     }
 

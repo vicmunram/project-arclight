@@ -4,11 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Wall
-  - SpikeWall
   - Mirror
   - Enemy
   - Checkpoint
+  - Solid
+  - Transparent
+  - Danger
+  - Abysm
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - 
   - 
   - Player
-  - 
+  - Is Trigger
   - 
   - 
   - 
