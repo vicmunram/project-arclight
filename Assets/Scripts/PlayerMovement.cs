@@ -45,7 +45,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isPunching)
         {
-            CheckPunchingCollisions();
+            CheckPunchCollisions();
+        }
+        else if (isDashing)
+        {
+            CheckDashCollisions();
         }
         else
         {
@@ -155,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
         col = collision;
         string colTag = collision.gameObject.tag;
 
-        if (colTag == "Solid" || (colTag == "Mirror" && !isPunching) || colTag == "Transparent")
+        if (colTag == "Solid" || (colTag == "Mirror" && !isPunching) || colTag == "Transparent" || colTag == "Breakable")
         {
             speed = 1;
             ResetPunch();
@@ -182,16 +186,25 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckPunchingCollisions()
+    private void CheckCollisions()
     {
-        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsPunching(11, movement, transform, cc, true);
+        RaycastHit2D[] hits = RaycastUtils.CastHits(20, transform, cc);
+        int abysmCollisions = RaycastUtils.CountCollisionsByTag(hits, "Abysm");
+        if (abysmCollisions > 14)
+        {
+            this.GetComponent<PlayerControl>().SetHits(0);
+        }
+    }
+
+    private void CheckPunchCollisions()
+    {
+        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovement(11, movement, transform, cc, true);
         RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
-        RaycastHit2D[] hitsBack = RaycastUtils.CastHitsPunching(11, movement, transform, cc, false);
+        RaycastHit2D[] hitsBack = RaycastUtils.CastHitsMovement(11, movement, transform, cc, false);
         RaycastHit2D closerHitBack = RaycastUtils.GetCloserHit(hitsBack, transform);
 
         if (closerHitFront.collider)
         {
-            Debug.Log(closerHitFront.collider.tag);
             string colTag = closerHitFront.collider.tag;
             if (colTag == "Mirror")
             {
@@ -220,13 +233,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckCollisions()
+    private void CheckDashCollisions()
     {
-        RaycastHit2D[] hits = RaycastUtils.CastHits(20, transform, cc);
-        int abysmCollisions = RaycastUtils.CountCollisionsByTag(hits, "Abysm");
-        if (abysmCollisions > 14)
+        RaycastHit2D[] hits = RaycastUtils.CastHitsMovement(11, movement, transform, cc, true);
+        RaycastHit2D closerHitDashing = RaycastUtils.GetCloserHit(hits, transform);
+
+        if (closerHitDashing.collider)
         {
-            this.GetComponent<PlayerControl>().SetHits(0);
+            string colTag = closerHitDashing.collider.tag;
+            if (colTag == "Breakable")
+            {
+                Destroy(closerHitDashing.collider.gameObject);
+            }
         }
     }
 
@@ -294,7 +312,7 @@ public class PlayerMovement : MonoBehaviour
         float oldSpeed = speed;
         isDashing = true;
         rb.velocity = movement * speed * 3;
-        yield return new WaitForSeconds(0.03f);
+        yield return new WaitForSeconds(0.05f);
         speed = oldSpeed;
         isDashing = false;
     }

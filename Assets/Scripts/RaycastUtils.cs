@@ -40,18 +40,18 @@ public class RaycastUtils : MonoBehaviour
         return hit2Ds;
     }
 
-    public static RaycastHit2D[] CastHitsPunching(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool front)
+    public static RaycastHit2D[] CastHits(int hits, Transform transform, CircleCollider2D cc)
+    {
+        return CastCircle(hits, transform.position, cc.radius / 5, LayerMask.GetMask("Is Trigger"), true);
+    }
+
+    public static RaycastHit2D[] CastHitsMovement(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool front)
     {
         Vector2 direction = front ? movement : movement * -1;
         Vector3 origin = front ? transform.position : transform.position + new Vector3(direction.x, direction.y, 0);
         float radius = cc.radius / 1.5f;
         LayerMask mask = LayerMask.GetMask("Default");
         return CastSemiCircle(hits, direction, origin, radius, mask, false);
-    }
-
-    public static RaycastHit2D[] CastHits(int hits, Transform transform, CircleCollider2D cc)
-    {
-        return CastCircle(hits, transform.position, cc.radius / 5, LayerMask.GetMask("Is Trigger"), true);
     }
 
     public static int CountCollisionsByTag(RaycastHit2D[] hits, string tag)
