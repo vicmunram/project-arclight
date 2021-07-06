@@ -159,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
         col = collision;
         string colTag = collision.gameObject.tag;
 
-        if (colTag == "Solid" || (colTag == "Mirror" && !isPunching) || colTag == "Transparent" || colTag == "Breakable")
+        if (colTag == "Solid" || colTag == "Breakable" || (colTag == "Mirror" && !isPunching) || colTag == "Transparent")
         {
             speed = 1;
             ResetPunch();
@@ -188,9 +188,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckCollisions()
     {
-        RaycastHit2D[] hits = RaycastUtils.CastHits(20, transform, cc);
-        int abysmCollisions = RaycastUtils.CountCollisionsByTag(hits, "Abysm");
-        if (abysmCollisions > 14)
+        RaycastHit2D[] outerHits = RaycastUtils.CastOuterHits(20, transform, cc);
+        RaycastHit2D[] innerHits = RaycastUtils.CastInnerHits(20, transform, cc);
+        int abysmOuterCollisions = RaycastUtils.CountCollisionsByTag(outerHits, "Abysm");
+        int abysmInnerCollisions = RaycastUtils.CountCollisionsByTag(innerHits, "Abysm");
+        Debug.Log(abysmInnerCollisions);
+        if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15))
         {
             this.GetComponent<PlayerControl>().SetHits(0);
         }
@@ -200,7 +203,7 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovement(11, movement, transform, cc, true);
         RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
-        RaycastHit2D[] hitsBack = RaycastUtils.CastHitsMovement(11, movement, transform, cc, false);
+        RaycastHit2D[] hitsBack = RaycastUtils.CastHitsMovement(9, movement, transform, cc, false);
         RaycastHit2D closerHitBack = RaycastUtils.GetCloserHit(hitsBack, transform);
 
         if (closerHitFront.collider)
@@ -229,6 +232,25 @@ public class PlayerMovement : MonoBehaviour
                 cc.enabled = true;
                 isPunching = false;
                 speed = maxSpeed;
+            }
+        }
+    }
+
+    private void CheckPunchCollisionsNearObjects()
+    {
+        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovementNearObjects(5, movement, transform, cc);
+        RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
+
+        if (closerHitFront.collider)
+        {
+            string colTag = closerHitFront.collider.tag;
+            if (colTag == "Mirror")
+            {
+                Reflect(closerHitFront.normal);
+            }
+            else if (colTag != "Checkpoint" && colTag != "Transparent" && colTag != "Abysm" && colTag != "Enemy")
+            {
+                cc.enabled = true;
             }
         }
     }
@@ -286,13 +308,14 @@ public class PlayerMovement : MonoBehaviour
         isPreparing = false;
         if (Time.time - startTime >= punchCharge && Time.time - startTime < punchPreparingTime)
         {
-            isPunching = true;
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
             movement = new Vector2(dir.x, dir.y).normalized;
             speed = punchSpeed;
             cc.enabled = false;
+            CheckPunchCollisionsNearObjects();
             rb.velocity = movement * speed;
+            isPunching = true;
         }
     }
 
