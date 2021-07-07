@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 movement = new Vector2(0, 0);
     private Collision2D col;
     private bool isRepelled;
+    private List<string> alwaysSolid = new List<string> { "Solid", "Breakable", "Mirror" };
+    private List<string> solidWhenNoPunch = new List<string> { "Solid", "Breakable", "Mirror", "Transparent" };
+    private List<string> triggeredWhenPunch = new List<string> { "Checkpoint", "Abysm", "Transparent" };
 
     // Dash
     public float dashRate = 0.75f;
@@ -52,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
             nextDash = Time.time + dashRate;
             StartCoroutine(Dash());
         }
-        else if (!isPunching && !isDashing && !isRepelled)
+        else if (!isPunching && !isDashing && !isRepelled && !isTrapped)
         {
             GetPlayerInput();
             SpeedControl();
@@ -157,30 +160,15 @@ public class PlayerMovement : MonoBehaviour
         col = collision;
         string colTag = collision.gameObject.tag;
 
-        if (colTag == "Solid" || colTag == "Breakable" || (colTag == "Mirror" && !isPunching) || colTag == "Transparent")
+        if (solidWhenNoPunch.Contains(colTag))
         {
             speed = 1;
             ResetPunch();
         }
-        if (colTag == "Danger" || colTag == "Enemy")
+        if (colTag == "Enemy")
         {
             ReceiveHit();
             ResetPunch();
-        }
-    }
-    void OnCollisionStay2D(Collision2D collision)
-    {
-        string colTag = collision.gameObject.tag;
-        foreach (ContactPoint2D hitpos in collision.contacts)
-        {
-            if (Mathf.Sign(movement.x * hitpos.normal.x) == -1)
-            {
-                movement.x = 0;
-            }
-            if (Mathf.Sign(movement.y * hitpos.normal.y) == -1)
-            {
-                movement.y = 0;
-            }
         }
     }
 
@@ -189,8 +177,8 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D[] outerHits = RaycastUtils.CastOuterHits(20, transform, cc, "Is Trigger", false);
         RaycastHit2D[] innerHits = RaycastUtils.CastInnerHits(20, transform, cc, "Is Trigger", false);
 
-        int abysmOuterCollisions = RaycastUtils.CountCollisionsByTag(outerHits, "Abysm");
-        int abysmInnerCollisions = RaycastUtils.CountCollisionsByTag(innerHits, "Abysm");
+        int abysmOuterCollisions = RaycastUtils.CountCollisions(outerHits, "Abysm");
+        int abysmInnerCollisions = RaycastUtils.CountCollisions(innerHits, "Abysm");
         if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15))
         {
             this.GetComponent<PlayerControl>().SetHits(0);
@@ -200,9 +188,10 @@ public class PlayerMovement : MonoBehaviour
     private void CheckPunchCollisions()
     {
         RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovement(21, movement, transform, cc, true, false);
-        RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
+        RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform, "Any");
+        RaycastHit2D closerHitFrontDanger = RaycastUtils.GetCloserHitToHit(hitsFront, closerHitFront, "Danger");
         RaycastHit2D[] hitsBack = RaycastUtils.CastHitsMovement(19, movement, transform, cc, false, false);
-        RaycastHit2D closerHitBack = RaycastUtils.GetCloserHit(hitsBack, transform);
+        RaycastHit2D closerHitBack = RaycastUtils.GetCloserHit(hitsBack, transform, "Any");
 
         if (closerHitFront.collider)
         {
@@ -215,8 +204,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 enemyHit = closerHitFront.collider;
             }
-            else if (colTag != "Checkpoint" && colTag != "Transparent" && colTag != "Abysm")
+            else if (!triggeredWhenPunch.Contains(colTag))
             {
+                float distance = Vector2.SqrMagnitude(closerHitFront.point - closerHitFrontDanger.point);
+                if (closerHitFrontDanger.collider && distance < 0.01f)
+                {
+                    ReceiveHit();
+                    ResetPunch();
+                }
                 cc.enabled = true;
             }
         }
@@ -234,10 +229,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckPunchCollisionsNearObjects()
+    private void CheckPunchCollisionsNear()
     {
         RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovementNearObjects(5, movement, transform, cc, false);
-        RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
+        RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform, "Any");
 
         if (closerHitFront.collider)
         {
@@ -246,7 +241,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Reflect(closerHitFront.normal);
             }
-            else if (colTag != "Checkpoint" && colTag != "Transparent" && colTag != "Abysm" && colTag != "Enemy")
+            else if (!triggeredWhenPunch.Contains(colTag))
             {
                 cc.enabled = true;
             }
@@ -256,7 +251,7 @@ public class PlayerMovement : MonoBehaviour
     private void CheckDashCollisions()
     {
         RaycastHit2D[] hits = RaycastUtils.CastHitsMovement(11, movement, transform, cc, true, false);
-        RaycastHit2D closerHitDashing = RaycastUtils.GetCloserHit(hits, transform);
+        RaycastHit2D closerHitDashing = RaycastUtils.GetCloserHit(hits, transform, "Any");
 
         if (closerHitDashing.collider)
         {
@@ -311,7 +306,7 @@ public class PlayerMovement : MonoBehaviour
             movement = new Vector2(dir.x, dir.y).normalized;
             speed = punchSpeed;
             cc.enabled = false;
-            CheckPunchCollisionsNearObjects();
+            CheckPunchCollisionsNear();
             rb.velocity = movement * speed;
             isPunching = true;
         }

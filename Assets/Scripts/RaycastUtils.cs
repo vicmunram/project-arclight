@@ -68,7 +68,7 @@ public class RaycastUtils : MonoBehaviour
     public static RaycastHit2D[] CastHitsMovement(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool front, bool debugMode)
     {
         Vector2 rayDirection = front ? movement : movement * -1;
-        Vector3 origin = front ? transform.position : transform.position + new Vector3(rayDirection.x, rayDirection.y, 0);
+        Vector3 origin = front ? transform.position : transform.position + new Vector3(rayDirection.x * 0.35f, rayDirection.y * 0.35f, 0);
         float rayLength = cc.radius / 4 + 0.4f;
         LayerMask layerMask = LayerMask.GetMask("Default");
 
@@ -82,46 +82,123 @@ public class RaycastUtils : MonoBehaviour
         return CastArc(hits, 30, transform.position, 0, movement, rayLength, layerMask, debugMode);
     }
 
-    public static int CountCollisionsByTag(RaycastHit2D[] hits, string tag)
+    public static int CountCollisions(RaycastHit2D[] hits, string tag)
     {
         int collisions = 0;
+        bool filtered = true;
 
         foreach (RaycastHit2D rc in hits)
         {
-            if (tag != "Any")
+            if (rc.collider && tag != "Any")
             {
-                if (rc.collider && rc.collider.tag == tag)
-                {
-                    collisions++;
-                }
+                filtered = rc.collider.tag == tag;
             }
-            else
+
+            if (rc.collider && filtered)
             {
                 collisions++;
             }
+
         }
 
         return collisions;
     }
 
-    public static RaycastHit2D GetCloserHit(RaycastHit2D[] hits, Transform transform)
+    public static RaycastHit2D GetCloserHit(RaycastHit2D[] hits, Transform transform, string tag)
     {
         RaycastHit2D closerHit = new RaycastHit2D();
+        bool filtered = true;
         bool first = true;
         float minDistance = 0;
 
         foreach (RaycastHit2D rc in hits)
         {
-            if (first)
+            bool hasCollider = rc.collider;
+
+            if (hasCollider && tag != "Any")
+            {
+                filtered = rc.collider.tag == tag;
+            }
+
+            if (first && hasCollider && filtered)
             {
                 closerHit = rc;
                 Vector3 direction = transform.position - new Vector3(closerHit.point.x, closerHit.point.y, 0);
                 minDistance = direction.sqrMagnitude;
                 first = false;
             }
-            else
+            else if (hasCollider && filtered)
             {
                 Vector3 direction = transform.position - new Vector3(closerHit.point.x, closerHit.point.y, 0);
+                float distance = direction.sqrMagnitude;
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closerHit = rc;
+                }
+            }
+        }
+
+        return closerHit;
+    }
+
+    public static RaycastHit2D GetCloserHit(RaycastHit2D[] hits, Transform transform, List<string> tags)
+    {
+        RaycastHit2D closerHit = new RaycastHit2D();
+        bool first = true;
+        bool inTags;
+        float minDistance = 0;
+
+        foreach (RaycastHit2D rc in hits)
+        {
+            inTags = rc.collider && tags.Contains(rc.collider.tag) ? true : false;
+
+            if (first && inTags)
+            {
+                closerHit = rc;
+                Vector3 direction = transform.position - new Vector3(closerHit.point.x, closerHit.point.y, 0);
+                minDistance = direction.sqrMagnitude;
+                first = false;
+            }
+            else if (inTags)
+            {
+                Vector3 direction = transform.position - new Vector3(closerHit.point.x, closerHit.point.y, 0);
+                float distance = direction.sqrMagnitude;
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closerHit = rc;
+                }
+            }
+        }
+
+        return closerHit;
+    }
+
+    public static RaycastHit2D GetCloserHitToHit(RaycastHit2D[] hits, RaycastHit2D hit, string tag)
+    {
+        RaycastHit2D closerHit = new RaycastHit2D();
+        bool filtered = true;
+        bool first = true;
+        float minDistance = 0;
+
+        foreach (RaycastHit2D rc in hits)
+        {
+            if (rc.collider && tag != "Any")
+            {
+                filtered = rc.collider.tag == tag;
+            }
+
+            if (first && filtered)
+            {
+                closerHit = rc;
+                Vector2 direction = hit.point - new Vector2(closerHit.point.x, closerHit.point.y);
+                minDistance = direction.sqrMagnitude;
+                first = false;
+            }
+            else if (filtered)
+            {
+                Vector2 direction = hit.point - new Vector2(closerHit.point.x, closerHit.point.y);
                 float distance = direction.sqrMagnitude;
                 if (distance < minDistance)
                 {
