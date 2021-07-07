@@ -7,8 +7,7 @@ public class PlayerMovement : MonoBehaviour
     // Speed control
     public float maxSpeed = 10f;
     public float speed = 0f;
-    public float defaultAcc = 0.25f;
-    public float acc;
+    public float acc = 0.05f;
     public float defaultAccInc = 0.001f;
     public float accInc;
 
@@ -31,17 +30,36 @@ public class PlayerMovement : MonoBehaviour
     public float punchPreparingTime = 2;
     private bool isPunching;
     private bool isPreparing;
+    private bool isTrapped;
     private Collider2D enemyHit;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         cc = GetComponent<CircleCollider2D>();
-        acc = defaultAcc;
         accInc = defaultAccInc;
     }
 
     void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isPunching)
+        {
+            float startTime = Time.time;
+            StartCoroutine(Punch(startTime));
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash && !isPreparing)
+        {
+            nextDash = Time.time + dashRate;
+            StartCoroutine(Dash());
+        }
+        else if (!isPunching && !isDashing && !isRepelled)
+        {
+            GetPlayerInput();
+            SpeedControl();
+        }
+    }
+
+    void FixedUpdate()
     {
         if (isPunching)
         {
@@ -54,26 +72,8 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             CheckCollisions();
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !isPunching)
-            {
-                float startTime = Time.time;
-                StartCoroutine(Punch(startTime));
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash && !isPreparing)
-            {
-                nextDash = Time.time + dashRate;
-                StartCoroutine(Dash());
-            }
-            else if (!isPunching && !isDashing && !isRepelled)
-            {
-                GetPlayerInput();
-                SpeedControl();
-            }
         }
-    }
 
-    void FixedUpdate()
-    {
         if (!isDashing && !isRepelled)
         {
             MovePlayer();
@@ -124,7 +124,6 @@ public class PlayerMovement : MonoBehaviour
                     if (speed >= maxSpeed)
                     {
                         speed = maxSpeed;
-                        acc = defaultAcc;
                         accInc = defaultAccInc;
                     }
                 }
@@ -133,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (speed != 0)
                 {
-                    acc = defaultAcc;
                     accInc = defaultAccInc;
                     speed = speed / 2;
                     if (speed < 0.1)
@@ -188,11 +186,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckCollisions()
     {
-        RaycastHit2D[] outerHits = RaycastUtils.CastOuterHits(20, transform, cc);
-        RaycastHit2D[] innerHits = RaycastUtils.CastInnerHits(20, transform, cc);
+        RaycastHit2D[] outerHits = RaycastUtils.CastOuterHits(20, transform, cc, "Is Trigger", false);
+        RaycastHit2D[] innerHits = RaycastUtils.CastInnerHits(20, transform, cc, "Is Trigger", false);
+
         int abysmOuterCollisions = RaycastUtils.CountCollisionsByTag(outerHits, "Abysm");
         int abysmInnerCollisions = RaycastUtils.CountCollisionsByTag(innerHits, "Abysm");
-        Debug.Log(abysmInnerCollisions);
         if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15))
         {
             this.GetComponent<PlayerControl>().SetHits(0);
@@ -201,9 +199,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckPunchCollisions()
     {
-        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovement(11, movement, transform, cc, true);
+        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovement(21, movement, transform, cc, true, false);
         RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
-        RaycastHit2D[] hitsBack = RaycastUtils.CastHitsMovement(9, movement, transform, cc, false);
+        RaycastHit2D[] hitsBack = RaycastUtils.CastHitsMovement(19, movement, transform, cc, false, false);
         RaycastHit2D closerHitBack = RaycastUtils.GetCloserHit(hitsBack, transform);
 
         if (closerHitFront.collider)
@@ -238,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckPunchCollisionsNearObjects()
     {
-        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovementNearObjects(5, movement, transform, cc);
+        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovementNearObjects(5, movement, transform, cc, false);
         RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform);
 
         if (closerHitFront.collider)
@@ -257,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckDashCollisions()
     {
-        RaycastHit2D[] hits = RaycastUtils.CastHitsMovement(11, movement, transform, cc, true);
+        RaycastHit2D[] hits = RaycastUtils.CastHitsMovement(11, movement, transform, cc, true, false);
         RaycastHit2D closerHitDashing = RaycastUtils.GetCloserHit(hits, transform);
 
         if (closerHitDashing.collider)

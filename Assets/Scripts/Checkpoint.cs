@@ -6,6 +6,7 @@ public class Checkpoint : Interactable
 {
     public override void Interact()
     {
-        GameObject.Find("Player").GetComponent<PlayerControl>().SetCheckpoint(this.transform.position);
+        GameObject player = GameObject.Find("Player");
+        player.GetComponent<PlayerControl>().SetCheckpoint(new Vector3(transform.position.x, transform.position.y, player.transform.position.z));
     }
 }
