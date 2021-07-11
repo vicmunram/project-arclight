@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     public float punchPreparingTime = 2;
     private bool isPunching;
     private bool isPreparing;
-    private bool isTrapped;
     private Collider2D enemyHit;
 
     void Start()
@@ -55,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
             nextDash = Time.time + dashRate;
             StartCoroutine(Dash());
         }
-        else if (!isPunching && !isDashing && !isRepelled && !isTrapped)
+        else if (!isPunching && !isDashing && !isRepelled)
         {
             GetPlayerInput();
             SpeedControl();
@@ -159,41 +158,82 @@ public class PlayerMovement : MonoBehaviour
     {
         col = collision;
         string colTag = collision.gameObject.tag;
+        PlayerControl playerControl = GetComponent<PlayerControl>();
 
         if (solidWhenNoPunch.Contains(colTag))
         {
             speed = 1;
             ResetPunch();
         }
-        if (colTag == "Enemy")
+        if ((colTag == "Danger" && !isPunching && playerControl.hits == 2) || colTag == "Enemy")
         {
-            ReceiveHit();
+            ReceiveHit(false);
             ResetPunch();
         }
     }
 
     private void CheckCollisions()
     {
-        RaycastHit2D[] outerHits = RaycastUtils.CastOuterHits(20, transform, cc, "Is Trigger", false);
-        RaycastHit2D[] innerHits = RaycastUtils.CastInnerHits(20, transform, cc, "Is Trigger", false);
+        RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, "Is Trigger", false);
+        RaycastHit2D[] innerHits = CollisionUtils.CastInnerHits(20, transform, cc, "Is Trigger", false);
 
-        int abysmOuterCollisions = RaycastUtils.CountCollisions(outerHits, "Abysm");
-        int abysmInnerCollisions = RaycastUtils.CountCollisions(innerHits, "Abysm");
+        int abysmOuterCollisions = CollisionUtils.CountCollisions(outerHits, "Abysm");
+        int abysmInnerCollisions = CollisionUtils.CountCollisions(innerHits, "Abysm");
         if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15))
         {
             this.GetComponent<PlayerControl>().SetHits(0);
+        }
+
+        outerHits = CollisionUtils.CastOuterHits(20, transform, cc, "Default", false);
+        RaycastHit2D closerOuterHit = CollisionUtils.GetCloserHit(outerHits, transform, alwaysSolid);
+        innerHits = CollisionUtils.CastInnerHits(20, transform, cc, "Default", false);
+        RaycastHit2D closerInnerHit = CollisionUtils.GetCloserHit(innerHits, transform, "Transparent");
+
+        if (closerOuterHit.collider && closerInnerHit.collider)
+        {
+            float positionOuter = CollisionUtils.RelativePositionToCollider(transform, closerOuterHit.collider);
+            Vector2 directionOuter = VectorUtils.RotateVector(Vector2.up, closerOuterHit.collider.attachedRigidbody.rotation).normalized * positionOuter;
+            float positionInner = CollisionUtils.RelativePositionToCollider(transform, closerInnerHit.collider);
+            Vector2 directionInner = VectorUtils.RotateVector(Vector2.up, closerInnerHit.collider.attachedRigidbody.rotation).normalized * positionInner;
+            Vector2 direction = (directionOuter + directionInner).normalized;
+
+            movement = direction;
+            StartCoroutine(DebugTransparent());
         }
     }
 
     private void CheckPunchCollisions()
     {
-        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovement(21, movement, transform, cc, true, false);
-        RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform, "Any");
-        RaycastHit2D closerHitFrontDanger = RaycastUtils.GetCloserHitToHit(hitsFront, closerHitFront, "Danger");
-        RaycastHit2D[] hitsBack = RaycastUtils.CastHitsMovement(19, movement, transform, cc, false, false);
-        RaycastHit2D closerHitBack = RaycastUtils.GetCloserHit(hitsBack, transform, "Any");
+        // Basic collisions
+        RaycastHit2D[] hitsFront = CollisionUtils.CastHitsMovementFront(25, movement, transform, cc, false);
+        RaycastHit2D closerHitFront = CollisionUtils.GetCloserHit(hitsFront, transform, "Any");
+        RaycastHit2D[] hitsBack = CollisionUtils.CastHitsMovement(19, movement, transform, cc, false, false);
+        RaycastHit2D closerHitBack = CollisionUtils.GetCloserHit(hitsBack, transform, "Any");
 
-        if (closerHitFront.collider)
+        // Advanced collisions
+        RaycastHit2D[] hitsFrontExt = CollisionUtils.CastHitsMovementFrontExt(25, movement, transform, cc, false);
+        RaycastHit2D closerHitFrontExt = CollisionUtils.GetCloserHit(hitsFrontExt, transform, alwaysSolid);
+        RaycastHit2D closerHitFrontExtDanger = CollisionUtils.GetCloserHit(hitsFrontExt, transform, "Danger");
+
+        if (closerHitFrontExt.collider)
+        {
+            closerHitFrontExtDanger = CollisionUtils.GetCloserHitToHit(hitsFrontExt, closerHitFrontExt, "Danger");
+            float distance = Vector2.SqrMagnitude(closerHitFrontExt.point - closerHitFrontExtDanger.point);
+            if (closerHitFrontExtDanger.collider && distance < 0.05f)
+            {
+                cc.enabled = true;
+                ReceiveHit(true);
+                ResetPunch();
+            }
+        }
+        else if (closerHitFrontExtDanger.collider)
+        {
+            cc.enabled = true;
+            ReceiveHit(true);
+            ResetPunch();
+        }
+
+        if (closerHitFront.collider && cc.enabled == false)
         {
             string colTag = closerHitFront.collider.tag;
             if (colTag == "Mirror")
@@ -206,17 +246,11 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (!triggeredWhenPunch.Contains(colTag))
             {
-                float distance = Vector2.SqrMagnitude(closerHitFront.point - closerHitFrontDanger.point);
-                if (closerHitFrontDanger.collider && distance < 0.01f)
-                {
-                    ReceiveHit();
-                    ResetPunch();
-                }
                 cc.enabled = true;
             }
         }
 
-        if (closerHitBack.collider)
+        if (closerHitBack.collider && cc.enabled == false)
         {
             string colTag = closerHitBack.collider.tag;
             if (closerHitBack.collider.Equals(enemyHit))
@@ -231,8 +265,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckPunchCollisionsNear()
     {
-        RaycastHit2D[] hitsFront = RaycastUtils.CastHitsMovementNearObjects(5, movement, transform, cc, false);
-        RaycastHit2D closerHitFront = RaycastUtils.GetCloserHit(hitsFront, transform, "Any");
+        RaycastHit2D[] hitsFront = CollisionUtils.CastArc(5, 30, transform.position, 0, movement, cc.radius / 4 + 0.25f, LayerMask.GetMask("Default"), false);
+        RaycastHit2D closerHitFront = CollisionUtils.GetCloserHit(hitsFront, transform, "Any");
 
         if (closerHitFront.collider)
         {
@@ -250,8 +284,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckDashCollisions()
     {
-        RaycastHit2D[] hits = RaycastUtils.CastHitsMovement(11, movement, transform, cc, true, false);
-        RaycastHit2D closerHitDashing = RaycastUtils.GetCloserHit(hits, transform, "Any");
+        RaycastHit2D[] hits = CollisionUtils.CastHitsMovement(11, movement, transform, cc, true, false);
+        RaycastHit2D closerHitDashing = CollisionUtils.GetCloserHit(hits, transform, "Any");
 
         if (closerHitDashing.collider)
         {
@@ -271,14 +305,18 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }
 
-    private void ReceiveHit()
+    private void ReceiveHit(bool kill)
     {
         PlayerControl playerControl = this.GetComponent<PlayerControl>();
-        int currentHits = isPunching ? 0 : playerControl.GetHits() - 1;
+        int currentHits = kill ? 0 : playerControl.GetHits() - 1;
         playerControl.SetHits(currentHits);
         if (currentHits != 0)
         {
             StartCoroutine(Repel(col.GetContact(0).normal));
+        }
+        else
+        {
+            speed = 0;
         }
     }
 
@@ -331,5 +369,15 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         speed = oldSpeed;
         isDashing = false;
+    }
+
+    IEnumerator DebugTransparent()
+    {
+        cc.enabled = false;
+        isDashing = true;
+        rb.velocity = movement * 10;
+        yield return new WaitForSeconds(0.005f);
+        isDashing = false;
+        cc.enabled = true;
     }
 }

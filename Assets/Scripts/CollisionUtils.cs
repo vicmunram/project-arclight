@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RaycastUtils : MonoBehaviour
+public class CollisionUtils : MonoBehaviour
 {
-    private static RaycastHit2D[] CastArc(int hits, float angle, Vector2 origin, float originOffset, Vector2 rayDirection, float rayLength, LayerMask layerMask, bool debugMode)
+    // Raycast Utils
+
+    public static RaycastHit2D[] CastArc(int hits, float angle, Vector2 origin, float originOffset, Vector2 rayDirection, float rayLength, LayerMask layerMask, bool debugMode)
     {
         RaycastHit2D[] hit2Ds = new RaycastHit2D[hits];
 
@@ -41,7 +43,7 @@ public class RaycastUtils : MonoBehaviour
         return hit2Ds;
     }
 
-    private static RaycastHit2D[] CastCircle(int hits, Vector2 origin, float originOffset, float radius, LayerMask layerMask, bool debugMode)
+    public static RaycastHit2D[] CastCircle(int hits, Vector2 origin, float originOffset, float radius, LayerMask layerMask, bool debugMode)
     {
         RaycastHit2D[] hit2Ds = new RaycastHit2D[hits];
         int hitsFront = hits / 2 + 1;
@@ -69,17 +71,39 @@ public class RaycastUtils : MonoBehaviour
     {
         Vector2 rayDirection = front ? movement : movement * -1;
         Vector3 origin = front ? transform.position : transform.position + new Vector3(rayDirection.x * 0.35f, rayDirection.y * 0.35f, 0);
-        float rayLength = cc.radius / 4 + 0.4f;
+        float rayLength = cc.radius / 4;
         LayerMask layerMask = LayerMask.GetMask("Default");
 
         return CastArc(hits, 180, origin, 0, rayDirection, rayLength, layerMask, debugMode);
     }
 
-    public static RaycastHit2D[] CastHitsMovementNearObjects(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool debugMode)
+    public static RaycastHit2D[] CastHitsMovementFront(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool debugMode)
     {
-        float rayLength = cc.radius / 4 + 0.25f;
+        RaycastHit2D[] hit2Ds = new RaycastHit2D[hits];
+        int hitsFront = 7;
+        int hitsSides = (hits - hitsFront) / 2;
+        float angleFront = 45;
+        float angleSides = (180 - angleFront) / 2f - 0.5f;
+        float rotateAngle = angleFront / 2 + 0.5f + angleSides / 2;
+
+        Vector2 rayDirectionR = VectorUtils.RotateVector(movement, -rotateAngle);
+        Vector2 rayDirectionL = VectorUtils.RotateVector(movement, rotateAngle);
         LayerMask layerMask = LayerMask.GetMask("Default");
-        return CastArc(hits, 30, transform.position, 0, movement, rayLength, layerMask, debugMode);
+
+        RaycastHit2D[] hits2DFront = CastArc(hitsFront, angleFront, transform.position, 0, movement, cc.radius / 4 + 0.2f, layerMask, debugMode);
+        RaycastHit2D[] hits2DRight = CastArc(hitsSides, angleSides, transform.position, 0, rayDirectionR, cc.radius / 4 - 0.1f, layerMask, debugMode);
+        RaycastHit2D[] hits2DLeft = CastArc(hitsSides, angleSides, transform.position, 0, rayDirectionL, cc.radius / 4 - 0.1f, layerMask, debugMode);
+
+        hits2DFront.CopyTo(hit2Ds, 0);
+        hits2DRight.CopyTo(hit2Ds, hits2DFront.Length);
+        hits2DLeft.CopyTo(hit2Ds, hits2DRight.Length);
+
+        return hit2Ds;
+    }
+
+    public static RaycastHit2D[] CastHitsMovementFrontExt(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool debugMode)
+    {
+        return CastArc(hits, 180, transform.position, 0, movement, cc.radius / 4 + 0.05f, LayerMask.GetMask("Default"), debugMode);
     }
 
     public static int CountCollisions(RaycastHit2D[] hits, string tag)
@@ -129,7 +153,7 @@ public class RaycastUtils : MonoBehaviour
             }
             else if (hasCollider && filtered)
             {
-                Vector3 direction = transform.position - new Vector3(closerHit.point.x, closerHit.point.y, 0);
+                Vector3 direction = transform.position - new Vector3(rc.point.x, rc.point.y, 0);
                 float distance = direction.sqrMagnitude;
                 if (distance < minDistance)
                 {
@@ -162,7 +186,7 @@ public class RaycastUtils : MonoBehaviour
             }
             else if (inTags)
             {
-                Vector3 direction = transform.position - new Vector3(closerHit.point.x, closerHit.point.y, 0);
+                Vector3 direction = transform.position - new Vector3(rc.point.x, rc.point.y, 0);
                 float distance = direction.sqrMagnitude;
                 if (distance < minDistance)
                 {
@@ -198,7 +222,7 @@ public class RaycastUtils : MonoBehaviour
             }
             else if (filtered)
             {
-                Vector2 direction = hit.point - new Vector2(closerHit.point.x, closerHit.point.y);
+                Vector2 direction = hit.point - new Vector2(rc.point.x, rc.point.y);
                 float distance = direction.sqrMagnitude;
                 if (distance < minDistance)
                 {
@@ -209,5 +233,33 @@ public class RaycastUtils : MonoBehaviour
         }
 
         return closerHit;
+    }
+
+    // Basic collisions utils
+    public static float RelativePositionToCollider(Transform transform, Collider2D collider)
+    {
+        float position = 0f;
+
+        float rotation = collider.attachedRigidbody.rotation;
+        Vector2 normal = VectorUtils.RotateVector(Vector2.up, rotation);
+        Vector2 line = VectorUtils.RotateVector(normal, -90);
+
+        Bounds bounds = collider.bounds;
+        Vector2 center = new Vector2(bounds.center.x, bounds.center.y);
+        Vector2 borderPoint = center + line * bounds.extents.x * 2;
+
+        Vector2 toLine = new Vector2(borderPoint.x - transform.position.x, borderPoint.y - transform.position.y);
+
+        float crossProduct = line.x * toLine.y - line.y * toLine.x;
+        if (crossProduct < 0)
+        {
+            position = 1f;
+        }
+        else if (crossProduct > 0)
+        {
+            position = -1f;
+        }
+
+        return position;
     }
 }
