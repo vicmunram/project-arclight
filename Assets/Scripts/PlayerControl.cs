@@ -21,8 +21,7 @@ public class PlayerControl : MonoBehaviour
         }
         if (hits < 1 || Input.GetKeyDown(KeyCode.R))
         {
-            this.transform.position = checkpoint;
-            hits = 2;
+            this.Respawn();
         }
     }
 
@@ -66,6 +65,12 @@ public class PlayerControl : MonoBehaviour
     public void SetHits(int hits)
     {
         this.hits = hits;
+    }
+
+    public void Respawn()
+    {
+        this.transform.position = checkpoint;
+        hits = 2;
     }
 
 }

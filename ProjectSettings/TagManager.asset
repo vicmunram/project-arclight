@@ -12,6 +12,7 @@ TagManager:
   - Danger
   - Abysm
   - Breakable
+  - Breakable One Side
   layers:
   - Default
   - TransparentFX

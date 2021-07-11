@@ -71,7 +71,7 @@ public class CollisionUtils : MonoBehaviour
     {
         Vector2 rayDirection = front ? movement : movement * -1;
         Vector3 origin = front ? transform.position : transform.position + new Vector3(rayDirection.x * 0.35f, rayDirection.y * 0.35f, 0);
-        float rayLength = cc.radius / 4;
+        float rayLength = cc.radius / 4 + 0.2f;
         LayerMask layerMask = LayerMask.GetMask("Default");
 
         return CastArc(hits, 180, origin, 0, rayDirection, rayLength, layerMask, debugMode);
@@ -128,7 +128,7 @@ public class CollisionUtils : MonoBehaviour
         return collisions;
     }
 
-    public static RaycastHit2D GetCloserHit(RaycastHit2D[] hits, Transform transform, string tag)
+    public static RaycastHit2D CloserHit(RaycastHit2D[] hits, Transform transform, string tag)
     {
         RaycastHit2D closerHit = new RaycastHit2D();
         bool filtered = true;
@@ -166,7 +166,7 @@ public class CollisionUtils : MonoBehaviour
         return closerHit;
     }
 
-    public static RaycastHit2D GetCloserHit(RaycastHit2D[] hits, Transform transform, List<string> tags)
+    public static RaycastHit2D CloserHit(RaycastHit2D[] hits, Transform transform, List<string> tags)
     {
         RaycastHit2D closerHit = new RaycastHit2D();
         bool first = true;
@@ -175,7 +175,7 @@ public class CollisionUtils : MonoBehaviour
 
         foreach (RaycastHit2D rc in hits)
         {
-            inTags = rc.collider && tags.Contains(rc.collider.tag) ? true : false;
+            inTags = rc.collider && tags.Contains(rc.collider.tag);
 
             if (first && inTags)
             {
@@ -199,7 +199,7 @@ public class CollisionUtils : MonoBehaviour
         return closerHit;
     }
 
-    public static RaycastHit2D GetCloserHitToHit(RaycastHit2D[] hits, RaycastHit2D hit, string tag)
+    public static RaycastHit2D CloserHitToHit(RaycastHit2D[] hits, RaycastHit2D hit, string tag)
     {
         RaycastHit2D closerHit = new RaycastHit2D();
         bool filtered = true;
@@ -233,6 +233,46 @@ public class CollisionUtils : MonoBehaviour
         }
 
         return closerHit;
+    }
+
+    public static RaycastHit2D FirstHit(RaycastHit2D[] hits, string tag)
+    {
+        RaycastHit2D firstHit = new RaycastHit2D();
+        bool filtered = true;
+
+        foreach (RaycastHit2D rc in hits)
+        {
+            bool hasCollider = rc.collider;
+
+            if (hasCollider && tag != "Any")
+            {
+                filtered = rc.collider.tag == tag;
+            }
+
+            if (hasCollider && filtered)
+            {
+                firstHit = rc;
+                break;
+            }
+        }
+
+        return firstHit;
+    }
+
+    public static RaycastHit2D FirstHit(RaycastHit2D[] hits, List<string> tags)
+    {
+        RaycastHit2D firstHit = new RaycastHit2D();
+
+        foreach (RaycastHit2D rc in hits)
+        {
+            if (rc.collider && tags.Contains(rc.collider.tag))
+            {
+                firstHit = rc;
+                break;
+            }
+        }
+
+        return firstHit;
     }
 
     // Basic collisions utils
