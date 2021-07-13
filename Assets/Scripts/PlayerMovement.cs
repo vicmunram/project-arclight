@@ -17,22 +17,23 @@ public class PlayerMovement : MonoBehaviour
     Vector2 input;
     public Vector2 movement = new Vector2(0, 0);
     private Collision2D col;
-    private bool isRepelled;
+    public bool isRepelled;
     private List<string> alwaysSolid = new List<string> { "Solid", "Breakable", "Breakable One Side", "Mirror" };
     private List<string> solidWhenNoPunch = new List<string> { "Solid", "Breakable", "Breakable One Side", "Mirror", "Transparent" };
+    private List<string> notBreakable = new List<string> { "Solid", "Mirror", "Transparent", "Danger" };
     private List<string> triggeredWhenPunch = new List<string> { "Checkpoint", "Abysm", "Transparent" };
 
     // Dash
     public float dashRate = 0.75f;
     private float nextDash;
-    private bool isDashing;
+    public bool isDashing;
 
     // Punch
     public float punchSpeed = 30f;
     public float punchCharge = 0.25f;
     public float punchPreparingTime = 2;
-    private bool isPunching;
-    private bool isPreparing;
+    public bool isPunching;
+    public bool isPreparing;
     private Collider2D enemyHit;
 
     void Start()
@@ -172,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     private void CheckCollisions()
     {
         RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, "Is Trigger", false);
@@ -205,9 +207,9 @@ public class PlayerMovement : MonoBehaviour
     private void CheckPunchCollisions()
     {
         // Basic collisions
-        RaycastHit2D[] hitsFront = CollisionUtils.CastHitsMovementFront(25, movement, transform, cc, false);
+        RaycastHit2D[] hitsFront = CollisionUtils.CastHitsMovementFront(25, movement, transform, 0.2f, cc, false);
         RaycastHit2D closerHitFront = CollisionUtils.CloserHit(hitsFront, transform, "Any");
-        RaycastHit2D[] hitsBack = CollisionUtils.CastHitsMovement(19, movement, transform, cc, false, false);
+        RaycastHit2D[] hitsBack = CollisionUtils.CastHitsMovementBack(19, movement, transform, cc, false, false);
         RaycastHit2D closerHitBack = CollisionUtils.CloserHit(hitsBack, transform, "Any");
 
         // Advanced collisions
@@ -284,24 +286,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckDashCollisions()
     {
-        RaycastHit2D[] hits = CollisionUtils.CastHitsMovement(11, movement, transform, cc, true, true);
+        RaycastHit2D[] hits = CollisionUtils.CastHitsMovementFront(25, movement, transform, 0.4f, cc, false);
         RaycastHit2D closerHitDashing = CollisionUtils.CloserHit(hits, transform, "Any");
 
         if (closerHitDashing.collider)
         {
             string colTag = closerHitDashing.collider.tag;
-            if (colTag == "Breakable")
+            if (notBreakable.Contains(colTag))
             {
-                Destroy(closerHitDashing.collider.gameObject);
-            }
-            else if (colTag == "Breakable One Side")
-            {
-                float rotation = closerHitDashing.collider.attachedRigidbody.rotation;
-                Vector2 normal = VectorUtils.RotateVector(Vector2.up, rotation);
-                if (Mathf.Sign(movement.x * normal.x) == -1 || Mathf.Sign(movement.x * normal.x) == -1)
-                {
-                    Destroy(closerHitDashing.collider.gameObject);
-                }
+                speed = 1f;
             }
         }
     }
@@ -374,7 +367,8 @@ public class PlayerMovement : MonoBehaviour
     {
         float oldSpeed = speed;
         isDashing = true;
-        rb.velocity = movement * speed * 3;
+        CheckDashCollisions();
+        rb.velocity = movement * speed * 2.5f;
         yield return new WaitForSeconds(0.05f);
         speed = oldSpeed;
         isDashing = false;

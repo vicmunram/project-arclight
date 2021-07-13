@@ -67,17 +67,15 @@ public class CollisionUtils : MonoBehaviour
         return CastCircle(hits, transform.position, 0.1f, 0.025f, LayerMask.GetMask(layerMask), debugMode);
     }
 
-    public static RaycastHit2D[] CastHitsMovement(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool front, bool debugMode)
+    public static RaycastHit2D[] CastHitsMovementBack(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool front, bool debugMode)
     {
-        Vector2 rayDirection = front ? movement : movement * -1;
-        Vector3 origin = front ? transform.position : transform.position + new Vector3(rayDirection.x * 0.35f, rayDirection.y * 0.35f, 0);
-        float rayLength = cc.radius / 4 + 0.2f;
-        LayerMask layerMask = LayerMask.GetMask("Default");
+        Vector2 rayDirection = movement * -1;
+        Vector3 origin = transform.position + new Vector3(rayDirection.x * 0.35f, rayDirection.y * 0.35f, 0);
 
-        return CastArc(hits, 180, origin, 0, rayDirection, rayLength, layerMask, debugMode);
+        return CastArc(hits, 180, origin, 0, rayDirection, cc.radius / 4 + 0.2f, LayerMask.GetMask("Default"), debugMode);
     }
 
-    public static RaycastHit2D[] CastHitsMovementFront(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool debugMode)
+    public static RaycastHit2D[] CastHitsMovementFront(int hits, Vector2 movement, Transform transform, float radiusFront, CircleCollider2D cc, bool debugMode)
     {
         RaycastHit2D[] hit2Ds = new RaycastHit2D[hits];
         int hitsFront = 7;
@@ -90,7 +88,7 @@ public class CollisionUtils : MonoBehaviour
         Vector2 rayDirectionL = VectorUtils.RotateVector(movement, rotateAngle);
         LayerMask layerMask = LayerMask.GetMask("Default");
 
-        RaycastHit2D[] hits2DFront = CastArc(hitsFront, angleFront, transform.position, 0, movement, cc.radius / 4 + 0.2f, layerMask, debugMode);
+        RaycastHit2D[] hits2DFront = CastArc(hitsFront, angleFront, transform.position, 0, movement, cc.radius / 4 + radiusFront, layerMask, debugMode);
         RaycastHit2D[] hits2DRight = CastArc(hitsSides, angleSides, transform.position, 0, rayDirectionR, cc.radius / 4 - 0.1f, layerMask, debugMode);
         RaycastHit2D[] hits2DLeft = CastArc(hitsSides, angleSides, transform.position, 0, rayDirectionL, cc.radius / 4 - 0.1f, layerMask, debugMode);
 
