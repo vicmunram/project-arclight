@@ -19,9 +19,6 @@ public class PlayerMovement : MonoBehaviour
     private Collision2D col;
     public bool isRepelled;
     private List<string> alwaysSolid = new List<string> { "Solid", "Breakable", "Breakable One Side", "Mirror" };
-    private List<string> solidWhenNoPunch = new List<string> { "Solid", "Breakable", "Breakable One Side", "Mirror", "Transparent" };
-    private List<string> notBreakable = new List<string> { "Solid", "Mirror", "Transparent", "Danger" };
-    private List<string> triggeredWhenPunch = new List<string> { "Checkpoint", "Abysm", "Transparent" };
 
     // Dash
     public float dashRate = 0.75f;
@@ -33,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
     public float punchCharge = 0.25f;
     public float punchPreparingTime = 2;
     public bool isPunching;
+    public bool wasPunching;
     public bool isPreparing;
     private Collider2D enemyHit;
 
@@ -50,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
             float startTime = Time.time;
             StartCoroutine(Punch(startTime));
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash && !isPreparing && !isPunching)
+        else if (Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash && !isPreparing && !isPunching && !isRepelled)
         {
             nextDash = Time.time + dashRate;
             StartCoroutine(Dash());
@@ -74,6 +72,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            if (wasPunching)
+            {
+                wasPunching = false;
+            }
             CheckCollisions();
         }
 
@@ -159,25 +161,57 @@ public class PlayerMovement : MonoBehaviour
     {
         col = collision;
         string colTag = collision.gameObject.tag;
+        int colLayer = collision.gameObject.layer;
         PlayerControl playerControl = GetComponent<PlayerControl>();
 
-        if (solidWhenNoPunch.Contains(colTag))
+        if (colLayer == LayerMask.NameToLayer("Solid")
+        || colLayer == LayerMask.NameToLayer("Transparent")
+        || colLayer == LayerMask.NameToLayer("Enemy"))
         {
-            speed = 1;
-            ResetPunch();
-        }
-        if ((colTag == "Danger" && !isPunching && playerControl.hits >= 1) || colTag == "Enemy")
-        {
-            ReceiveHit(false);
-            ResetPunch();
+            if ((colTag == "Danger" && !wasPunching && playerControl.hits >= 1)
+            || (!wasPunching && colTag == "Enemy"))
+            {
+                ReceiveHit(false);
+                wasPunching = false;
+            }
+            else
+            {
+                speed = 1;
+                if (isPunching)
+                {
+                    isPunching = false;
+                    wasPunching = true;
+                }
+            }
         }
     }
 
-
     private void CheckCollisions()
     {
+        // Danger interactions
         RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, "Is Trigger", false);
         RaycastHit2D[] innerHits = CollisionUtils.CastInnerHits(20, transform, cc, "Is Trigger", false);
+
+        RaycastHit2D closerDangerOuterHit = CollisionUtils.CloserHit(outerHits, transform, movement, "Danger");
+        int dangerOuterCollisions = CollisionUtils.CountCollisions(outerHits, "Danger");
+        int dangerInnerCollisions = CollisionUtils.CountCollisions(innerHits, "Danger");
+
+        if (!isRepelled)
+        {
+            Vector2 normal = closerDangerOuterHit.normal;
+            if (dangerInnerCollisions > 11)
+            {
+                ReceiveHit(true, normal);
+            }
+            else if (closerDangerOuterHit.collider)
+            {
+                if ((Mathf.Sign(movement.x * normal.x) == -1 || Mathf.Sign(movement.y * normal.y) == -1)
+                || (Mathf.Sign(movement.x * normal.x) != -1 && Mathf.Sign(movement.y * normal.y) != -1 && dangerOuterCollisions > 7))
+                {
+                    ReceiveHit(false, normal);
+                }
+            }
+        }
 
         int abysmOuterCollisions = CollisionUtils.CountCollisions(outerHits, "Abysm");
         int abysmInnerCollisions = CollisionUtils.CountCollisions(innerHits, "Abysm");
@@ -186,10 +220,11 @@ public class PlayerMovement : MonoBehaviour
             this.GetComponent<PlayerControl>().SetHits(0);
         }
 
-        outerHits = CollisionUtils.CastOuterHits(20, transform, cc, "Default", false);
+        // Transparent interactions
+        outerHits = CollisionUtils.CastOuterHits(20, transform, cc, "Solid", false);
         RaycastHit2D firstOuterHit = CollisionUtils.CloserHit(outerHits, transform, alwaysSolid);
         innerHits = CollisionUtils.CastInnerHits(20, transform, cc, "Transparent", false);
-        RaycastHit2D firstInnerHit = CollisionUtils.FirstHit(innerHits, "Transparent");
+        RaycastHit2D firstInnerHit = CollisionUtils.FirstHit(innerHits, "Any");
 
         if (firstOuterHit.collider && firstInnerHit.collider)
         {
@@ -238,17 +273,22 @@ public class PlayerMovement : MonoBehaviour
         if (closerHitFront.collider && cc.enabled == false)
         {
             string colTag = closerHitFront.collider.tag;
-            if (colTag == "Mirror")
+            int colLayer = closerHitFront.collider.gameObject.layer;
+
+            if (colLayer == LayerMask.NameToLayer("Solid"))
             {
-                Reflect(closerHitFront.normal);
+                if (colTag == "Mirror")
+                {
+                    Reflect(closerHitFront.normal);
+                }
+                else
+                {
+                    cc.enabled = true;
+                }
             }
-            else if (colTag == "Enemy")
+            else if (colLayer == LayerMask.NameToLayer("Enemy"))
             {
                 enemyHit = closerHitFront.collider;
-            }
-            else if (!triggeredWhenPunch.Contains(colTag))
-            {
-                cc.enabled = true;
             }
         }
 
@@ -273,13 +313,18 @@ public class PlayerMovement : MonoBehaviour
         if (closerHitFront.collider)
         {
             string colTag = closerHitFront.collider.tag;
-            if (colTag == "Mirror")
+            int colLayer = closerHitFront.collider.gameObject.layer;
+
+            if (colLayer == LayerMask.NameToLayer("Solid"))
             {
-                Reflect(closerHitFront.normal);
-            }
-            else if (!triggeredWhenPunch.Contains(colTag))
-            {
-                cc.enabled = true;
+                if (colTag == "Mirror")
+                {
+                    Reflect(closerHitFront.normal);
+                }
+                else
+                {
+                    cc.enabled = true;
+                }
             }
         }
     }
@@ -292,7 +337,7 @@ public class PlayerMovement : MonoBehaviour
         if (closerHitDashing.collider)
         {
             string colTag = closerHitDashing.collider.tag;
-            if (notBreakable.Contains(colTag))
+            if (!colTag.Contains("Breakable"))
             {
                 speed = 1f;
             }
@@ -315,6 +360,21 @@ public class PlayerMovement : MonoBehaviour
         if (currentHits != 0)
         {
             StartCoroutine(Repel(col.GetContact(0).normal));
+        }
+        else
+        {
+            speed = 0;
+        }
+    }
+
+    private void ReceiveHit(bool kill, Vector2 normal)
+    {
+        PlayerControl playerControl = this.GetComponent<PlayerControl>();
+        int currentHits = kill ? 0 : playerControl.GetHits() - 1;
+        playerControl.SetHits(currentHits);
+        if (currentHits != 0)
+        {
+            StartCoroutine(Repel(normal));
         }
         else
         {
@@ -355,8 +415,10 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Repel(Vector2 normal)
     {
         isRepelled = true;
-        speed = 6.5f;
-        Reflect(normal);
+        if (Mathf.Sign(movement.x * normal.x) == -1 || Mathf.Sign(movement.y * normal.y) == -1)
+        {
+            Reflect(normal);
+        }
         rb.velocity = movement * speed;
         yield return new WaitForSeconds(0.25f);
         speed = 0.25f;

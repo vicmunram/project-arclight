@@ -67,14 +67,6 @@ public class CollisionUtils : MonoBehaviour
         return CastCircle(hits, transform.position, 0.1f, 0.025f, LayerMask.GetMask(layerMask), debugMode);
     }
 
-    public static RaycastHit2D[] CastHitsMovementBack(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool front, bool debugMode)
-    {
-        Vector2 rayDirection = movement * -1;
-        Vector3 origin = transform.position + new Vector3(rayDirection.x * 0.35f, rayDirection.y * 0.35f, 0);
-
-        return CastArc(hits, 180, origin, 0, rayDirection, cc.radius / 4 + 0.2f, LayerMask.GetMask("Default"), debugMode);
-    }
-
     public static RaycastHit2D[] CastHitsMovementFront(int hits, Vector2 movement, Transform transform, float radiusFront, CircleCollider2D cc, bool debugMode)
     {
         RaycastHit2D[] hit2Ds = new RaycastHit2D[hits];
@@ -86,7 +78,8 @@ public class CollisionUtils : MonoBehaviour
 
         Vector2 rayDirectionR = VectorUtils.RotateVector(movement, -rotateAngle);
         Vector2 rayDirectionL = VectorUtils.RotateVector(movement, rotateAngle);
-        LayerMask layerMask = LayerMask.GetMask("Default");
+        string[] collidableLayers = { "Solid", "Enemy" };
+        LayerMask layerMask = LayerMask.GetMask(collidableLayers);
 
         RaycastHit2D[] hits2DFront = CastArc(hitsFront, angleFront, transform.position, 0, movement, cc.radius / 4 + radiusFront, layerMask, debugMode);
         RaycastHit2D[] hits2DRight = CastArc(hitsSides, angleSides, transform.position, 0, rayDirectionR, cc.radius / 4 - 0.1f, layerMask, debugMode);
@@ -99,9 +92,22 @@ public class CollisionUtils : MonoBehaviour
         return hit2Ds;
     }
 
+    public static RaycastHit2D[] CastHitsMovementBack(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool front, bool debugMode)
+    {
+        Vector2 rayDirection = movement * -1;
+        Vector3 origin = transform.position + new Vector3(rayDirection.x * 0.35f, rayDirection.y * 0.35f, 0);
+        string[] collidableLayers = { "Enemy" };
+        LayerMask layerMask = LayerMask.GetMask(collidableLayers);
+
+        return CastArc(hits, 180, origin, 0, rayDirection, cc.radius / 4 + 0.2f, layerMask, debugMode);
+    }
+
     public static RaycastHit2D[] CastHitsMovementFrontExt(int hits, Vector2 movement, Transform transform, CircleCollider2D cc, bool debugMode)
     {
-        return CastArc(hits, 180, transform.position, 0, movement, cc.radius / 4 + 0.05f, LayerMask.GetMask("Default"), debugMode);
+        string[] collidableLayers = { "Solid" };
+        LayerMask layerMask = LayerMask.GetMask(collidableLayers);
+
+        return CastArc(hits, 180, transform.position, 0, movement, cc.radius / 4 + 0.05f, layerMask, debugMode);
     }
 
     public static int CountCollisions(RaycastHit2D[] hits, string tag)
@@ -156,6 +162,54 @@ public class CollisionUtils : MonoBehaviour
                 if (distance < minDistance)
                 {
                     minDistance = distance;
+                    closerHit = rc;
+                }
+            }
+        }
+
+        return closerHit;
+    }
+
+    public static RaycastHit2D CloserHit(RaycastHit2D[] hits, Transform transform, Vector2 movement, string tag)
+    {
+        RaycastHit2D closerHit = new RaycastHit2D();
+        bool filtered = true;
+        bool first = true;
+        float minDistanceCenter = 0;
+        float minDistanceMovement = 0;
+
+        foreach (RaycastHit2D rc in hits)
+        {
+            bool hasCollider = rc.collider;
+
+            if (hasCollider && tag != "Any")
+            {
+                filtered = rc.collider.tag == tag;
+            }
+
+            if (first && hasCollider && filtered)
+            {
+                closerHit = rc;
+                Vector3 direction = transform.position - new Vector3(closerHit.point.x, closerHit.point.y, 0);
+                minDistanceCenter = direction.sqrMagnitude;
+
+                Vector2 difWithMovement = new Vector2(direction.x - movement.x, direction.y - movement.y);
+                minDistanceMovement = difWithMovement.sqrMagnitude;
+
+                first = false;
+            }
+            else if (hasCollider && filtered)
+            {
+                Vector3 direction = transform.position - new Vector3(rc.point.x, rc.point.y, 0);
+                float distanceCenter = direction.sqrMagnitude;
+
+                Vector2 difWithMovement = new Vector2(direction.x - movement.x, direction.y - movement.y);
+                float distanceMovement = difWithMovement.sqrMagnitude;
+
+                if (distanceCenter <= minDistanceCenter && distanceMovement < minDistanceMovement)
+                {
+                    minDistanceCenter = distanceCenter;
+                    minDistanceMovement = distanceMovement;
                     closerHit = rc;
                 }
             }
@@ -232,6 +286,8 @@ public class CollisionUtils : MonoBehaviour
 
         return closerHit;
     }
+
+
 
     public static RaycastHit2D FirstHit(RaycastHit2D[] hits, string tag)
     {
