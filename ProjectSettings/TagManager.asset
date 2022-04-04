@@ -5,14 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Mirror
-  - Enemy
-  - Checkpoint
   - Solid
   - Transparent
   - Abysm
   - Breakable
-  - Breakable One Side
   - Danger
+  - BreakableOneSide
+  - SceneChanger
+  - Interactable
+  - Help
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - Is Trigger
   - Transparent
   - Solid
-  - Enemy
+  - Punch Through
   - 
   - 
   - 
