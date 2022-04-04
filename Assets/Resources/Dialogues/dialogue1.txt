@@ -1,0 +1,3 @@
+Izquierda: Hola buenas
+Derecha: Ey que dices
+Izquierda Pues muy bien

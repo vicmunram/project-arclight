@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Mirror
+  - Solid
+  - Transparent
+  - Abysm
+  - Breakable
+  - Danger
+  - BreakableOneSide
+  - SceneChanger
+  - Interactable
+  - Help
   layers:
   - Default
   - TransparentFX
@@ -13,11 +23,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Is Trigger
+  - Transparent
+  - Solid
+  - Punch Through
   - 
   - 
   - 
