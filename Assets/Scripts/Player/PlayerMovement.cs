@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
     public float acc = 0.05f;
     public float defaultAccInc = 0.001f;
     public float accInc;
+    private bool diagonally;
+    private bool wasDiagonally;
+    private bool wait;
 
     // Movement and collisions
     public Rigidbody2D rb;
@@ -27,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     public float dashRate = 0.75f;
     private float nextDash;
     public bool isDashing;
-    private bool canDash;
+    public bool canDash;
 
     // Punch
     public float punchSpeed = 30f;
@@ -38,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isPreparing;
     private Collider2D anchorHit;
     private Collider2D lastAnchorHit;
-    private bool canPunch;
+    public bool canPunch;
 
     void Start()
     {
@@ -51,12 +54,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (canMove)
         {
-            if (!canPunch && Input.GetKeyDown(KeyCode.Mouse0) && !isPunching && !isDashing)
+            if (canPunch && Input.GetKeyDown(KeyCode.Mouse0) && !isPunching && !isDashing)
             {
                 float startTime = Time.time;
                 StartCoroutine(Punch(startTime));
             }
-            else if (!canDash && Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash && !isPreparing && !isPunching && !isRepelled)
+            else if (canDash && Input.GetKeyDown(KeyCode.Mouse1) && Time.time > nextDash && !isPreparing && !isPunching && !isRepelled)
             {
                 nextDash = Time.time + dashRate;
                 StartCoroutine(Dash());
@@ -106,15 +109,39 @@ public class PlayerMovement : MonoBehaviour
     {
         input.x = Input.GetAxis("Horizontal");
         input.y = Input.GetAxis("Vertical");
-        if (input.x != 0 || input.y != 0)
+
+        if (diagonally)
+        {
+            bool notDiagonally = (input.x == 0 && input.y != 0) || (input.x != 0 && input.y == 0);
+            if (wait)
+            {
+                if (notDiagonally)
+                {
+                    diagonally = false;
+                    wait = false;
+                }
+                else if (input.x != 0 && input.y != 0)
+                {
+                    wait = false;
+                }
+
+            }
+            else if (notDiagonally)
+            {
+                wait = true;
+            }
+        }
+
+        if (!wait)
         {
             movement = input;
+            diagonally = input.SqrMagnitude() > 1;
         }
     }
 
     private void MovePlayer()
     {
-        if (movement.x != 0 && movement.y != 0)
+        if (diagonally)
         {
             rb.velocity = movement.normalized * speed;
         }
@@ -305,7 +332,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (colLayer == LayerMask.NameToLayer(Layers.punchThrough))
             {
-                InitPunchThrough(closestFrontHit);
+                anchorHit = closestFrontHit.collider;
             }
         }
 
@@ -362,7 +389,7 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
     }
 
-    private void ReceiveHit(bool kill)
+    public void ReceiveHit(bool kill)
     {
         PlayerControl playerControl = this.GetComponent<PlayerControl>();
         int currentHits = kill ? 0 : playerControl.GetHits() - 1;
@@ -400,16 +427,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void InitPunchThrough(RaycastHit2D frontHit)
-    {
-        GetComponent<PlayerControl>().OpenInteraction();
-        anchorHit = frontHit.collider;
-    }
-
     private void EndPunchThrough(RaycastHit2D backHit)
     {
-        GetComponent<PlayerControl>().CloseInteraction();
-
         string colTag = backHit.collider.tag;
         if (!colTag.Equals(Tags.interactable))
         {
@@ -434,6 +453,13 @@ public class PlayerMovement : MonoBehaviour
                     lastAnchorHit = null;
                 }
 
+            }
+        }
+        else
+        {
+            if (anchorHit != null)
+            {
+                anchorHit.GetComponent<ExtraTime>().Interact();
             }
         }
     }
@@ -467,6 +493,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Reflect(normal);
         }
+        else
+        {
+            movement = movement + normal;
+        }
+        speed = speed == 0 ? maxSpeed : speed;
         rb.velocity = movement * speed;
         yield return new WaitForSeconds(0.25f);
         speed = 0.25f;

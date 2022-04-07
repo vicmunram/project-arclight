@@ -9,4 +9,11 @@ public class VectorUtils : MonoBehaviour
         float y = v.x * Mathf.Sin(radianAngle) + v.y * Mathf.Cos(radianAngle);
         return new Vector2(x, y);
     }
+
+    public static bool Equals(Vector2 v1, Vector2 v2)
+    {
+        float xDiff = Mathf.Abs(Mathf.Round(v1.x * 100f) - Mathf.Round(v2.x * 100f));
+        float yDiff = Mathf.Abs(Mathf.Round(v1.y * 100f) - Mathf.Round(v2.y * 100f));
+        return xDiff == 0 && yDiff == 0;
+    }
 }

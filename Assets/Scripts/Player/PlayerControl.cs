@@ -84,17 +84,17 @@ public class PlayerControl : MonoBehaviour
         if (help != null)
         {
             helpDialogue = help.GetComponent<Dialogue>();
-        }
-        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
-        if (!playerMovement.isPreparing && !playerMovement.isPunching && !playerMovement.isDashing && !playerMovement.isRepelled)
-        {
-            helpDialogue.open();
-            helpDialogue.read();
-            asking = true;
+            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+            if (!playerMovement.isPreparing && !playerMovement.isPunching && !playerMovement.isDashing && !playerMovement.isRepelled)
+            {
+                helpDialogue.open();
+                helpDialogue.read();
+                asking = true;
+            }
         }
     }
 
-    public void SetCheckpoint(Vector3 position)
+    public void SetRespawnPoint(Vector3 position)
     {
         checkpoint = position;
     }
