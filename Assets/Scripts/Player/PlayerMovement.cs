@@ -259,7 +259,9 @@ public class PlayerMovement : MonoBehaviour
 
         int abysmOuterCollisions = CollisionUtils.CountCollisions(outerHits, Tags.abysm);
         int abysmInnerCollisions = CollisionUtils.CountCollisions(innerHits, Tags.abysm);
-        if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15))
+        int mirrorOuterCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);
+        int mirrorInnerCollisions = CollisionUtils.CountCollisions(innerHits, Tags.mirror);
+        if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15) || mirrorOuterCollisions == 20 || (mirrorOuterCollisions > 11 && mirrorInnerCollisions > 15))
         {
             this.GetComponent<PlayerControl>().SetHits(0);
         }

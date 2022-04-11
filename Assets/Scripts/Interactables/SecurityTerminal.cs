@@ -22,13 +22,7 @@ public class SecurityTerminal : Interactable
         {
             if (Timer.enabled)
             {
-                Timer.enabled = false;
-
-                PlayerPrefs.SetString("checkpoint", SceneManager.GetActiveScene().name + "B");
-                GameObject player = GameObject.Find("Player");
-                player.GetComponent<PlayerControl>().SetRespawnPoint(new Vector3(transform.position.x, transform.position.y, player.transform.position.z));
-                PlayerPrefs.SetFloat("globalTime", Timer.globalTime);
-
+                GameObject.Find("Player").GetComponent<PlayerControl>().SaveProgress(new Vector2(transform.position.x, transform.position.y));
                 interactText.text = "[E] Acceder";
             }
             else

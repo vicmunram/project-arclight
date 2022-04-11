@@ -33,7 +33,7 @@ public class LeftGlove : Interactable
             playerMovement.maxSpeed = 5f;
             playerMovement.canPunch = true;
 
-            Timer.Start(20f);
+            Timer.Start(30f);
         }
     }
 

@@ -41,6 +41,33 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Section 1/1-4B.unity
     guid: 61e7fd6da21840e4dade0e8985d33b93
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-5.unity
+    guid: 799f2e5f98a38af469e5d0dc9b59ef68
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-6.unity
+    guid: a358bfdd0da44be459965a036c7a0ef9
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-7.unity
+    guid: abcd43732d44ec04fb43b6de180f9f92
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-8.unity
+    guid: f44c9e7095cc2774badc46ba7b0bdbcb
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-8B.unity
+    guid: c79d5cdbecf90cd488f6800d97016a06
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-9.unity
+    guid: 9c8a79cd4de151240b4486ea2ef2b219
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-9B.unity
+    guid: 10c25504edb7c6c4892cae880507a2ee
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-10.unity
+    guid: d717423e07052ed4b9b5a5009e8e8607
+  - enabled: 1
+    path: Assets/Scenes/Section 1/1-10B.unity
+    guid: d138b5ae356e7c84c967a7908d637cd1
   - enabled: 0
     path: Assets/Scenes/Sandbox.unity
     guid: 30bb37ebab182f94c99d3a08b58e0e7f
