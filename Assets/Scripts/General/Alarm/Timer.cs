@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public static class Timer
 {
@@ -23,13 +20,14 @@ public static class Timer
     public static void Restart(float time)
     {
         stretchTime = time;
-        globalTime = stretchTime + PlayerPrefs.GetFloat("globalTime");
+        globalTime = stretchTime + GameProgress.LoadProgress().currentAccumulatedTime;
         enabled = true;
     }
 
     public static void Reset()
     {
-        globalTime = stretchTime + PlayerPrefs.GetFloat("globalTime");
+        SaveData saveData = GameProgress.LoadProgress();
+        globalTime = saveData.currentStretchTime + saveData.currentAccumulatedTime;
     }
 
     public static float Add(float time)

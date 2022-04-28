@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.IO;
 
 public class Button : Interactable
 {
@@ -29,7 +26,7 @@ public class Button : Interactable
             {
                 if (interaction.tag == Tags.movableGroup)
                 {
-                    interaction.GetComponent<MovableGroup>().Move();
+                    interaction.GetComponent<MovableGroup>().active = true;
                 }
                 else if (interaction.tag == Tags.rotaryGroup)
                 {

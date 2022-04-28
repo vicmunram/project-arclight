@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.IO;
 
 public abstract class Rotary : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public abstract class Rotary : MonoBehaviour
     public bool auxActive;
     public float grades;
     public float auxGrades;
-    public Rigidbody2D rb;
+    protected Rigidbody2D rb;
     protected float currentRotation;
     protected float rotated = 0;
     protected float auxRotated;
@@ -19,6 +16,7 @@ public abstract class Rotary : MonoBehaviour
 
     void Start()
     {
+        rb = gameObject.GetComponentInParent<Rigidbody2D>();
         currentRotation = rb.rotation;
         auxRotated = Mathf.Abs(auxGrades) / speed;
         targetRotated = Mathf.Abs(grades) / speed;

@@ -20,7 +20,8 @@ public class LastHit : Button
             Destroy(extra.gameObject);
         }
 
-        GameObject.Find("Player").GetComponent<PlayerControl>().SaveProgress(new Vector2(0, 1.75f));
+        GameProgress.SaveProgress(Timer.globalTime, 0, true);
+        GameObject.Find("Player").GetComponent<PlayerControl>().SetRespawnPoint(new Vector3(0, 1.75f, 0));
     }
 
     private void StopMovables(string name)
@@ -28,7 +29,7 @@ public class LastHit : Button
         Movable[] movables = GameObject.Find(name).GetComponentsInChildren<Movable>();
         foreach (Movable movable in movables)
         {
-            movable.rb.velocity = new Vector2(0, 0);
+            movable.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             movable.isMoving = false;
         }
     }

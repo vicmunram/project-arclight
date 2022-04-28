@@ -1,39 +1,55 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class LeftGlove : Interactable
 {
-    public Dialogue dialogue;
-    public MovableGroup doors;
+    public string dialogueName;
+    public float stretchTime;
+    private Dialogue dialogue;
+    private MovableGroup exit;
+    private bool openedExit;
+
+    void Update()
+    {
+        if (dialogue != null && dialogue.lastLine && !openedExit)
+        {
+            exit.active = true;
+            openedExit = true;
+        }
+    }
 
     public override void FirstInteraction()
     {
         GetComponent<Renderer>().enabled = false;
         interactText.text = null;
-        dialogue.open();
+
+        dialogue = gameObject.AddComponent<Dialogue>();
+        dialogue.dialogueName = dialogueName;
+
+        exit = GameObject.Find("Exit").GetComponent<MovableGroup>();
     }
 
     public override void EveryInteraction()
     {
-        dialogue.read();
-
-        if (dialogue.lastLine)
+        if (!dialogue.active)
         {
-            doors.Move();
+            dialogue.Activate();
         }
 
         if (dialogue.closed)
         {
-            dialogue.close();
-
             GetComponent<Collider2D>().enabled = false;
-            PlayerPrefs.SetString("checkpoint", SceneManager.GetActiveScene().name + "B");
 
-            PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+            GameObject player = GameObject.Find("Player");
+            PlayerControl playerControl = player.GetComponent<PlayerControl>();
+            playerControl.maxHits = 2;
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
             playerMovement.maxSpeed = 5f;
             playerMovement.canPunch = true;
 
-            Timer.Start(30f);
+            GameProgress.SaveProgress(0, stretchTime, true);
+
+            Timer.Start(stretchTime);
         }
     }
 

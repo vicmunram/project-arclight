@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerControl : MonoBehaviour
 {
-    private bool asking;
-    private bool canInteract;
+    public bool talking;
+    public bool canInteract;
     private Vector3 checkpoint;
-    private Dialogue helpDialogue;
-    public int hits = 2;
+    public int hits;
+    public int maxHits = 1;
 
     private Vector2 boxSize = new Vector2(0.1f, 0.1f);
 
     void Start()
     {
+        hits = maxHits;
         checkpoint = transform.position;
     }
 
@@ -20,34 +22,25 @@ public class PlayerControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (asking)
-            {
-                helpDialogue.read();
-                if (helpDialogue.closed)
-                {
-                    helpDialogue.close();
-                    GetComponent<PlayerMovement>().canMove = true;
-                    asking = false;
-                }
-            }
-            else if (canInteract)
+            if (!talking && canInteract)
             {
                 CheckInteraction();
             }
         }
-        else if (!asking && Input.GetKeyDown(KeyCode.H))
+        else if (!talking && Input.GetKeyDown(KeyCode.H))
         {
             AskForHelp();
         }
-        if (hits < 1 || Input.GetKeyDown(KeyCode.R))
+
+        if (hits < 1 || Input.GetKeyDown(KeyCode.K))
         {
-            Respawn();
+            Respawn(false);
         }
         if (Timer.enabled)
         {
-            if (Timer.Subtract(Time.deltaTime) < 0)
+            if (Timer.Subtract(Time.deltaTime) <= 0)
             {
-                SceneMaster.Respawn();
+                Respawn(true);
             }
         }
     }
@@ -84,13 +77,11 @@ public class PlayerControl : MonoBehaviour
         GameObject help = GameObject.Find("Help");
         if (help != null)
         {
-            helpDialogue = help.GetComponent<Dialogue>();
+            Dialogue helpDialogue = help.GetComponent<Dialogue>();
             PlayerMovement playerMovement = GetComponent<PlayerMovement>();
             if (!playerMovement.isPreparing && !playerMovement.isPunching && !playerMovement.isDashing && !playerMovement.isRepelled)
             {
-                helpDialogue.open();
-                helpDialogue.read();
-                asking = true;
+                helpDialogue.Activate();
             }
         }
     }
@@ -100,28 +91,39 @@ public class PlayerControl : MonoBehaviour
         checkpoint = position;
     }
 
-    public int GetHits()
+    public void Respawn(bool loadCheckpoint)
     {
-        return hits;
+        if (!loadCheckpoint)
+        {
+            transform.position = checkpoint;
+            hits = maxHits;
+        }
+        else
+        {
+            StartCoroutine(RespawnTimer());
+        }
     }
 
-    public void SetHits(int hits)
-    {
-        this.hits = hits;
-    }
-
-    public void Respawn()
-    {
-        transform.position = checkpoint;
-        hits = 2;
-    }
-
-    public void SaveProgress(Vector2 checkpoint)
+    IEnumerator RespawnTimer()
     {
         Timer.enabled = false;
-        SetRespawnPoint(new Vector3(checkpoint.x, checkpoint.y, transform.position.z));
-        PlayerPrefs.SetString("checkpoint", SceneManager.GetActiveScene().name + "B");
-        PlayerPrefs.SetFloat("globalTime", Timer.globalTime);
+
+        GetComponent<PlayerMovement>().Stop();
+        yield return new WaitForSeconds(0.5f);
+
+        PlayerUI playerUI = GameObject.Find("Player UI").GetComponent<PlayerUI>();
+        int timeRemaining = 2;
+        while (timeRemaining > 0)
+        {
+            playerUI.formattedTime.text = "Reapareciendo...";
+            yield return new WaitForSeconds(1f);
+            timeRemaining--;
+        }
+
+        string checkpoint = GameProgress.LoadProgress().GetCurrentCheckpointSceneName();
+        SceneManager.LoadScene(checkpoint);
+        Timer.enabled = true;
+        Timer.Reset();
     }
 
 }
