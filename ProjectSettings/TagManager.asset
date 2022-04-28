@@ -10,10 +10,14 @@ TagManager:
   - Abysm
   - Breakable
   - Danger
-  - BreakableOneSide
   - SceneChanger
   - Interactable
   - Help
+  - Breakable One Side
+  - Checkpoint
+  - Rotary Group
+  - Movable Group
+  - Type Switch Group
   layers:
   - Default
   - TransparentFX

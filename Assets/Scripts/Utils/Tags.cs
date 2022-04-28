@@ -14,7 +14,7 @@ public static class Tags
     public static string any = "Any";
     public static List<string> alwaysSolid = new List<string> { solid, breakable, breakableOneSide, mirror };
 
-    // Scene tags
-    public static string punchEnabler = "CP";
-    public static string dashEnabler = "CD";
+    public static string movableGroup = "Movable Group";
+    public static string rotaryGroup = "Rotary Group";
+    public static string typeSwitchGroup = "Type Switch Group";
 }

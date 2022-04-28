@@ -43,4 +43,12 @@ public static class Timer
         globalTime -= time;
         return globalTime;
     }
+
+    public static string GetFormattedTime()
+    {
+        float time = GetGlobalTime();
+        string minutes = Mathf.Floor(time / 60).ToString("00");
+        string seconds = (time % 60).ToString("00");
+        return string.Format("{0}:{1}", minutes, seconds);
+    }
 }
