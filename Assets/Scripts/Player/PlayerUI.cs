@@ -10,24 +10,16 @@ public class PlayerUI : MonoBehaviour
 
     void Start()
     {
-        formattedTime.text = Timer.enabled ? GetFormattedTime() : null;
+        formattedTime.text = Timer.enabled ? Timer.GetFormattedTime() : null;
     }
 
     void Update()
     {
-        string time = GetFormattedTime();
+        string time = Timer.GetFormattedTime();
         if (Timer.enabled && !time.Equals(formattedTime.text))
         {
             formattedTime.text = time;
         }
-    }
-
-    private string GetFormattedTime()
-    {
-        float time = Timer.GetGlobalTime();
-        string minutes = Mathf.Floor(time / 60).ToString("00");
-        string seconds = (time % 60).ToString("00");
-        return string.Format("{0}:{1}", minutes, seconds);
     }
 
 }

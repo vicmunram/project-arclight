@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -19,11 +20,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (canInteract)
-            {
-                CheckInteraction();
-            }
-            else if (asking)
+            if (asking)
             {
                 helpDialogue.read();
                 if (helpDialogue.closed)
@@ -32,6 +29,10 @@ public class PlayerControl : MonoBehaviour
                     GetComponent<PlayerMovement>().canMove = true;
                     asking = false;
                 }
+            }
+            else if (canInteract)
+            {
+                CheckInteraction();
             }
         }
         else if (!asking && Input.GetKeyDown(KeyCode.H))
@@ -84,17 +85,17 @@ public class PlayerControl : MonoBehaviour
         if (help != null)
         {
             helpDialogue = help.GetComponent<Dialogue>();
-        }
-        PlayerMovement playerMovement = GetComponent<PlayerMovement>();
-        if (!playerMovement.isPreparing && !playerMovement.isPunching && !playerMovement.isDashing && !playerMovement.isRepelled)
-        {
-            helpDialogue.open();
-            helpDialogue.read();
-            asking = true;
+            PlayerMovement playerMovement = GetComponent<PlayerMovement>();
+            if (!playerMovement.isPreparing && !playerMovement.isPunching && !playerMovement.isDashing && !playerMovement.isRepelled)
+            {
+                helpDialogue.open();
+                helpDialogue.read();
+                asking = true;
+            }
         }
     }
 
-    public void SetCheckpoint(Vector3 position)
+    public void SetRespawnPoint(Vector3 position)
     {
         checkpoint = position;
     }
@@ -113,6 +114,14 @@ public class PlayerControl : MonoBehaviour
     {
         transform.position = checkpoint;
         hits = 2;
+    }
+
+    public void SaveProgress(Vector2 checkpoint)
+    {
+        Timer.enabled = false;
+        SetRespawnPoint(new Vector3(checkpoint.x, checkpoint.y, transform.position.z));
+        PlayerPrefs.SetString("checkpoint", SceneManager.GetActiveScene().name + "B");
+        PlayerPrefs.SetFloat("globalTime", Timer.globalTime);
     }
 
 }

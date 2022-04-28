@@ -150,7 +150,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -341,7 +341,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 35360752}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -8.95, y: -9.24, z: -1}
+  m_LocalPosition: {x: 9.13, y: 9.2, z: -1}
   m_LocalScale: {x: 0.25, y: 0.24114172, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -359,6 +359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f145113675c37cd449512a922d94e16f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canMove: 1
   maxSpeed: 8
   speed: 0
   acc: 0.05
@@ -370,12 +371,14 @@ MonoBehaviour:
   isRepelled: 0
   dashRate: 0.75
   isDashing: 0
+  canDash: 1
   punchSpeed: 30
   punchCharge: 0.25
   punchPreparingTime: 2
   isPunching: 0
   wasPunching: 0
   isPreparing: 0
+  canPunch: 1
 --- !u!58 &35360757
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -545,7 +548,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 37143495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9227fd1566e0d3744b57d9cf5c02995d, type: 3}
+  m_Script: {fileID: 11500000, guid: 50e3880dcf9c30c499cb64a99c146c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &91947970
@@ -721,7 +724,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 105857308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9227fd1566e0d3744b57d9cf5c02995d, type: 3}
+  m_Script: {fileID: 11500000, guid: 50e3880dcf9c30c499cb64a99c146c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &105857311
@@ -3214,7 +3217,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 701622772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9227fd1566e0d3744b57d9cf5c02995d, type: 3}
+  m_Script: {fileID: 11500000, guid: 50e3880dcf9c30c499cb64a99c146c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &702012965
@@ -4512,7 +4515,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1085585716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9227fd1566e0d3744b57d9cf5c02995d, type: 3}
+  m_Script: {fileID: 11500000, guid: 50e3880dcf9c30c499cb64a99c146c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &1085585719
@@ -4706,9 +4709,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1232922750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5ff48d874c96964a8b23a3f123c3aaf, type: 3}
+  m_Script: {fileID: 11500000, guid: a65e0564afba46341845777d4e6813cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactText: {fileID: 0}
+  defaultMessage: 
+  interacted: 0
 --- !u!61 &1232922752
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5277,9 +5283,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385810182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffff8438f3575084d930c89a93e87f4b, type: 3}
+  m_Script: {fileID: 11500000, guid: 61be267c955181b4d82d39a642d0cd15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 35360755}
+  offset: 5
 --- !u!1 &1401358245
 GameObject:
   m_ObjectHideFlags: 0
@@ -7118,9 +7126,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2039460529}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5ff48d874c96964a8b23a3f123c3aaf, type: 3}
+  m_Script: {fileID: 11500000, guid: a65e0564afba46341845777d4e6813cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactText: {fileID: 0}
+  defaultMessage: 
+  interacted: 0
 --- !u!61 &2039460534
 BoxCollider2D:
   m_ObjectHideFlags: 0
