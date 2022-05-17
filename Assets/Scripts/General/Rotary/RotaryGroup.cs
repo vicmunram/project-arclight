@@ -29,6 +29,11 @@ public class RotaryGroup : MonoBehaviour
             {
                 rotary.isRotating = true;
             }
+            if (typeof(RotaryInfinite).IsInstanceOfType(rotary))
+            {
+                rotary.isRotating = !rotary.isRotating;
+            }
+
         }
     }
 

@@ -370,25 +370,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
+  canPunch: 1
+  canDash: 0
   maxSpeed: 5
   speed: 0
   acc: 0.15
   defaultAccInc: 0.001
-  accInc: 0.001
+  isRepelled: 0
   rb: {fileID: 35360753}
   cc: {fileID: 35360757}
   movement: {x: 0, y: 0}
-  isRepelled: 0
-  dashRate: 0.75
   isDashing: 0
-  canDash: 0
+  dashRate: 0.75
+  isPreparing: 0
+  isPunching: 0
+  wasPunching: 0
   punchSpeed: 25
   punchCharge: 0.25
   punchPreparingTime: 2
-  isPunching: 0
-  wasPunching: 0
-  isPreparing: 0
-  canPunch: 1
 --- !u!58 &35360757
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -417,7 +416,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c839e1d50923b47b613c4233322045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hits: 2
+  talking: 0
+  canInteract: 0
+  hits: 0
+  maxHits: 2
 --- !u!1 &55266016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1115,9 +1117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8159e8d2aca2a8947be76e163f1a21e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  closed: 0
-  lastLine: 0
   dialogueName: help1
+  active: 0
+  lastLine: 0
+  closed: 0
 --- !u!1 &698927410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1245,7 +1248,6 @@ GameObject:
   - component: {fileID: 704104336}
   - component: {fileID: 704104335}
   - component: {fileID: 704104334}
-  - component: {fileID: 704104339}
   m_Layer: 9
   m_Name: Item
   m_TagString: Interactable
@@ -1268,7 +1270,7 @@ MonoBehaviour:
   interactText: {fileID: 832024730}
   defaultMessage: '[E] Leer'
   interacted: 0
-  dialogue: {fileID: 704104339}
+  dialogueName: note1
 --- !u!50 &704104335
 Rigidbody2D:
   serializedVersion: 4
@@ -1380,21 +1382,6 @@ Transform:
   m_Father: {fileID: 990200448}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &704104339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 704104333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8159e8d2aca2a8947be76e163f1a21e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  closed: 0
-  lastLine: 0
-  dialogueName: note1
 --- !u!1 &719917315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1527,8 +1514,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 1
+  active: 1
   speed: 2
-  auxActive: 0
   direction: {x: 0, y: -0.5}
   auxDirection: {x: 0, y: 0}
   rb: {fileID: 740181764}
@@ -1764,7 +1751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f93cc5401ed57b4d932568331c4c89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newLevel: 0-3
+  newLevel: next
 --- !u!50 &809757914
 Rigidbody2D:
   serializedVersion: 4
@@ -2148,6 +2135,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 35360755}
   offset: 5
+  xMax: 0
+  xMin: 0
+  yMax: 0
+  yMin: 0
 --- !u!1 &1407604700
 GameObject:
   m_ObjectHideFlags: 0
@@ -2735,7 +2726,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 473.7002}
-  m_SizeDelta: {x: 468.3246, y: 132.86803}
+  m_SizeDelta: {x: 586.5658, y: 132.86803}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1676384739
 MonoBehaviour:
@@ -2811,8 +2802,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 1
+  active: 1
   speed: 2
-  auxActive: 0
   direction: {x: 0, y: 0.5}
   auxDirection: {x: 0, y: 0}
   rb: {fileID: 1681041194}
@@ -3071,8 +3062,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 1
+  active: 1
   speed: 2
-  auxActive: 0
   direction: {x: -0.35, y: 0}
   auxDirection: {x: 0, y: 0}
   rb: {fileID: 2072343366}
@@ -3221,8 +3212,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 1
+  active: 1
   speed: 2
-  auxActive: 0
   direction: {x: 0.35, y: 0}
   auxDirection: {x: 0, y: 0}
   rb: {fileID: 2092015525}

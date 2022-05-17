@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Canvas))]
 public class SecurityTerminal : Interactable
@@ -9,12 +9,24 @@ public class SecurityTerminal : Interactable
     public bool login;
     public bool decrypted;
     public float stretchTime;
-    public Text infoMessage;
     public string path;
-    public MovableGroup doors;
+    private MovableGroup exit;
+    private Text infoMessage;
     private string sourcePath = "Assets/Resources/Terminals/";
     private StreamReader file = null;
     private string nextLine = null;
+
+    public void Start()
+    {
+        infoMessage = GameObject.Find("Display").GetComponent<Text>();
+        exit = GameObject.Find("Exit").GetComponentInChildren<MovableGroup>();
+
+        if (decrypted && !login && Timer.enabled == false)
+        {
+            Timer.enabled = true;
+            Timer.Reset();
+        }
+    }
     public override void FirstInteraction() { }
     public override void EveryInteraction()
     {
@@ -22,7 +34,8 @@ public class SecurityTerminal : Interactable
         {
             if (Timer.enabled)
             {
-                GameObject.Find("Player").GetComponent<PlayerControl>().SaveProgress(new Vector2(transform.position.x, transform.position.y));
+                Timer.enabled = false;
+                GameProgress.SaveProgress(Timer.globalTime, stretchTime, false);
                 interactText.text = "[E] Acceder";
             }
             else
@@ -65,8 +78,9 @@ public class SecurityTerminal : Interactable
                         decrypted = true;
                         defaultMessage = null;
                         interactText.text = null;
+                        infoMessage.text = null;
 
-                        doors.Move();
+                        exit.active = true;
                         Timer.Restart(stretchTime);
                     }
                 }
@@ -74,14 +88,14 @@ public class SecurityTerminal : Interactable
         }
         else
         {
-            interactText.text = "Bloqueado";
+            InitButtons();
         }
     }
 
     void Update()
     {
         string time = Timer.GetFormattedTime();
-        if (Timer.enabled && !time.Equals(infoMessage.text))
+        if (Timer.enabled && !time.Equals(infoMessage.text) && !decrypted)
         {
             infoMessage.text = time;
         }
@@ -89,4 +103,29 @@ public class SecurityTerminal : Interactable
 
     public override void OnEnter(Collider2D collision) { }
     public override void OnExit(Collider2D collision) { }
+
+    public void InitButtons()
+    {
+        SaveData saveData = GameProgress.LoadProgress();
+        UnityEngine.UI.Button[] buttons = GetComponentsInChildren<UnityEngine.UI.Button>();
+
+        int index = 0;
+        foreach (KeyValuePair<int, TimeData> checkpoint in saveData.GetAvailableCheckpoints())
+        {
+            UnityEngine.UI.Button button = buttons[index];
+            button.GetComponent<Image>().enabled = true;
+            button.GetComponentInChildren<Text>().text = "Sala de seguridad " + index;
+            button.interactable = saveData.currentCheckpointLevel != (checkpoint.Key);
+            button.onClick.AddListener(() => OnClick(checkpoint));
+            index++;
+        }
+
+        void OnClick(KeyValuePair<int, TimeData> checkpoint)
+        {
+            GameProgress.LoadCheckpoint(checkpoint);
+            GameObject.Find("Player").GetComponent<PlayerControl>().Respawn(true);
+        }
+
+    }
+
 }

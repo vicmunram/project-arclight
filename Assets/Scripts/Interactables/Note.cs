@@ -1,24 +1,26 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Note : Interactable
 {
-    public Dialogue dialogue;
+    public string dialogueName;
+    private Dialogue dialogue;
 
     public override void FirstInteraction()
     {
-        interactText.text = null;
-        dialogue.open();
+        dialogue = gameObject.AddComponent<Dialogue>();
+        dialogue.dialogueName = dialogueName;
     }
 
     public override void EveryInteraction()
     {
-        dialogue.read();
-
-        if (dialogue.closed)
+        if (interactText.text != null)
         {
-            dialogue.close();
-            interacted = false;
+            interactText.text = null;
+        }
+
+        if (!dialogue.active)
+        {
+            dialogue.Activate();
         }
     }
 

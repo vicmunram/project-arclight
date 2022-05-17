@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.IO;
 
 public abstract class Movable : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public abstract class Movable : MonoBehaviour
     public float speed;
     public Vector2 direction;
     public Vector2 auxDirection;
-    public Rigidbody2D rb;
+    protected Rigidbody2D rb;
     protected Vector2 currentPosition;
     protected Vector2 auxPosition;
     protected Vector2 targetPosition;
@@ -18,6 +15,7 @@ public abstract class Movable : MonoBehaviour
 
     void Start()
     {
+        rb = gameObject.GetComponentInParent<Rigidbody2D>();
         currentPosition = rb.transform.position;
         if (AuxActive())
         {

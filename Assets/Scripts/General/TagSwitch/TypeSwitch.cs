@@ -17,16 +17,25 @@ public abstract class TypeSwitch : MonoBehaviour
         if (tag.Equals(tagA))
         {
             gameObject.tag = tagB;
-            gameObject.layer = LayerMask.NameToLayer(layerB);
+            SwitchLayer(layerB);
             gameObject.GetComponent<SpriteRenderer>().sprite = spriteB;
             typeSwitchToB();
         }
         else
         {
             gameObject.tag = tagA;
-            gameObject.layer = LayerMask.NameToLayer(layerA);
+            SwitchLayer(layerA);
             gameObject.GetComponent<SpriteRenderer>().sprite = spriteA;
             typeSwitchToA();
+        }
+    }
+
+    private void SwitchLayer(string layer)
+    {
+        gameObject.layer = LayerMask.NameToLayer(layer);
+        if (layer.Equals(Layers.triggered))
+        {
+            gameObject.GetComponent<Collider2D>().isTrigger = true;
         }
     }
 
