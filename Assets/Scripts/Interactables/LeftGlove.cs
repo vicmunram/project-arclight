@@ -7,36 +7,23 @@ public class LeftGlove : Interactable
     public float stretchTime;
     private Dialogue dialogue;
     private MovableGroup exit;
-    private bool openedExit;
 
-    void Update()
+    void Start()
     {
-        if (dialogue != null && dialogue.lastLine && !openedExit)
-        {
-            exit.active = true;
-            openedExit = true;
-        }
-    }
-
-    public override void FirstInteraction()
-    {
-        GetComponent<Renderer>().enabled = false;
-        interactText.text = null;
-
         dialogue = gameObject.AddComponent<Dialogue>();
         dialogue.dialogueName = dialogueName;
 
         exit = GameObject.Find("Exit").GetComponent<MovableGroup>();
     }
 
-    public override void EveryInteraction()
+    void Update()
     {
-        if (!dialogue.active)
+        if (dialogue.lastLine && !exit.active)
         {
-            dialogue.Activate();
+            exit.active = true;
         }
 
-        if (dialogue.closed)
+        if (!dialogue.active && exit.active)
         {
             GetComponent<Collider2D>().enabled = false;
 
@@ -53,6 +40,15 @@ public class LeftGlove : Interactable
         }
     }
 
+    public override void FirstInteraction()
+    {
+        GetComponent<Renderer>().enabled = false;
+        interactText.text = null;
+
+        dialogue.Activate();
+    }
+
+    public override void EveryInteraction() { }
     public override void OnEnter(Collider2D collision) { }
     public override void OnExit(Collider2D collision) { }
 

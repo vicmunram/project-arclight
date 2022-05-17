@@ -1,17 +1,50 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class BreakableMovement : MonoBehaviour
+public class Breakable : MonoBehaviour
 {
+    public float recoveryTime;
+    public bool recovering;
+    public bool positioned;
+    private Vector2 originalPosition;
+    private Quaternion originalAngle;
+    private Vector2 originalOffset;
+    private Vector2 originalSize;
     private Rigidbody2D rb;
     private BoxCollider2D bc;
-    private SpriteRenderer sprRend;
 
     void Start()
     {
+        positioned = true;
+
         rb = GetComponent<Rigidbody2D>();
+        originalPosition = transform.position;
+        originalAngle = transform.rotation;
+
         bc = GetComponent<BoxCollider2D>();
-        sprRend = GetComponent<SpriteRenderer>();
+        originalOffset = bc.offset;
+        originalSize = bc.size;
+    }
+
+    void FixedUpdate()
+    {
+        if (recovering)
+        {
+            if (rb.angularVelocity != 0)
+            {
+                rb.MoveRotation(originalAngle);
+                rb.angularVelocity = 0f;
+            }
+
+            rb.velocity = (originalPosition - (Vector2)transform.position) * 5;
+
+            if (VectorUtils.Equals(transform.position, originalPosition, 1000))
+            {
+                Restart();
+                positioned = true;
+                recovering = false;
+            }
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -45,18 +78,33 @@ public class BreakableMovement : MonoBehaviour
         }
     }
 
+    public void Restart()
+    {
+        rb.bodyType = RigidbodyType2D.Kinematic;
+        rb.velocity = new Vector2(0, 0);
+
+        bc.offset = originalOffset;
+        bc.size = originalSize;
+    }
+
     IEnumerator DelayedDestruction()
     {
-        if (sprRend.size.x < bc.size.x)
+        positioned = false;
+        SpriteRenderer sprRend = GetComponent<SpriteRenderer>();
+        if (sprRend.size.x < bc.size.x || sprRend.size.y < bc.size.y)
         {
             bc.offset = new Vector2(0, 0);
-            bc.size = new Vector2(sprRend.size.x, bc.size.y);
+            bc.size = new Vector2(sprRend.size.x, sprRend.size.y);
         }
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 0;
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.1f);
+        if (rb.velocity.x == 0f && rb.velocity.y == 0f)
+        {
+            rb.velocity = new Vector2(Random.Range(-4, 4), Random.Range(-4, 4));
+        }
         bc.enabled = false;
-        yield return new WaitForSeconds(0.35f);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(recoveryTime);
+        recovering = true;
     }
 }

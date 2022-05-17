@@ -260,9 +260,10 @@ public class PlayerMovement : MonoBehaviour
         int abysmInnerCollisions = CollisionUtils.CountCollisions(innerHits, Tags.abysm);
 
         RaycastHit2D[] solidHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, false);
-        int solidCollisions = CollisionUtils.CountCollisions(solidHits, Tags.any);
+        int solidCollisions = CollisionUtils.CountCollisions(solidHits, Tags.solid);
+        int mirrorCollisions = CollisionUtils.CountCollisions(solidHits, Tags.solid);
 
-        if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15) || solidCollisions == 20)
+        if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15) || solidCollisions == 20 || mirrorCollisions == 20)
         {
             this.GetComponent<PlayerControl>().hits = 0;
         }
@@ -290,8 +291,9 @@ public class PlayerMovement : MonoBehaviour
     {
         // Debug collisions
         RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, false);
-        int outerCollisions = CollisionUtils.CountCollisions(outerHits, Tags.any);
-        if (outerCollisions == 20)
+        int solidCollisions = CollisionUtils.CountCollisions(outerHits, Tags.solid);
+        int mirrorCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);
+        if (mirrorCollisions == 20 || solidCollisions == 20)
         {
             cc.enabled = true;
             ReceiveHit(true);
@@ -390,6 +392,7 @@ public class PlayerMovement : MonoBehaviour
             if (!colTag.Contains(Tags.breakable))
             {
                 speed = 1f;
+                rb.velocity = movement * speed;
             }
         }
     }
@@ -522,9 +525,10 @@ public class PlayerMovement : MonoBehaviour
         float oldSpeed = speed;
         isDashing = true;
         CheckDashCollisions();
-        rb.velocity = movement * speed * 5f;
+        rb.velocity = movement * speed * 4f;
         yield return new WaitForSeconds(0.05f);
         speed = oldSpeed;
+        yield return new WaitForSeconds(0.05f);
         isDashing = false;
     }
 

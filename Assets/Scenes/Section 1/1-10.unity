@@ -601,7 +601,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: -1.25, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 38046336}
   inactiveWhenCompleted: 1
 --- !u!50 &38046336
 Rigidbody2D:
@@ -998,13 +997,13 @@ Transform:
   m_LocalPosition: {x: -0.02, y: -0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1527764352}
-  - {fileID: 1876177924}
   - {fileID: 582149878}
   - {fileID: 1552199791}
   - {fileID: 2114441920}
   - {fileID: 1750112534}
   - {fileID: 323485330}
+  - {fileID: 709336131}
+  - {fileID: 253648383}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180.00299}
@@ -1449,7 +1448,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 2.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 164302921}
   inactiveWhenCompleted: 0
 --- !u!50 &164302921
 Rigidbody2D:
@@ -1751,7 +1749,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: -1.25, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 191408433}
   inactiveWhenCompleted: 0
 --- !u!50 &191408433
 Rigidbody2D:
@@ -1901,7 +1898,6 @@ MonoBehaviour:
   speed: 3
   direction: {x: 0, y: -2.25}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 192463682}
   extraDirection: {x: 0, y: -1.15}
 --- !u!50 &192463682
 Rigidbody2D:
@@ -2181,7 +2177,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: -1.25, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 202735808}
   inactiveWhenCompleted: 1
 --- !u!50 &202735808
 Rigidbody2D:
@@ -2586,7 +2581,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 2.25}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 245220184}
   extraDirection: {x: 0, y: 1.15}
 --- !u!50 &245220184
 Rigidbody2D:
@@ -2750,7 +2744,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 245541093}
   removeSprite: 1
 --- !u!50 &245541093
 Rigidbody2D:
@@ -3160,7 +3153,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: -1.9}
-  rb: {fileID: 253482319}
   removeSprite: 1
 --- !u!50 &253482319
 Rigidbody2D:
@@ -3259,6 +3251,116 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &253648382
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 114714990}
+    m_Modifications:
+    - target: {fileID: 1017626217515907414, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: newLevel
+      value: 1-2-B
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218136047477, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: isMoving
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218136047477, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: direction.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218136047477, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: direction.y
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -17.48645
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218223416504, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: m_Name
+      value: Exit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218397239755, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: isMoving
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218397239755, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: direction.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017626218397239755, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: direction.y
+      value: -0.45
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9df010371f354af47a84416ce1cab090, type: 3}
+--- !u!4 &253648383 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
+    type: 3}
+  m_PrefabInstance: {fileID: 253648382}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &265919468
 GameObject:
   m_ObjectHideFlags: 0
@@ -3440,7 +3542,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 1.75, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 278915107}
   inactiveWhenCompleted: 1
 --- !u!50 &278915107
 Rigidbody2D:
@@ -3971,7 +4072,7 @@ Transform:
   - {fileID: 1364310992}
   - {fileID: 1981688886}
   m_Father: {fileID: 114714990}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &324652993
 GameObject:
@@ -4025,7 +4126,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 1.91}
-  rb: {fileID: 324652996}
   switchActive: 0
   typeSwitchBasic: {fileID: 324652999}
   removeSprite: 0
@@ -4189,6 +4289,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc6a4e27608fd34eb60367413dd6177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
+  startDelay: 0
+  moveRate: 0
   auxMovables: []
 --- !u!1 &346928823
 GameObject:
@@ -4241,7 +4344,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 1.25, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 346928826}
   inactiveWhenCompleted: 0
 --- !u!50 &346928826
 Rigidbody2D:
@@ -4391,7 +4493,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -1.6}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 354954578}
   extraDirection: {x: 0, y: -0.4}
 --- !u!50 &354954578
 Rigidbody2D:
@@ -4541,7 +4642,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -2.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 369667444}
   inactiveWhenCompleted: 0
 --- !u!50 &369667444
 Rigidbody2D:
@@ -5219,7 +5319,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: -0.4}
-  rb: {fileID: 477223965}
   removeSprite: 0
 --- !u!50 &477223965
 Rigidbody2D:
@@ -5347,6 +5446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc6a4e27608fd34eb60367413dd6177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
+  startDelay: 0
+  moveRate: 0
   auxMovables: []
 --- !u!4 &487095226
 Transform:
@@ -5415,7 +5517,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 497111160}
   removeSprite: 1
 --- !u!50 &497111160
 Rigidbody2D:
@@ -5565,7 +5666,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 1.91}
-  rb: {fileID: 501829806}
   removeSprite: 0
 --- !u!50 &501829806
 Rigidbody2D:
@@ -5715,7 +5815,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: -1.9}
-  rb: {fileID: 505846088}
   removeSprite: 1
 --- !u!50 &505846088
 Rigidbody2D:
@@ -6662,7 +6761,7 @@ Transform:
   - {fileID: 670656202}
   - {fileID: 1399008577}
   m_Father: {fileID: 114714990}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &597993993
 GameObject:
@@ -6864,7 +6963,6 @@ MonoBehaviour:
   auxActive: 0
   grades: -45
   auxGrades: 0
-  rb: {fileID: 617330585}
   extraGrades: 0
 --- !u!50 &617330585
 Rigidbody2D:
@@ -7272,7 +7370,6 @@ MonoBehaviour:
   speed: 3
   direction: {x: 0, y: 2.25}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 652637724}
   extraDirection: {x: 0, y: 1.15}
 --- !u!50 &652637724
 Rigidbody2D:
@@ -8005,6 +8102,91 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
+--- !u!1001 &709336130
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 114714990}
+    m_Modifications:
+    - target: {fileID: 7246392767148726722, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: direction.x
+      value: 0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356984, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_Name
+      value: Entrance
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 20.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -26.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246392768358054376, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+        type: 3}
+      propertyPath: direction.x
+      value: -0.31
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0ede064ae0d13ca47b18f3471d4f718d, type: 3}
+--- !u!4 &709336131 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7246392767845356990, guid: 0ede064ae0d13ca47b18f3471d4f718d,
+    type: 3}
+  m_PrefabInstance: {fileID: 709336130}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &710255887
 GameObject:
   m_ObjectHideFlags: 0
@@ -8272,7 +8454,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 747860557}
   switchActive: 0
   typeSwitchBasic: {fileID: 747860560}
   removeSprite: 1
@@ -8442,7 +8623,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 1.25, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 750781019}
   inactiveWhenCompleted: 1
 --- !u!50 &750781019
 Rigidbody2D:
@@ -8574,100 +8754,6 @@ Transform:
   m_Father: {fileID: 2029454834}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &774842173
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 114714990}
-    m_Modifications:
-    - target: {fileID: 1017626217515907414, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: newLevel
-      value: 1-2-B
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218136047477, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: direction.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218136047477, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: direction.y
-      value: 0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -12.008
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.084
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -17.48645
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218223416504, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: m_Name
-      value: Vertical Exit
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218397239755, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: direction.y
-      value: -0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017626218397239755, guid: 17710efa6d4d9ca42afd46f29435d858,
-        type: 3}
-      propertyPath: direction.x
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 17710efa6d4d9ca42afd46f29435d858, type: 3}
 --- !u!1 &787665713
 GameObject:
   m_ObjectHideFlags: 0
@@ -9284,7 +9370,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 893400432}
   removeSprite: 1
 --- !u!50 &893400432
 Rigidbody2D:
@@ -9383,75 +9468,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &897558451
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 114714990}
-    m_Modifications:
-    - target: {fileID: 7246392767845356984, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_Name
-      value: Horizontal Entrance
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -20.969
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 20.474
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 180
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17, type: 3}
 --- !u!4 &903095976 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3359637428959425143, guid: 921f30d72bc8ef84fb02f7e9e06957aa,
@@ -10029,7 +10045,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 1.25, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 964004936}
   inactiveWhenCompleted: 1
 --- !u!50 &964004936
 Rigidbody2D:
@@ -10214,7 +10229,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 2.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 990739592}
   inactiveWhenCompleted: 1
 --- !u!50 &990739592
 Rigidbody2D:
@@ -10494,7 +10508,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -1.6}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1035141911}
   extraDirection: {x: 0, y: -0.4}
 --- !u!50 &1035141911
 Rigidbody2D:
@@ -10910,7 +10923,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1078968683}
   removeSprite: 1
 --- !u!50 &1078968683
 Rigidbody2D:
@@ -11840,7 +11852,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 1.91}
-  rb: {fileID: 1158179562}
   switchActive: 0
   typeSwitchBasic: {fileID: 1158179565}
   removeSprite: 0
@@ -11895,7 +11906,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 2.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1164709499}
   inactiveWhenCompleted: 0
 --- !u!50 &1164709499
 Rigidbody2D:
@@ -12940,7 +12950,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1271700073}
   removeSprite: 1
 --- !u!50 &1271700073
 Rigidbody2D:
@@ -13707,7 +13716,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 1.6}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1325484494}
   extraDirection: {x: 0, y: 0.4}
 --- !u!1 &1329156155
 GameObject:
@@ -13880,6 +13888,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc6a4e27608fd34eb60367413dd6177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
+  startDelay: 0
+  moveRate: 0
   auxMovables: []
 --- !u!1 &1364310991
 GameObject:
@@ -13925,6 +13936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc6a4e27608fd34eb60367413dd6177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
+  startDelay: 0
+  moveRate: 0
   auxMovables: []
 --- !u!1 &1385810182
 GameObject:
@@ -14663,7 +14677,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1424703035}
   switchActive: 0
   typeSwitchBasic: {fileID: 1424703038}
   removeSprite: 1
@@ -14969,7 +14982,6 @@ MonoBehaviour:
   auxActive: 0
   grades: 45
   auxGrades: 0
-  rb: {fileID: 1498197296}
   extraGrades: 0
 --- !u!50 &1498197296
 Rigidbody2D:
@@ -15328,12 +15340,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &1527764352 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7246392767845356990, guid: 0bb8b2c4ad5c4ee4c9042d89871eca17,
-    type: 3}
-  m_PrefabInstance: {fileID: 897558451}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1535645790
 GameObject:
   m_ObjectHideFlags: 0
@@ -15516,7 +15522,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1541326162}
   switchActive: 0
   typeSwitchBasic: {fileID: 1541326165}
   removeSprite: 1
@@ -15684,7 +15689,7 @@ Transform:
   - {fileID: 652637722}
   - {fileID: 192463680}
   m_Father: {fileID: 114714990}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1555689557
 GameObject:
@@ -15867,7 +15872,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -2.25}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1563953432}
   extraDirection: {x: 0, y: -1.15}
 --- !u!50 &1563953432
 Rigidbody2D:
@@ -16472,7 +16476,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1638098991}
   removeSprite: 1
 --- !u!50 &1638098991
 Rigidbody2D:
@@ -16623,7 +16626,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1648512898}
   switchActive: 0
   typeSwitchBasic: {fileID: 1648512901}
   removeSprite: 1
@@ -17330,7 +17332,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1728322948}
   removeSprite: 1
 --- !u!50 &1728322948
 Rigidbody2D:
@@ -17481,7 +17482,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1728833314}
   switchActive: 0
   typeSwitchBasic: {fileID: 1728833317}
   removeSprite: 1
@@ -17838,7 +17838,7 @@ Transform:
   - {fileID: 1770015353}
   - {fileID: 1701421924}
   m_Father: {fileID: 114714990}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1754496374
 GameObject:
@@ -18753,6 +18753,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc6a4e27608fd34eb60367413dd6177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
+  startDelay: 0
+  moveRate: 0
   auxMovables: []
 --- !u!4 &1832639622
 Transform:
@@ -18987,12 +18990,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   auxRotaries: []
---- !u!4 &1876177924 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1017626218223416503, guid: 17710efa6d4d9ca42afd46f29435d858,
-    type: 3}
-  m_PrefabInstance: {fileID: 774842173}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1891633507
 GameObject:
   m_ObjectHideFlags: 0
@@ -19659,6 +19656,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc6a4e27608fd34eb60367413dd6177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
+  startDelay: 0
+  moveRate: 0
   auxMovables: []
 --- !u!1 &2025464442
 GameObject:
@@ -19712,7 +19712,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2025464445}
   switchActive: 0
   typeSwitchBasic: {fileID: 2025464448}
   removeSprite: 1
@@ -20046,7 +20045,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: 3.5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2063697222}
   removeSprite: 1
 --- !u!50 &2063697222
 Rigidbody2D:
@@ -20196,7 +20194,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: -0.4}
-  rb: {fileID: 2079843345}
   removeSprite: 0
 --- !u!50 &2079843345
 Rigidbody2D:
@@ -20489,6 +20486,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc6a4e27608fd34eb60367413dd6177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
+  startDelay: 0
+  moveRate: 0
   auxMovables: []
 --- !u!1001 &2105819815
 PrefabInstance:
@@ -20675,7 +20675,7 @@ Transform:
   - {fileID: 1956336571}
   - {fileID: 1874636198}
   m_Father: {fileID: 114714990}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2147379009
 GameObject:
@@ -20728,7 +20728,6 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0, y: -5}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2147379012}
   removeSprite: 1
 --- !u!50 &2147379012
 Rigidbody2D:

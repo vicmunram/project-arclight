@@ -422,8 +422,7 @@ MonoBehaviour:
   speed: 2
   direction: {x: -0.45, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1017626218136047476}
-  inactiveWhenCompleted: 0
+  inactiveWhenCompleted: 1
 --- !u!1 &1017626218223416504
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +471,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcc6a4e27608fd34eb60367413dd6177, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 0
+  startDelay: 0
+  moveRate: 0
   auxMovables: []
 --- !u!1 &1017626218397239757
 GameObject:
@@ -621,8 +623,7 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0.45, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1017626218397239754}
-  inactiveWhenCompleted: 0
+  inactiveWhenCompleted: 1
 --- !u!1 &1017626218665557797
 GameObject:
   m_ObjectHideFlags: 0

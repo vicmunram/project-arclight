@@ -148,7 +148,7 @@ MonoBehaviour:
   speed: 2
   direction: {x: -0.31, y: 0}
   auxDirection: {x: 0, y: 0}
-  inactiveWhenCompleted: 0
+  inactiveWhenCompleted: 1
 --- !u!1 &7246392767249807004
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,7 +592,7 @@ MonoBehaviour:
   speed: 2
   direction: {x: 0.31, y: 0}
   auxDirection: {x: 0, y: 0}
-  inactiveWhenCompleted: 0
+  inactiveWhenCompleted: 1
 --- !u!1 &7246392768415031440
 GameObject:
   m_ObjectHideFlags: 0
