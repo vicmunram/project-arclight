@@ -1,42 +1,54 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class LeftGlove : Interactable
 {
-    public Dialogue dialogue;
-    public MovableGroup doors;
+    public string dialogueName;
+    public float stretchTime;
+    private Dialogue dialogue;
+    private MovableGroup exit;
+
+    void Start()
+    {
+        dialogue = gameObject.AddComponent<Dialogue>();
+        dialogue.dialogueName = dialogueName;
+
+        exit = GameObject.Find("Exit").GetComponent<MovableGroup>();
+    }
+
+    void Update()
+    {
+        if (dialogue.lastLine && !exit.active)
+        {
+            exit.active = true;
+        }
+
+        if (!dialogue.active && exit.active)
+        {
+            GetComponent<Collider2D>().enabled = false;
+
+            GameObject player = GameObject.Find("Player");
+            PlayerControl playerControl = player.GetComponent<PlayerControl>();
+            playerControl.maxHits = 2;
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            playerMovement.maxSpeed = 5f;
+            playerMovement.canPunch = true;
+
+            GameProgress.SaveProgress(0, stretchTime, true);
+
+            Timer.Start(stretchTime);
+        }
+    }
 
     public override void FirstInteraction()
     {
         GetComponent<Renderer>().enabled = false;
         interactText.text = null;
-        dialogue.open();
+
+        dialogue.Activate();
     }
 
-    public override void EveryInteraction()
-    {
-        dialogue.read();
-
-        if (dialogue.lastLine)
-        {
-            doors.Move();
-        }
-
-        if (dialogue.closed)
-        {
-            dialogue.close();
-
-            GetComponent<Collider2D>().enabled = false;
-            PlayerPrefs.SetString("checkpoint", SceneManager.GetActiveScene().name + "B");
-
-            PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-            playerMovement.maxSpeed = 5f;
-            playerMovement.canPunch = true;
-
-            Timer.Start(30f);
-        }
-    }
-
+    public override void EveryInteraction() { }
     public override void OnEnter(Collider2D collision) { }
     public override void OnExit(Collider2D collision) { }
 

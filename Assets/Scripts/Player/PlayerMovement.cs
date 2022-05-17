@@ -1,47 +1,45 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Scene control
+    // Status
     public bool canMove = true;
+    public bool canPunch;
+    public bool canDash;
 
     // Speed control
     public float maxSpeed = 8f;
     public float speed = 0f;
     public float acc = 0.05f;
     public float defaultAccInc = 0.001f;
-    public float accInc;
+    private float accInc;
     private bool diagonally;
     private bool wasDiagonally;
     private bool wait;
 
     // Movement and collisions
+    public bool isRepelled;
     public Rigidbody2D rb;
     public CircleCollider2D cc;
-    Vector2 input;
+    private Vector2 input;
     public Vector2 movement = new Vector2(0, 0);
     private Collision2D col;
-    public bool isRepelled;
 
     // Dash
+    public bool isDashing;
     public float dashRate = 0.75f;
     private float nextDash;
-    public bool isDashing;
-    public bool canDash;
 
     // Punch
+    public bool isPreparing;
+    public bool isPunching;
+    public bool wasPunching;
     public float punchSpeed = 30f;
     public float punchCharge = 0.25f;
     public float punchPreparingTime = 2;
-    public bool isPunching;
-    public bool wasPunching;
-    public bool isPreparing;
     private Collider2D anchorHit;
     private Collider2D lastAnchorHit;
-    public bool canPunch;
 
     void Start()
     {
@@ -257,13 +255,17 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        // Overlapped interactions
         int abysmOuterCollisions = CollisionUtils.CountCollisions(outerHits, Tags.abysm);
         int abysmInnerCollisions = CollisionUtils.CountCollisions(innerHits, Tags.abysm);
-        int mirrorOuterCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);
-        int mirrorInnerCollisions = CollisionUtils.CountCollisions(innerHits, Tags.mirror);
-        if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15) || mirrorOuterCollisions == 20 || (mirrorOuterCollisions > 11 && mirrorInnerCollisions > 15))
+
+        RaycastHit2D[] solidHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, false);
+        int solidCollisions = CollisionUtils.CountCollisions(solidHits, Tags.solid);
+        int mirrorCollisions = CollisionUtils.CountCollisions(solidHits, Tags.solid);
+
+        if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15) || solidCollisions == 20 || mirrorCollisions == 20)
         {
-            this.GetComponent<PlayerControl>().SetHits(0);
+            this.GetComponent<PlayerControl>().hits = 0;
         }
 
         // Transparent interactions
@@ -287,6 +289,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckPunchCollisions()
     {
+        // Debug collisions
+        RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, false);
+        int solidCollisions = CollisionUtils.CountCollisions(outerHits, Tags.solid);
+        int mirrorCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);
+        if (mirrorCollisions == 20 || solidCollisions == 20)
+        {
+            cc.enabled = true;
+            ReceiveHit(true);
+            ResetPunch();
+        }
+
         // Basic collisions
         RaycastHit2D[] frontHits = CollisionUtils.CastHitsMovementFront(25, movement, transform, 0.2f, cc, false);
         RaycastHit2D closestFrontHit = CollisionUtils.CloserHit(frontHits, transform, Tags.any);
@@ -379,6 +392,7 @@ public class PlayerMovement : MonoBehaviour
             if (!colTag.Contains(Tags.breakable))
             {
                 speed = 1f;
+                rb.velocity = movement * speed;
             }
         }
     }
@@ -394,8 +408,8 @@ public class PlayerMovement : MonoBehaviour
     public void ReceiveHit(bool kill)
     {
         PlayerControl playerControl = this.GetComponent<PlayerControl>();
-        int currentHits = kill ? 0 : playerControl.GetHits() - 1;
-        playerControl.SetHits(currentHits);
+        int currentHits = kill ? 0 : playerControl.hits - 1;
+        playerControl.hits = currentHits;
         if (currentHits != 0)
         {
             StartCoroutine(Repel(col.GetContact(0).normal));
@@ -409,8 +423,8 @@ public class PlayerMovement : MonoBehaviour
     private void ReceiveHit(bool kill, Vector2 normal)
     {
         PlayerControl playerControl = this.GetComponent<PlayerControl>();
-        int currentHits = kill ? 0 : playerControl.GetHits() - 1;
-        playerControl.SetHits(currentHits);
+        int currentHits = kill ? 0 : playerControl.hits - 1;
+        playerControl.hits = currentHits;
         if (currentHits != 0)
         {
             StartCoroutine(Repel(normal));
@@ -511,9 +525,10 @@ public class PlayerMovement : MonoBehaviour
         float oldSpeed = speed;
         isDashing = true;
         CheckDashCollisions();
-        rb.velocity = movement * speed * 2.5f;
+        rb.velocity = movement * speed * 4f;
         yield return new WaitForSeconds(0.05f);
         speed = oldSpeed;
+        yield return new WaitForSeconds(0.05f);
         isDashing = false;
     }
 

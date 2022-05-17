@@ -5,9 +5,10 @@ using System.IO;
 
 public class Dialogue : MonoBehaviour
 {
-    public bool closed = false;
-    public bool lastLine = false;
     public string dialogueName;
+    public bool active = false;
+    public bool lastLine = false;
+    public bool closed = false;
     private Text speaker;
     private Text sentence;
     private Text interaction;
@@ -18,13 +19,13 @@ public class Dialogue : MonoBehaviour
     private string mainPath = "Assets/Resources/Dialogues/";
     private string charactersPath = "Characters/";
     private StreamReader textFile = null;
+    private string line = null;
     private string nextLine = null;
     private string nextSentence = "[E] Siguiente";
     private string closeDialogue = "[E] Cerrar";
     private bool reactivateTimer = false;
-    private PlayerMovement playerMovement;
 
-    private void initUI()
+    private void InitUI()
     {
         GameObject dialogueUI = GameObject.Find("Dialogue UI");
         foreach (Text text in dialogueUI.GetComponentsInChildren<Text>())
@@ -57,11 +58,14 @@ public class Dialogue : MonoBehaviour
 
     }
 
-    public void open()
+    public void Open()
     {
-        initUI();
-        playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-        playerMovement.Stop();
+        InitUI();
+
+        GameObject player = GameObject.Find("Player");
+        player.GetComponent<PlayerMovement>().Stop();
+        player.GetComponent<PlayerControl>().talking = true;
+
         if (Timer.enabled)
         {
             reactivateTimer = true;
@@ -72,18 +76,27 @@ public class Dialogue : MonoBehaviour
         rightSpeaker.enabled = true;
 
         textFile = new StreamReader(mainPath + dialogueName + ".txt");
+
+        line = null;
+        nextLine = null;
     }
 
-    public void read()
+    public void Read()
     {
         if (!lastLine)
         {
-            if (nextLine == null)
+            if (line == null)
             {
-                nextLine = textFile.ReadLine();
+                line = textFile.ReadLine();
+            }
+            else
+            {
+                line = nextLine;
             }
 
-            string[] lineElements = nextLine.Split(';');
+            nextLine = textFile.ReadLine();
+
+            string[] lineElements = line.Split(';');
             if (lineElements[0] == "L")
             {
                 if (leftSpeakerSprite != lineElements[1])
@@ -103,9 +116,8 @@ public class Dialogue : MonoBehaviour
 
             speaker.text = lineElements[2];
             sentence.text = lineElements[3];
-            nextLine = textFile.ReadLine();
-            interaction.text = nextLine != null ? nextSentence : closeDialogue;
 
+            interaction.text = nextLine != null ? nextSentence : closeDialogue;
             if (nextLine == null)
             {
                 lastLine = true;
@@ -118,7 +130,7 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-    public void close()
+    public void Close()
     {
         leftSpeaker.enabled = false;
         rightSpeaker.enabled = false;
@@ -130,8 +142,33 @@ public class Dialogue : MonoBehaviour
         {
             Timer.enabled = true;
         }
-        playerMovement.canMove = true;
+
+        GameObject player = GameObject.Find("Player");
+        player.GetComponent<PlayerMovement>().canMove = true;
+        player.GetComponent<PlayerControl>().talking = false;
+
         closed = false;
+        active = false;
+    }
+
+    public void Activate()
+    {
+        active = true;
+        Open();
+        Read();
+    }
+
+    void Update()
+    {
+        if (active && Input.GetKeyDown(KeyCode.E))
+        {
+            Read();
+
+            if (closed)
+            {
+                Close();
+            }
+        }
     }
 
 }

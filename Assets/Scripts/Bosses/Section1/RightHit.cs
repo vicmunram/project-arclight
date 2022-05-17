@@ -11,7 +11,7 @@ public class RightHit : Button
 
         PlayerControl playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
         playerControl.SetRespawnPoint(new Vector3(0, 0, 1.75f));
-        playerControl.SetHits(0);
+        playerControl.hits = 0;
 
         GameObject arrows = GameObject.Find("Arrows");
         MovableRestartSwitch[] movables = arrows.GetComponentsInChildren<MovableRestartSwitch>();

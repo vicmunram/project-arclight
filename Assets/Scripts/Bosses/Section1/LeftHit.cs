@@ -14,7 +14,7 @@ public class LeftHit : Button
 
         PlayerControl playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
         playerControl.SetRespawnPoint(new Vector3(0, 0, 1.75f));
-        playerControl.SetHits(0);
+        playerControl.hits = 0;
     }
 
     private void DecreaseSize(string name)
