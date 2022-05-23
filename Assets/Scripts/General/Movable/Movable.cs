@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public abstract class Movable : MonoBehaviour
 {
     public bool isMoving;
     public bool active = true;
     public float speed;
+    public float waitTime = 0;
     public Vector2 direction;
     public Vector2 auxDirection;
     protected Rigidbody2D rb;
@@ -51,6 +53,11 @@ public abstract class Movable : MonoBehaviour
     {
         if (ReachedOrPassed(targetPosition))
         {
+            if (waitTime != 0)
+            {
+                StartCoroutine(Wait());
+            }
+
             WhenCompleted();
             auxCompleted = false;
         }
@@ -78,6 +85,14 @@ public abstract class Movable : MonoBehaviour
     protected bool AuxActive()
     {
         return auxDirection.x != 0 || auxDirection.y != 0;
+    }
+
+    IEnumerator Wait()
+    {
+        rb.velocity = new Vector2(0, 0);
+        isMoving = false;
+        yield return new WaitForSeconds(waitTime);
+        isMoving = true;
     }
 
 }

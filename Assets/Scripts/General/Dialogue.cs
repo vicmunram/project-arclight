@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.IO;
+using System.Collections;
 
 public class Dialogue : MonoBehaviour
 {
     public string dialogueName;
     public bool active = false;
-    public bool lastLine = false;
-    public bool closed = false;
+    public bool loaded = false;
     private Text speaker;
     private Text sentence;
     private Text interaction;
@@ -16,13 +15,12 @@ public class Dialogue : MonoBehaviour
     private Image rightSpeaker;
     private string leftSpeakerSprite;
     private string rightSpeakerSprite;
-    private string mainPath = "Assets/Resources/Dialogues/";
+    private string dialoguesPath = "Dialogues/";
     private string charactersPath = "Characters/";
-    private StreamReader textFile = null;
-    private string line = null;
-    private string nextLine = null;
-    private string nextSentence = "[E] Siguiente";
-    private string closeDialogue = "[E] Cerrar";
+    private string[] lines;
+    private int index = -1;
+    private string nextSentence = "[E] Next";
+    private string closeDialogue = "[E] Close";
     private bool reactivateTimer = false;
 
     private void InitUI()
@@ -75,28 +73,14 @@ public class Dialogue : MonoBehaviour
         leftSpeaker.enabled = true;
         rightSpeaker.enabled = true;
 
-        textFile = new StreamReader(mainPath + dialogueName + ".txt");
-
-        line = null;
-        nextLine = null;
+        lines = Resources.Load<TextAsset>(dialoguesPath + dialogueName).text.Split(';');
     }
 
     public void Read()
     {
-        if (!lastLine)
+        if (index < lines.Length - 1)
         {
-            if (line == null)
-            {
-                line = textFile.ReadLine();
-            }
-            else
-            {
-                line = nextLine;
-            }
-
-            nextLine = textFile.ReadLine();
-
-            string[] lineElements = line.Split(';');
+            string[] lineElements = lines[index].Split('-');
             if (lineElements[0] == "L")
             {
                 if (leftSpeakerSprite != lineElements[1])
@@ -117,26 +101,18 @@ public class Dialogue : MonoBehaviour
             speaker.text = lineElements[2];
             sentence.text = lineElements[3];
 
-            interaction.text = nextLine != null ? nextSentence : closeDialogue;
-            if (nextLine == null)
-            {
-                lastLine = true;
-            }
+            index++;
+            interaction.text = index < lines.Length ? nextSentence : closeDialogue;
         }
         else
         {
-            lastLine = false;
-            closed = true;
+            Close();
         }
     }
 
     public void Close()
     {
-        leftSpeaker.enabled = false;
-        rightSpeaker.enabled = false;
-        sentence.text = null;
-        interaction.text = null;
-        speaker.text = null;
+        SceneManager.UnloadSceneAsync("Dialogue");
 
         if (reactivateTimer)
         {
@@ -147,28 +123,49 @@ public class Dialogue : MonoBehaviour
         player.GetComponent<PlayerMovement>().canMove = true;
         player.GetComponent<PlayerControl>().talking = false;
 
-        closed = false;
         active = false;
+        loaded = false;
+        index = -1;
     }
 
     public void Activate()
     {
+        SceneManager.LoadSceneAsync("Dialogue", LoadSceneMode.Additive);
         active = true;
-        Open();
-        Read();
+    }
+
+    public Vector2Int GetDialogueLine()
+    {
+        return new Vector2Int(index, lines.Length - 1);
     }
 
     void Update()
     {
-        if (active && Input.GetKeyDown(KeyCode.E))
+        if (active)
         {
-            Read();
-
-            if (closed)
+            if (index == -1)
             {
-                Close();
+                StartCoroutine(WaitLoadScene());
+                index = 0;
+            }
+
+            if (loaded && Input.GetKeyDown(KeyCode.E))
+            {
+                Read();
             }
         }
+    }
+
+    IEnumerator WaitLoadScene()
+    {
+        while (!SceneManager.GetSceneAt(1).isLoaded)
+        {
+            yield return null;
+        }
+        loaded = true;
+
+        Open();
+        Read();
     }
 
 }

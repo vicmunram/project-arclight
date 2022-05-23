@@ -418,6 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   talking: 0
   canInteract: 0
+  paused: 0
   hits: 0
   maxHits: 1
 --- !u!1 &114714989
@@ -2222,6 +2223,11 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 35360755}
+    - target: {fileID: 8244562798596256986, guid: 4b10be72753fdc94ab0163b26194479f,
+        type: 3}
+      propertyPath: yMin
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8244562799295563547, guid: 4b10be72753fdc94ab0163b26194479f,
         type: 3}
       propertyPath: m_Name
@@ -2281,6 +2287,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8244562799704705215, guid: 4b10be72753fdc94ab0163b26194479f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b10be72753fdc94ab0163b26194479f, type: 3}

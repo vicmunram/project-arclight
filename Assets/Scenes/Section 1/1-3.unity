@@ -425,6 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   talking: 0
   canInteract: 0
+  paused: 0
   hits: 0
   maxHits: 2
 --- !u!1 &55266016
@@ -1122,9 +1123,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 2
+  waitTime: 0
   direction: {x: 0, y: 0.45}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 201358042}
   inactiveWhenCompleted: 0
 --- !u!50 &201358042
 Rigidbody2D:
@@ -2107,6 +2108,7 @@ MonoBehaviour:
   defaultMessage: 
   interacted: 0
   timer: 0
+  once: 0
   interactions:
   - {fileID: 243157249}
 --- !u!50 &615085627
@@ -3645,10 +3647,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 35360755}
   offset: 5
-  xMax: 0
-  xMin: 0
-  yMax: 0
-  yMin: 0
+  xRange: {x: 0, y: 0}
+  yRange: {x: 0, y: 0}
 --- !u!1 &1455957777
 GameObject:
   m_ObjectHideFlags: 0
@@ -3968,7 +3968,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.97, y: 6.48}
+  m_Size: {x: 6.48, y: 6.48}
   m_EdgeRadius: 0
 --- !u!212 &1723786092
 SpriteRenderer:
@@ -4037,7 +4037,6 @@ MonoBehaviour:
   auxActive: 0
   grades: -45
   auxGrades: 0
-  rb: {fileID: 1723786090}
   extraGrades: 0
 --- !u!1 &1751597476
 GameObject:
@@ -4378,7 +4377,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.97, y: 6.48}
+  m_Size: {x: 6.48, y: 6.48}
   m_EdgeRadius: 0
 --- !u!212 &1887379312
 SpriteRenderer:
@@ -4442,12 +4441,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa9b4e19235dfc14e81298cca82b717a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRotating: 1
+  isRotating: 0
   speed: 2
   auxActive: 0
   grades: 45
   auxGrades: 0
-  rb: {fileID: 1887379310}
   extraGrades: 0
 --- !u!1 &1907719919
 GameObject:
@@ -4984,9 +4982,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 2
+  waitTime: 0
   direction: {x: -0.25, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2072343366}
   inactiveWhenCompleted: 0
 --- !u!50 &2072343366
 Rigidbody2D:
@@ -5134,9 +5132,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 2
+  waitTime: 0
   direction: {x: 0.25, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2092015525}
   inactiveWhenCompleted: 0
 --- !u!50 &2092015525
 Rigidbody2D:
@@ -5298,9 +5296,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 2
+  waitTime: 0
   direction: {x: 0, y: -0.45}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2096929682}
   inactiveWhenCompleted: 0
 --- !u!50 &2096929682
 Rigidbody2D:

@@ -349,11 +349,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 anchorHit = closestFrontHit.collider;
             }
+            else if (colLayer == LayerMask.NameToLayer(Layers.invisible))
+            {
+                if (colTag == Tags.sceneChanger)
+                {
+                    closestFrontHit.collider.GetComponentInParent<Changer>().RequestChange();
+                }
+            }
         }
 
-        if (closestBackHit.collider && cc.enabled == false)
+        if (closestBackHit.collider && cc.enabled == false && anchorHit != null)
         {
-            EndPunchThrough(closestBackHit);
+            EndPunchThrough(closestBackHit.collider);
         }
     }
 
@@ -443,41 +450,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void EndPunchThrough(RaycastHit2D backHit)
+    private void EndPunchThrough(Collider2D backHit)
     {
-        string colTag = backHit.collider.tag;
+        string colTag = backHit.tag;
         if (!colTag.Equals(Tags.interactable))
         {
-            if (backHit.collider.Equals(anchorHit))
+            if (backHit.Equals(anchorHit))
             {
-                if (!anchorHit.Equals(lastAnchorHit))
+                if (colTag.Equals(Tags.breakable))
                 {
-                    if (colTag.Equals(Tags.danger))
-                    {
-                        Destroy(anchorHit.gameObject);
-                    }
-                    else
-                    {
-                        lastAnchorHit = anchorHit;
-                    }
-                    cc.enabled = true;
-                    isPunching = false;
-                    speed = maxSpeed;
+                    anchorHit.gameObject.GetComponent<DestroyablePT>().Destroy();
                 }
-                else
-                {
-                    lastAnchorHit = null;
-                }
-
+                cc.enabled = true;
+                isPunching = false;
+                speed = maxSpeed;
             }
         }
         else
         {
-            if (anchorHit != null)
-            {
-                anchorHit.GetComponent<ExtraTime>().Interact();
-            }
+            anchorHit.GetComponent<ExtraTime>().Interact();
         }
+
+        anchorHit = null;
     }
 
     // Coroutines
@@ -516,7 +510,10 @@ public class PlayerMovement : MonoBehaviour
         speed = speed == 0 ? maxSpeed : speed;
         rb.velocity = movement * speed;
         yield return new WaitForSeconds(0.25f);
-        speed = 0.25f;
+        if (!isPunching)
+        {
+            speed = 0.25f;
+        }
         isRepelled = false;
     }
 

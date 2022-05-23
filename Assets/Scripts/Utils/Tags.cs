@@ -16,4 +16,6 @@ public static class Tags
     public static string movableGroup = "Movable Group";
     public static string rotaryGroup = "Rotary Group";
     public static string typeSwitchGroup = "Type Switch Group";
+    public static string dialogue = "Dialogue";
+
 }

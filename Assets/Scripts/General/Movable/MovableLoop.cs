@@ -11,6 +11,7 @@ public class MovableLoop : Movable
             direction = direction + extraDirection;
             first = false;
         }
+
         direction = direction * -1;
         targetPosition = currentPosition + direction;
     }

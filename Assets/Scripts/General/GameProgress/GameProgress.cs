@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.IO;
+﻿using System.IO;
 using System;
+using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
@@ -8,22 +8,26 @@ using System.Collections.Generic;
 public static class GameProgress
 {
     public static string SAVES_FOLDER = "Saves";
-    public static string SAVE_NAME = "save";
+    public static string SAVE_NAME = "save.dat";
 
     public static void SaveProgress(float accumulatedTime, float stretchTime, bool exclude)
     {
-        if (!Directory.Exists(SAVES_FOLDER))
+        string path = Application.persistentDataPath + "/" + SAVES_FOLDER;
+
+        if (!Directory.Exists(path))
         {
-            Directory.CreateDirectory(SAVES_FOLDER);
+            Directory.CreateDirectory(path);
         }
 
         FileStream save;
         SaveData saveData;
         BinaryFormatter formatter = new BinaryFormatter();
 
-        if (!File.Exists(SAVES_FOLDER + "/" + SAVE_NAME + ".dat"))
+        path = path + "/" + SAVE_NAME;
+
+        if (!File.Exists(path))
         {
-            save = File.Create(SAVES_FOLDER + "/" + SAVE_NAME + ".dat");
+            save = File.Create(path);
             saveData = new SaveData(0, 1, accumulatedTime, stretchTime);
         }
         else
@@ -54,7 +58,7 @@ public static class GameProgress
                 saveData.nonTerminalCheckpoints[saveData.currentSection].Add(saveData.currentCheckpointLevel);
             }
 
-            save = File.Create(SAVES_FOLDER + "/" + SAVE_NAME + ".dat");
+            save = File.Create(path);
         }
 
         formatter.Serialize(save, saveData);
@@ -65,7 +69,7 @@ public static class GameProgress
     public static SaveData LoadProgress()
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream save = File.Open(SAVES_FOLDER + "/" + SAVE_NAME + ".dat", FileMode.Open);
+        FileStream save = File.Open(GetFullPath(), FileMode.Open);
         SaveData saveData = (SaveData)formatter.Deserialize(save);
         save.Close();
 
@@ -79,10 +83,34 @@ public static class GameProgress
         saveData.currentAccumulatedTime = checkpoint.Value.accumulatedTime;
         saveData.currentStretchTime = checkpoint.Value.stretchTime;
 
-        FileStream save = File.Create(SAVES_FOLDER + "/" + SAVE_NAME + ".dat");
+        FileStream save = File.Create(GetFullPath());
         BinaryFormatter formatter = new BinaryFormatter();
         formatter.Serialize(save, saveData);
         save.Close();
+    }
+
+    public static void LoadLastCheckpoint()
+    {
+        SaveData saveData = LoadProgress();
+        string checkpoint = saveData.GetCurrentCheckpointSceneName();
+        SceneManager.LoadScene(checkpoint);
+
+        if (saveData.currentStretchTime != 0)
+        {
+            Timer.enabled = true;
+            Timer.Reset();
+        }
+
+    }
+
+    public static void DeleteProgress()
+    {
+        File.Delete(GetFullPath());
+    }
+
+    public static string GetFullPath()
+    {
+        return Application.persistentDataPath + "/" + SAVES_FOLDER + "/" + SAVE_NAME;
     }
 
 }

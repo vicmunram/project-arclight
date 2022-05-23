@@ -77,7 +77,7 @@ public class CollisionUtils : MonoBehaviour
 
         Vector2 rayDirectionR = VectorUtils.RotateVector(movement, -rotateAngle);
         Vector2 rayDirectionL = VectorUtils.RotateVector(movement, rotateAngle);
-        string[] collidableLayers = { Layers.solid, Layers.punchThrough };
+        string[] collidableLayers = { Layers.solid, Layers.punchThrough, Layers.invisible };
         LayerMask layerMask = LayerMask.GetMask(collidableLayers);
 
         RaycastHit2D[] hits2DFront = CastArc(hitsFront, angleFront, transform.position, 0, movement, cc.radius / 4 + radiusFront, layerMask, debugMode);

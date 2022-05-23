@@ -4,6 +4,7 @@ using System.Collections;
 public class Button : Interactable
 {
     public float timer = 0;
+    public bool once;
     private int timeRemaining = 0;
     private bool waiting;
     public GameObject[] interactions;
@@ -15,6 +16,10 @@ public class Button : Interactable
         {
             waiting = true;
             StartCoroutine(WaitTimer(timer));
+        }
+        if (once)
+        {
+            Disable();
         }
     }
 
