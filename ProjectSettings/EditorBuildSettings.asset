@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menus/Pause.unity
     guid: 69907be504d41454d945cff7ef7f4c73
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Section 0/0-1.unity
     guid: e7228dfb70e6d3a4ea6935d4cfa0fb93
   - enabled: 0
@@ -29,7 +29,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Section 0/0-5.unity
     guid: e4196853f4caccc46b85cb42c1d87700
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Section 0/0-1-CP.unity
     guid: 6b807030c92ac2e46a0c21f277fc02d4
   - enabled: 0

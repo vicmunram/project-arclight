@@ -26,6 +26,10 @@ public class Dialogue : MonoBehaviour
     private void InitUI()
     {
         GameObject dialogueUI = GameObject.Find("Dialogue UI");
+        Canvas canvas = dialogueUI.GetComponentInChildren<Canvas>();
+        canvas.worldCamera = Camera.main;
+        canvas.planeDistance = 1;
+
         foreach (Text text in dialogueUI.GetComponentsInChildren<Text>())
         {
             switch (text.name)
