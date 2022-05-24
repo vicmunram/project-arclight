@@ -38,7 +38,7 @@ public class Breakable : MonoBehaviour
 
             rb.velocity = (originalPosition - (Vector2)transform.position) * 5;
 
-            if (VectorUtils.Equals(transform.position, originalPosition, 1000))
+            if (VectorUtils.Equals(transform.position, originalPosition, 1000) || VectorUtils.Equals(rb.velocity, new Vector2(0, 0)))
             {
                 Restart();
                 positioned = true;

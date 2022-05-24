@@ -5,24 +5,26 @@ public class RightGlove : Interactable
     public string dialogueName;
     public float stretchTime;
     private Dialogue dialogue;
+    private bool dialogueClosed = false;
 
-    public override void FirstInteraction()
+    void Start()
     {
-        GetComponent<Renderer>().enabled = false;
-        interactText.text = null;
-
         dialogue = gameObject.AddComponent<Dialogue>();
         dialogue.dialogueName = dialogueName;
     }
 
-    public override void EveryInteraction()
+    void Update()
     {
-        if (!dialogue.active)
+        if (dialogue.loaded)
         {
-            dialogue.Activate();
+            Vector2Int dialogueLine = dialogue.GetDialogueLine();
+            if (dialogueLine.x == dialogueLine.y)
+            {
+                dialogueClosed = true;
+            }
         }
 
-        if (dialogue.closed)
+        if (!dialogue.active && dialogueClosed)
         {
             GetComponent<Collider2D>().enabled = false;
 
@@ -39,6 +41,15 @@ public class RightGlove : Interactable
         }
     }
 
+    public override void FirstInteraction()
+    {
+        GetComponent<Renderer>().enabled = false;
+        interactText.text = null;
+
+        dialogue.Activate();
+    }
+
+    public override void EveryInteraction() { }
     public override void OnEnter(Collider2D collision) { }
     public override void OnExit(Collider2D collision) { }
 

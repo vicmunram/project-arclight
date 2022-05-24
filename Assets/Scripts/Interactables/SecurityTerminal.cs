@@ -12,9 +12,9 @@ public class SecurityTerminal : Interactable
     public string path;
     private MovableGroup exit;
     private Text infoMessage;
-    private string sourcePath = "Assets/Resources/Terminals/";
-    private StreamReader file = null;
-    private string nextLine = null;
+    private string sourcePath = "Terminals/";
+    private string[] lines;
+    private int index = 0;
 
     public void Start()
     {
@@ -27,7 +27,10 @@ public class SecurityTerminal : Interactable
             Timer.Reset();
         }
     }
-    public override void FirstInteraction() { }
+    public override void FirstInteraction()
+    {
+        lines = Resources.Load<TextAsset>(sourcePath + path).text.Split(';');
+    }
     public override void EveryInteraction()
     {
         if (!decrypted)
@@ -36,40 +39,24 @@ public class SecurityTerminal : Interactable
             {
                 Timer.enabled = false;
                 GameProgress.SaveProgress(Timer.globalTime, stretchTime, false);
-                interactText.text = "[E] Acceder";
+                interactText.text = "[E] Access";
             }
             else
             {
                 if (!login)
                 {
                     login = true;
-                    infoMessage.text = "Documento restringido";
+                    infoMessage.text = "Protected document";
                     infoMessage.fontSize = 9;
-                    interactText.text = "[E] Desencriptar";
+                    interactText.text = "[E] Decrypt";
                 }
                 else
                 {
-                    if (file == null)
+                    if (index < lines.Length - 1)
                     {
-                        infoMessage.alignment = TextAnchor.UpperLeft;
-                        file = new StreamReader(sourcePath + path + ".txt");
-                    }
-
-                    bool close = false;
-                    if (nextLine == null)
-                    {
-                        nextLine = file.ReadLine();
-                        if (nextLine == null)
-                        {
-                            close = true;
-                        }
-                    }
-
-                    if (!close)
-                    {
-                        infoMessage.text = nextLine;
-                        nextLine = file.ReadLine();
-                        interactText.text = nextLine != null ? "[E] Siguiente" : "[E] Cerrar";
+                        infoMessage.text = lines[index];
+                        index++;
+                        interactText.text = index < lines.Length ? "[E] Next" : "[E] Close";
                     }
                     else
                     {
@@ -114,7 +101,7 @@ public class SecurityTerminal : Interactable
         {
             UnityEngine.UI.Button button = buttons[index];
             button.GetComponent<Image>().enabled = true;
-            button.GetComponentInChildren<Text>().text = "Sala de seguridad " + index;
+            button.GetComponentInChildren<Text>().text = "Security Room " + index;
             button.interactable = saveData.currentCheckpointLevel != (checkpoint.Key);
             button.onClick.AddListener(() => OnClick(checkpoint));
             index++;

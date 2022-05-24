@@ -418,6 +418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   talking: 0
   canInteract: 0
+  paused: 0
   hits: 0
   maxHits: 2
 --- !u!1 &55266016
@@ -994,9 +995,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 2
+  waitTime: 0
   direction: {x: 0.45, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 201358042}
   inactiveWhenCompleted: 0
 --- !u!50 &201358042
 Rigidbody2D:
@@ -2500,7 +2501,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.97, y: 6.48}
+  m_Size: {x: 6.48, y: 6.48}
   m_EdgeRadius: 0
 --- !u!212 &879634617
 SpriteRenderer:
@@ -2991,9 +2992,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 3
+  waitTime: 0
   direction: {x: 0, y: 2.9}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 1174619804}
   extraDirection: {x: 0, y: 1.9}
 --- !u!50 &1174619804
 Rigidbody2D:
@@ -3528,10 +3529,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 35360755}
   offset: 5
-  xMax: 0
-  xMin: 0
-  yMax: 0
-  yMin: 0
+  xRange: {x: 0, y: 0}
+  yRange: {x: 0, y: 0}
 --- !u!1 &1455957777
 GameObject:
   m_ObjectHideFlags: 0
@@ -4726,7 +4725,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.97, y: 6.48}
+  m_Size: {x: 6.48, y: 6.48}
   m_EdgeRadius: 0
 --- !u!212 &2041318471
 SpriteRenderer:
@@ -4827,9 +4826,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 2
+  waitTime: 0
   direction: {x: 0, y: -0.25}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2072343366}
   inactiveWhenCompleted: 0
 --- !u!50 &2072343366
 Rigidbody2D:
@@ -5107,9 +5106,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 2
+  waitTime: 0
   direction: {x: 0, y: 0.25}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2092015525}
   inactiveWhenCompleted: 0
 --- !u!50 &2092015525
 Rigidbody2D:
@@ -5271,9 +5270,9 @@ MonoBehaviour:
   isMoving: 1
   active: 1
   speed: 2
+  waitTime: 0
   direction: {x: -0.45, y: 0}
   auxDirection: {x: 0, y: 0}
-  rb: {fileID: 2096929682}
   inactiveWhenCompleted: 0
 --- !u!50 &2096929682
 Rigidbody2D:
