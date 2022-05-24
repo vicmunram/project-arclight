@@ -14,7 +14,7 @@ public class MovableRestart : Movable
 
         if (AuxActive())
         {
-            BoxCollider2D collider = GetComponent<BoxCollider2D>();
+            Collider2D collider = GetComponent<Collider2D>();
             collider.enabled = !collider.enabled;
             if (removeSprite)
             {
@@ -26,7 +26,7 @@ public class MovableRestart : Movable
 
     public override void WhenAuxCompleted()
     {
-        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        Collider2D collider = GetComponent<Collider2D>();
         collider.enabled = !collider.enabled;
         if (removeSprite)
         {

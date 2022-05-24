@@ -18,9 +18,13 @@ public class LeftGlove : Interactable
 
     void Update()
     {
-        if (dialogue.lastLine && !exit.active)
+        if (dialogue.loaded)
         {
-            exit.active = true;
+            Vector2Int dialogueLine = dialogue.GetDialogueLine();
+            if (dialogueLine.x == dialogueLine.y && !exit.active)
+            {
+                exit.active = true;
+            }
         }
 
         if (!dialogue.active && exit.active)

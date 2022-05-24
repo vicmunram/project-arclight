@@ -1840,6 +1840,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 114714990}
     m_Modifications:
+    - target: {fileID: 1017626217515907414, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: newLevel
+      value: new
+      objectReference: {fileID: 0}
     - target: {fileID: 1017626218136047477, guid: 9df010371f354af47a84416ce1cab090,
         type: 3}
       propertyPath: isMoving

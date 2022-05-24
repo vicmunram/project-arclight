@@ -6,6 +6,7 @@ public class PlayerControl : MonoBehaviour
 {
     public bool talking;
     public bool canInteract;
+    public bool paused;
     private Vector3 checkpoint;
     public int hits;
     public int maxHits = 1;
@@ -42,6 +43,25 @@ public class PlayerControl : MonoBehaviour
             {
                 Respawn(true);
             }
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!paused)
+            {
+                Pause();
+            }
+            else
+            {
+                Resume();
+            }
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (paused)
+        {
+
         }
     }
 
@@ -102,6 +122,20 @@ public class PlayerControl : MonoBehaviour
         {
             StartCoroutine(RespawnTimer());
         }
+    }
+
+    public void Pause()
+    {
+        paused = true;
+        Time.timeScale = 0;
+        SceneManager.LoadSceneAsync("Pause", LoadSceneMode.Additive);
+    }
+
+    public void Resume()
+    {
+        paused = false;
+        Time.timeScale = 1;
+        SceneManager.UnloadSceneAsync("Pause");
     }
 
     IEnumerator RespawnTimer()

@@ -18,6 +18,7 @@ TagManager:
   - Rotary Group
   - Movable Group
   - Type Switch Group
+  - Dialogue
   layers:
   - Default
   - TransparentFX
@@ -32,7 +33,7 @@ TagManager:
   - Transparent
   - Solid
   - Punch Through
-  - 
+  - Invisible
   - 
   - 
   - 
