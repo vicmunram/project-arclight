@@ -6,17 +6,18 @@ public class OptionsMenu : MonoBehaviour
 {
     void Start()
     {
+        Localization.TranslateTexts(GameObject.FindObjectsOfType<Text>());
         InitGraphicSettings();
         InitSoundSettings();
+        InitLanguageSettings();
         GameObject.Find("Return").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Return);
     }
 
-    private void ChangeResolution(string value)
+    private void ChangeLanguage(string value)
     {
-        string[] resolution = value.Split('×');
-        Screen.SetResolution(int.Parse(resolution[0]), int.Parse(resolution[1]), true);
-
-        PlayerPrefs.SetString("resolution", value);
+        PlayerPrefs.SetString("textLanguage", value == "English" ? "en" : "es");
+        Localization.LoadLocalization();
+        Localization.TranslateTexts(GameObject.FindObjectsOfType<Text>());
     }
 
     private void ToggleFullscreen(Toggle toggle)
@@ -29,6 +30,11 @@ public class OptionsMenu : MonoBehaviour
     {
         PlayerPrefs.SetInt(name, toggle.isOn ? 1 : 0);
     }
+    private void SaveToggleMusic(Toggle toggle, string name)
+    {
+        SaveToggle(toggle, name);
+        AudioUtils.ToggleMusic();
+    }
 
     private void Return()
     {
@@ -37,11 +43,6 @@ public class OptionsMenu : MonoBehaviour
 
     private void InitGraphicSettings()
     {
-        Dropdown resolutionDropdown = GameObject.Find("Resolution Dropdown").GetComponent<Dropdown>();
-        resolutionDropdown.onValueChanged.AddListener(delegate { ChangeResolution(resolutionDropdown.options[resolutionDropdown.value].text); });
-        string[] resolution = PlayerPrefs.GetString("resolution", "1920×1080").Split('×');
-        Screen.SetResolution(int.Parse(resolution[0]), int.Parse(resolution[1]), true);
-
         Toggle fullscreenToggle = GameObject.Find("Toggle Fullscreen").GetComponent<Toggle>();
         fullscreenToggle.onValueChanged.AddListener(delegate { ToggleFullscreen(fullscreenToggle); });
         fullscreenToggle.isOn = PlayerPrefs.GetInt("fullscreen", 1) == 1 ? true : false;
@@ -54,8 +55,21 @@ public class OptionsMenu : MonoBehaviour
         soundToggle.isOn = PlayerPrefs.GetInt("sound", 1) == 1 ? true : false;
 
         Toggle musicToggle = GameObject.Find("Toggle Music").GetComponent<Toggle>();
-        musicToggle.onValueChanged.AddListener(delegate { SaveToggle(musicToggle, "music"); });
+        musicToggle.onValueChanged.AddListener(delegate { SaveToggleMusic(musicToggle, "music"); });
         musicToggle.isOn = PlayerPrefs.GetInt("music", 1) == 1 ? true : false;
+
+        AudioUtils.ToggleMusic();
     }
 
+    private void InitLanguageSettings()
+    {
+        Dropdown textDropdown = GameObject.Find("Text Dropdown").GetComponent<Dropdown>();
+        textDropdown.onValueChanged.AddListener(delegate { ChangeLanguage(textDropdown.options[textDropdown.value].text); });
+        textDropdown.value = PlayerPrefs.GetString("textLanguage", "es") == "es" ? 0 : 1;
+    }
+
+    private void SetTextLanguage()
+    {
+        string language = PlayerPrefs.GetString("textLanguage", "es");
+    }
 }

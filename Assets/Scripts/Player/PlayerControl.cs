@@ -57,14 +57,6 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-        if (paused)
-        {
-
-        }
-    }
-
     public void OpenInteraction()
     {
         canInteract = true;
@@ -109,6 +101,19 @@ public class PlayerControl : MonoBehaviour
     public void SetRespawnPoint(Vector3 position)
     {
         checkpoint = position;
+    }
+
+    public void SetHits(int currentHits)
+    {
+        if (currentHits != 0)
+        {
+            AudioUtils.PlayEffect("hit", 0.5f);
+        }
+        else
+        {
+            AudioUtils.PlayEffect("kill", 0.5f);
+        }
+        hits = currentHits;
     }
 
     public void Respawn(bool loadCheckpoint)

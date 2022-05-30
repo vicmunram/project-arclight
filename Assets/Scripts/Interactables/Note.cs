@@ -13,11 +13,6 @@ public class Note : Interactable
 
     public override void EveryInteraction()
     {
-        if (interactText.text != null)
-        {
-            interactText.text = null;
-        }
-
         if (!dialogue.active)
         {
             dialogue.Activate();

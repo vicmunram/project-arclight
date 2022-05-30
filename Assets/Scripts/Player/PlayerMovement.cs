@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         cc = GetComponent<CircleCollider2D>();
         accInc = defaultAccInc;
+
+        SetPlayerState();
     }
 
     void Update()
@@ -265,7 +267,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15) || solidCollisions == 20 || mirrorCollisions == 20)
         {
-            this.GetComponent<PlayerControl>().hits = 0;
+            this.GetComponent<PlayerControl>().SetHits(0);
         }
 
         // Transparent interactions
@@ -289,17 +291,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckPunchCollisions()
     {
-        // Debug collisions
-        RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, false);
-        int solidCollisions = CollisionUtils.CountCollisions(outerHits, Tags.solid);
-        int mirrorCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);
-        if (mirrorCollisions == 20 || solidCollisions == 20)
-        {
-            cc.enabled = true;
-            ReceiveHit(true);
-            ResetPunch();
-        }
-
         // Basic collisions
         RaycastHit2D[] frontHits = CollisionUtils.CastHitsMovementFront(25, movement, transform, 0.2f, cc, false);
         RaycastHit2D closestFrontHit = CollisionUtils.CloserHit(frontHits, transform, Tags.any);
@@ -362,6 +353,17 @@ public class PlayerMovement : MonoBehaviour
         {
             EndPunchThrough(closestBackHit.collider);
         }
+
+        // Debug collisions
+        RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, true);
+        int solidCollisions = CollisionUtils.CountCollisions(outerHits, Tags.solid);
+        int mirrorCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);
+        if (cc.enabled == false && (mirrorCollisions == 20 || solidCollisions == 20))
+        {
+            cc.enabled = true;
+            ReceiveHit(true);
+            ResetPunch();
+        }
     }
 
     private void CheckPunchCollisionsNear()
@@ -404,19 +406,44 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetPlayerState()
+    {
+        if (canPunch && canDash)
+        {
+            maxSpeed = 7.5f;
+            GetComponent<PlayerControl>().maxHits = 3;
+            GetComponent<PlayerControl>().hits = 3;
+        }
+        else if (canPunch || canDash)
+        {
+            maxSpeed = 5f;
+            GetComponent<PlayerControl>().maxHits = 2;
+            GetComponent<PlayerControl>().hits = 2;
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player2");
+        }
+        else
+        {
+            maxSpeed = 2.5f;
+            GetComponent<PlayerControl>().maxHits = 1;
+            GetComponent<PlayerControl>().hits = 1;
+        }
+    }
+
     // Auxiliar methods
     private void Reflect(Vector2 normal)
     {
         movement = Vector2.Reflect(movement, normal);
         float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+        AudioUtils.PlayEffect("reflect", 0.5f);
     }
 
     public void ReceiveHit(bool kill)
     {
         PlayerControl playerControl = this.GetComponent<PlayerControl>();
         int currentHits = kill ? 0 : playerControl.hits - 1;
-        playerControl.hits = currentHits;
+        playerControl.SetHits(currentHits);
         if (currentHits != 0)
         {
             StartCoroutine(Repel(col.GetContact(0).normal));
@@ -431,7 +458,7 @@ public class PlayerMovement : MonoBehaviour
     {
         PlayerControl playerControl = this.GetComponent<PlayerControl>();
         int currentHits = kill ? 0 : playerControl.hits - 1;
-        playerControl.hits = currentHits;
+        playerControl.SetHits(currentHits);
         if (currentHits != 0)
         {
             StartCoroutine(Repel(normal));

@@ -23,7 +23,6 @@ public class TriggerTrapDialogue : Changer
             if (dialogueLine.x == dialogueLine.y && !exit.active)
             {
                 exit.active = true;
-
             }
         }
 

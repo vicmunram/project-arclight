@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
 
@@ -16,16 +17,16 @@ public class MainMenu : MonoBehaviour
     {
         if (!File.Exists(GameProgress.GetFullPath()))
         {
-            GameObject.Find("Continue").GetComponent<UnityEngine.UI.Button>().interactable = false;
+            GameObject.Find("Continue Bt").GetComponent<UnityEngine.UI.Button>().interactable = false;
         }
         else
         {
-            GameObject.Find("Continue").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Continue);
+            GameObject.Find("Continue Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Continue);
         }
 
-        GameObject.Find("New Game").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(NewGame);
-        GameObject.Find("Options").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Options);
-        GameObject.Find("Quit").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(QuitGame);
+        GameObject.Find("New Game Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(NewGame);
+        GameObject.Find("Options Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Options);
+        GameObject.Find("Quit Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(QuitGame);
     }
 
     private void NewGame()
@@ -37,8 +38,9 @@ public class MainMenu : MonoBehaviour
         else
         {
             disclaimerPanel.SetActive(true);
-            GameObject.Find("Yes").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Yes);
-            GameObject.Find("No").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(No);
+            Localization.TranslateTexts(disclaimerPanel.GetComponentsInChildren<Text>());
+            GameObject.Find("Yes Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Yes);
+            GameObject.Find("No Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(No);
         }
     }
 
@@ -73,5 +75,10 @@ public class MainMenu : MonoBehaviour
         string[] resolution = PlayerPrefs.GetString("resolution", "1920×1080").Split('×');
         Screen.SetResolution(int.Parse(resolution[0]), int.Parse(resolution[1]), true);
         Screen.fullScreen = PlayerPrefs.GetInt("fullscreen", 1) == 1 ? true : false;
+
+        Localization.LoadLocalization();
+        Localization.TranslateTexts(GameObject.FindObjectsOfType<Text>());
+
+        AudioUtils.ToggleMusic();
     }
 }

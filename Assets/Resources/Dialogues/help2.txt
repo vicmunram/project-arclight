@@ -1,3 +1,0 @@
-L;gloves;Glov;Analizando situación...
-L;gloves;Glov;En esta sala se encuentra uno de los interruptores con los que puedes interactuar gracias a mí.
-L;gloves;Glov;Además, hay una zona de reaparación. Si interactúas con ella situarás tu lugar de reaparación, en caso de sufrir un accidente.

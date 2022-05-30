@@ -8,6 +8,13 @@ public class Button : Interactable
     private int timeRemaining = 0;
     private bool waiting;
     public GameObject[] interactions;
+    void Start()
+    {
+        if (interactText != null && timer != 0)
+        {
+            interactText.text = timer.ToString();
+        }
+    }
     public override void FirstInteraction() { }
     public override void EveryInteraction()
     {

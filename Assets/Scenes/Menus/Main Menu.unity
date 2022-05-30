@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 364560435}
   - component: {fileID: 364560434}
   m_Layer: 5
-  m_Name: Text
+  m_Name: QUIT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 475864556}
   - component: {fileID: 475864555}
   m_Layer: 5
-  m_Name: Continue
+  m_Name: Continue Bt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 621065566}
   - component: {fileID: 621065565}
   m_Layer: 5
-  m_Name: Yes
+  m_Name: Yes Bt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -676,7 +676,7 @@ GameObject:
   - component: {fileID: 759669177}
   - component: {fileID: 759669176}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: Quit Bt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -805,7 +805,7 @@ GameObject:
   - component: {fileID: 810630655}
   - component: {fileID: 810630654}
   m_Layer: 5
-  m_Name: Main Title
+  m_Name: MAIN_TITLE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -862,7 +862,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Crystals Shards
+  m_Text: Crystal Shards
 --- !u!222 &810630655
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -970,7 +970,11 @@ MonoBehaviour:
   player: {fileID: 1006279023}
   offset: 0
   xRange: {x: 0, y: 0}
+  xFixedMin: 0
+  xFixedMax: 0
   yRange: {x: 0, y: 0}
+  yFixedMin: 0
+  yFixedMax: 0
 --- !u!1 &1085857388
 GameObject:
   m_ObjectHideFlags: 0
@@ -983,7 +987,7 @@ GameObject:
   - component: {fileID: 1085857391}
   - component: {fileID: 1085857390}
   m_Layer: 5
-  m_Name: Message
+  m_Name: NEW_GAME_DISCLAIMER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1061,7 +1065,7 @@ GameObject:
   - component: {fileID: 1242894806}
   - component: {fileID: 1242894805}
   m_Layer: 5
-  m_Name: Text
+  m_Name: NEW_GAME
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1205,7 +1209,7 @@ GameObject:
   - component: {fileID: 1491497816}
   - component: {fileID: 1491497815}
   m_Layer: 5
-  m_Name: Text
+  m_Name: OPTIONS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1284,7 +1288,7 @@ GameObject:
   - component: {fileID: 1517179554}
   - component: {fileID: 1517179553}
   m_Layer: 5
-  m_Name: Options
+  m_Name: Options Bt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1402,7 +1406,7 @@ GameObject:
   - component: {fileID: 1582471052}
   - component: {fileID: 1582471051}
   m_Layer: 5
-  m_Name: Text
+  m_Name: CONTINUE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1597,7 +1601,7 @@ GameObject:
   - component: {fileID: 1892157781}
   - component: {fileID: 1892157780}
   m_Layer: 5
-  m_Name: New Game
+  m_Name: New Game Bt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1793,7 +1797,7 @@ GameObject:
   - component: {fileID: 2019075806}
   - component: {fileID: 2019075805}
   m_Layer: 5
-  m_Name: Text
+  m_Name: YES
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1871,7 +1875,7 @@ GameObject:
   - component: {fileID: 2054233533}
   - component: {fileID: 2054233532}
   m_Layer: 5
-  m_Name: Text
+  m_Name: NO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1950,7 +1954,7 @@ GameObject:
   - component: {fileID: 2114254657}
   - component: {fileID: 2114254656}
   m_Layer: 5
-  m_Name: No
+  m_Name: No Bt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

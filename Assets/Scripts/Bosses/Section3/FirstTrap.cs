@@ -35,8 +35,7 @@ public class FirstTrap : Button
 
         PlayerCamera playerCamera = GameObject.Find("Player Camera").GetComponent<PlayerCamera>();
         playerCamera.Resize(14);
-        playerCamera.xRange = new Vector2(-1, 1);
-        playerCamera.yRange = new Vector2(26.5f, 27.5f);
+        playerCamera.ChangeRange(new Vector2(-1, 1), new Vector2(26.5f, 27.5f));
         GameObject.Find("Main Resizer").GetComponent<CameraChanger>().active = true;
         GameObject.Find("Black PTs").GetComponent<MovableGroup>().active = true;
 

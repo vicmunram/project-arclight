@@ -38,6 +38,11 @@ PrefabInstance:
       propertyPath: m_FlipY
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4631720045881137582, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720045881137585, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -69,6 +74,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 00c021aa74fcf6644910f6235f412cd2,
         type: 3}
+    - target: {fileID: 4631720046124979613, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720046124979680, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -105,6 +115,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 00c021aa74fcf6644910f6235f412cd2,
         type: 3}
+    - target: {fileID: 4631720046201347315, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720046201347318, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -136,6 +151,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 00c021aa74fcf6644910f6235f412cd2,
         type: 3}
+    - target: {fileID: 4631720046231621018, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720046231621021, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -167,6 +187,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 00c021aa74fcf6644910f6235f412cd2,
         type: 3}
+    - target: {fileID: 4631720046464192386, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720046464192389, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -198,6 +223,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 00c021aa74fcf6644910f6235f412cd2,
         type: 3}
+    - target: {fileID: 4631720046952413058, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720046952413061, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -239,6 +269,11 @@ PrefabInstance:
       propertyPath: m_FlipY
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4631720046957035406, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720046957035409, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -257,7 +292,7 @@ PrefabInstance:
     - target: {fileID: 4631720047010224241, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_Name
-      value: Breakable Group
+      value: Breakable Group Variant
       objectReference: {fileID: 0}
     - target: {fileID: 4631720047010224242, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
@@ -365,6 +400,11 @@ PrefabInstance:
       propertyPath: m_FlipY
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4631720047146534197, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720047146534200, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -406,6 +446,11 @@ PrefabInstance:
       propertyPath: m_FlipY
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4631720047532520526, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4631720047532520529, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}
       propertyPath: m_TagString
@@ -446,6 +491,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FlipY
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631720047824759302, guid: c9d6086533cabe44fa0c15294cfa43a4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4631720047824759305, guid: c9d6086533cabe44fa0c15294cfa43a4,
         type: 3}

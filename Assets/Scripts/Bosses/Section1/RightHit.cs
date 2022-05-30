@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class RightHit : Button
 {
     public override void FirstInteraction()
     {
-        Remove();
         interactText.text = null;
+        defaultMessage = "BLANK";
 
         PlayerControl playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
-        playerControl.SetRespawnPoint(new Vector3(0, 0, 1.75f));
+        playerControl.SetRespawnPoint(new Vector3(0, 0, 0));
         playerControl.hits = 0;
 
         GameObject arrows = GameObject.Find("Arrows");

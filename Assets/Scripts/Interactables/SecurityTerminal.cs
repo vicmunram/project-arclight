@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Canvas))]
@@ -29,7 +28,7 @@ public class SecurityTerminal : Interactable
     }
     public override void FirstInteraction()
     {
-        lines = Resources.Load<TextAsset>(sourcePath + path).text.Split(';');
+        lines = Localization.GetLocalizedText(sourcePath, path).text.Split(';');
     }
     public override void EveryInteraction()
     {
@@ -39,16 +38,16 @@ public class SecurityTerminal : Interactable
             {
                 Timer.enabled = false;
                 GameProgress.SaveProgress(Timer.globalTime, stretchTime, false);
-                interactText.text = "[E] Access";
+                interactText.text = Localization.GetLocalizedString("ACCESS");
             }
             else
             {
                 if (!login)
                 {
                     login = true;
-                    infoMessage.text = "Protected document";
+                    infoMessage.text = Localization.GetLocalizedString("PROTECTED_DOC");
                     infoMessage.fontSize = 9;
-                    interactText.text = "[E] Decrypt";
+                    interactText.text = Localization.GetLocalizedString("DECRYPT");
                 }
                 else
                 {
@@ -56,7 +55,7 @@ public class SecurityTerminal : Interactable
                     {
                         infoMessage.text = lines[index];
                         index++;
-                        interactText.text = index < lines.Length ? "[E] Next" : "[E] Close";
+                        interactText.text = index < lines.Length - 1 ? Localization.GetLocalizedString("NEXT") : Localization.GetLocalizedString("CLOSE");
                     }
                     else
                     {
@@ -64,8 +63,9 @@ public class SecurityTerminal : Interactable
                         infoMessage.fontSize = 25;
                         decrypted = true;
                         defaultMessage = null;
-                        interactText.text = null;
+                        interactText.text = Localization.GetLocalizedString("SHOW_ROOMS");
                         infoMessage.text = null;
+                        defaultMessage = "SHOW_ROOMS";
 
                         exit.active = true;
                         Timer.Restart(stretchTime);
@@ -75,6 +75,8 @@ public class SecurityTerminal : Interactable
         }
         else
         {
+            interactText.text = null;
+            defaultMessage = "BLANK";
             InitButtons();
         }
     }
@@ -101,7 +103,7 @@ public class SecurityTerminal : Interactable
         {
             UnityEngine.UI.Button button = buttons[index];
             button.GetComponent<Image>().enabled = true;
-            button.GetComponentInChildren<Text>().text = "Security Room " + index;
+            button.GetComponentInChildren<Text>().text = Localization.GetLocalizedString("SEC_ROOM") + " " + index;
             button.interactable = saveData.currentCheckpointLevel != (checkpoint.Key);
             button.onClick.AddListener(() => OnClick(checkpoint));
             index++;
@@ -109,6 +111,7 @@ public class SecurityTerminal : Interactable
 
         void OnClick(KeyValuePair<int, TimeData> checkpoint)
         {
+            AudioUtils.PlayEffect(gameObject, false);
             GameProgress.LoadCheckpoint(checkpoint);
             GameObject.Find("Player").GetComponent<PlayerControl>().Respawn(true);
         }
