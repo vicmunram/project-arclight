@@ -24,7 +24,7 @@ public class RightGlove : Interactable
             }
         }
 
-        if (!dialogue.active && dialogueClosed)
+        if (Timer.enabled == false && !dialogue.active && dialogueClosed)
         {
             GetComponent<Collider2D>().enabled = false;
 
@@ -33,6 +33,7 @@ public class RightGlove : Interactable
             playerMovement.SetPlayerState();
 
             GameProgress.SaveProgress(2, stretchTime, true);
+            AudioUtils.PlaySectionMusic();
         }
     }
 

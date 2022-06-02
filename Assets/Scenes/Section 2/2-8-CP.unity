@@ -734,6 +734,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 114714990}
     m_Modifications:
+    - target: {fileID: 1017626217515907414, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4e9bb1485b4b9d447a7d90101b2ba4dc, type: 3}
     - target: {fileID: 1017626218136047477, guid: 9df010371f354af47a84416ce1cab090,
         type: 3}
       propertyPath: isMoving
@@ -1292,6 +1297,11 @@ PrefabInstance:
     - target: {fileID: 1485618898919178613, guid: 5826f5d06a5dded4db10ef5f20105d4b,
         type: 3}
       propertyPath: login
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1485618898919178613, guid: 5826f5d06a5dded4db10ef5f20105d4b,
+        type: 3}
+      propertyPath: interactedOnce
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1485618898919178614, guid: 5826f5d06a5dded4db10ef5f20105d4b,

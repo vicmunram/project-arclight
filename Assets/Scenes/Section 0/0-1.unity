@@ -766,7 +766,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b7c5cb486bb4d824481c1a06204170d0, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.75
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -977,7 +977,7 @@ MonoBehaviour:
   defaultMessage: PICK_UP
   interactedOnce: 0
   dialogueName: dialogue1
-  stretchTime: 15
+  stretchTime: 20
 --- !u!1 &719917315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,7 +1134,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: da000799aa0579249ace4a8589bd366b, type: 3}
     m_FontSize: 15
     m_FontStyle: 1
     m_BestFit: 0
@@ -2045,6 +2045,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 114714990}
     m_Modifications:
+    - target: {fileID: 1017626217515907414, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9474c263e8ceb0b42ad4484b2ffd38fe, type: 3}
     - target: {fileID: 1017626218136047477, guid: 9df010371f354af47a84416ce1cab090,
         type: 3}
       propertyPath: isMoving
@@ -2667,6 +2672,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1733032365758463730, guid: 4b10be72753fdc94ab0163b26194479f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8244562798596256984, guid: 4b10be72753fdc94ab0163b26194479f,
         type: 3}
       propertyPath: orthographic size
@@ -2771,6 +2781,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341978397281452309, guid: 4b10be72753fdc94ab0163b26194479f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 13.199951
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018967761028186365, guid: 4b10be72753fdc94ab0163b26194479f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b10be72753fdc94ab0163b26194479f, type: 3}

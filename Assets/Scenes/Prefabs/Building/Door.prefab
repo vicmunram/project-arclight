@@ -144,12 +144,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83dc99bcf8617b24d82b5ed214b56c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMoving: 0
   active: 1
   speed: 2
   waitTime: 0
   direction: {x: -0.45, y: 0}
   auxDirection: {x: 0, y: 0}
-  volume: 0.25
   inactiveWhenCompleted: 1
 --- !u!82 &653646085944522926
 AudioSource:
@@ -163,7 +163,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 70fa63129d18dbc4d9464fb5ec29adb4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.25
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0

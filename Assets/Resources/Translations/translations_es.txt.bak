@@ -40,9 +40,13 @@ SAVE_RESPAWN=[E] Guardar Reaparición;
 SHOW_ROOMS=[E] Mostrar salas de seguridad;
 SHUT_DOWN=[E] Apagar;
 UPLOAD=[E] Publicar datos;
+DESCONNECT=[E] Apagar a Cry;
 //;
 // Other;
 //;
 PROTECTED_DOC=Documento protegido;
 SEC_ROOM=Sala de seguridad;
+RESPAWNING=Reapareciendo...;
+THANKS=Gracias por jugar;
+MUSIC_BY=Música por: Abstraction (http://www.abstractionmusic.com/);
 BLANK=

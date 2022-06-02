@@ -34,6 +34,7 @@ public class MainMenu : MonoBehaviour
         if (!File.Exists(GameProgress.GetFullPath()))
         {
             SceneManager.LoadScene("0-1");
+            AudioUtils.StopMusic();
         }
         else
         {
@@ -48,6 +49,7 @@ public class MainMenu : MonoBehaviour
     {
         GameProgress.DeleteProgress();
         SceneManager.LoadScene("0-1");
+        AudioUtils.StopMusic();
     }
 
     private void No()
@@ -58,6 +60,7 @@ public class MainMenu : MonoBehaviour
     private void Continue()
     {
         GameProgress.LoadLastCheckpoint();
+        AudioUtils.StopMusic();
     }
 
     private void Options()

@@ -19,6 +19,7 @@ public class LastHit : Button
 
         GameProgress.SaveProgress(Timer.globalTime, 0, true);
         GameObject.Find("Player").GetComponent<PlayerControl>().SetRespawnPoint(new Vector3(0, 0, 0));
+        AudioUtils.StopMusic();
     }
 
     private void StopMovables(string name)

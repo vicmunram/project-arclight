@@ -370,7 +370,7 @@ PrefabInstance:
     - target: {fileID: 8244562798596256986, guid: 4b10be72753fdc94ab0163b26194479f,
         type: 3}
       propertyPath: yRange.x
-      value: 1
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 8244562798596256986, guid: 4b10be72753fdc94ab0163b26194479f,
         type: 3}
@@ -704,6 +704,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 114714990}
     m_Modifications:
+    - target: {fileID: 1017626217515907414, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 49a073b3a3e550041830441a6e68c58a, type: 3}
     - target: {fileID: 1017626218136047477, guid: 9df010371f354af47a84416ce1cab090,
         type: 3}
       propertyPath: isMoving
@@ -1258,6 +1263,11 @@ PrefabInstance:
         type: 3}
       propertyPath: path
       value: thirdTerminal
+      objectReference: {fileID: 0}
+    - target: {fileID: 1485618898919178613, guid: 5826f5d06a5dded4db10ef5f20105d4b,
+        type: 3}
+      propertyPath: interactedOnce
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1485618898919178614, guid: 5826f5d06a5dded4db10ef5f20105d4b,
         type: 3}

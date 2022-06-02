@@ -42,6 +42,7 @@ public class PauseMenu : MonoBehaviour
     private void Return()
     {
         Time.timeScale = 1;
+        AudioUtils.PlayMusic("MainMenu");
         SceneManager.LoadScene("Main Menu");
     }
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
@@ -17,6 +18,7 @@ public class PlayerControl : MonoBehaviour
     {
         hits = maxHits;
         checkpoint = transform.position;
+        CheckHelp();
     }
 
     void Update()
@@ -37,6 +39,7 @@ public class PlayerControl : MonoBehaviour
         {
             Respawn(false);
         }
+
         if (Timer.enabled)
         {
             if (Timer.Subtract(Time.deltaTime) <= 0)
@@ -44,6 +47,7 @@ public class PlayerControl : MonoBehaviour
                 Respawn(true);
             }
         }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!paused)
@@ -98,6 +102,15 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void CheckHelp()
+    {
+        GameObject help = GameObject.Find("Help");
+        if (help != null)
+        {
+            GameObject.Find("Help Button").GetComponent<Image>().enabled = true;
+        }
+    }
+
     public void SetRespawnPoint(Vector3 position)
     {
         checkpoint = position;
@@ -105,13 +118,32 @@ public class PlayerControl : MonoBehaviour
 
     public void SetHits(int currentHits)
     {
+        string playerNumber = GetComponent<PlayerMovement>().canDash == true ? "3" : "2";
         if (currentHits != 0)
         {
-            AudioUtils.PlayEffect("hit", 0.5f);
+            AudioUtils.PlayEffect("hit");
+            if (currentHits == 3)
+            {
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player" + playerNumber + "Barrier2");
+            }
+            else if (currentHits == 2)
+            {
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player" + playerNumber + "Barrier");
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player" + playerNumber);
+            }
         }
         else
         {
-            AudioUtils.PlayEffect("kill", 0.5f);
+            AudioUtils.PlayEffect("kill");
+            string path = "Sprites/Player" + playerNumber + "Barrier";
+            if (playerNumber == "3")
+            {
+                path = path + "2";
+            }
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(path);
         }
         hits = currentHits;
     }
@@ -133,6 +165,7 @@ public class PlayerControl : MonoBehaviour
     {
         paused = true;
         Time.timeScale = 0;
+        GetComponent<PlayerMovement>().canMove = false;
         SceneManager.LoadSceneAsync("Pause", LoadSceneMode.Additive);
     }
 
@@ -140,6 +173,7 @@ public class PlayerControl : MonoBehaviour
     {
         paused = false;
         Time.timeScale = 1;
+        GetComponent<PlayerMovement>().canMove = true;
         SceneManager.UnloadSceneAsync("Pause");
     }
 
@@ -151,10 +185,11 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         PlayerUI playerUI = GameObject.Find("Player UI").GetComponent<PlayerUI>();
+        playerUI.fullDisplay.text = Localization.GetLocalizedString("RESPAWNING");
         int timeRemaining = 2;
         while (timeRemaining > 0)
         {
-            playerUI.formattedTime.text = "Reapareciendo...";
+            playerUI.timeDisplay.text = null;
             yield return new WaitForSeconds(1f);
             timeRemaining--;
         }

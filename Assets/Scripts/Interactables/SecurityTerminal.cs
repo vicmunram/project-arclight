@@ -69,6 +69,7 @@ public class SecurityTerminal : Interactable
 
                         exit.active = true;
                         Timer.Restart(stretchTime);
+                        AudioUtils.PlaySectionMusic();
                     }
                 }
             }

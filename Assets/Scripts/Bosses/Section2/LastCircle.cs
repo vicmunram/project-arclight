@@ -31,6 +31,7 @@ public class LastCircle : Button
 
         GameProgress.SaveProgress(Timer.globalTime, 0, true);
         GameObject.Find("Player").GetComponent<PlayerControl>().SetRespawnPoint(gameObject.transform.position);
+        AudioUtils.StopMusic();
     }
 
 }

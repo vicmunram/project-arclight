@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.UI;
 
 public class LeftGlove : Interactable
 {
@@ -29,7 +29,7 @@ public class LeftGlove : Interactable
             }
         }
 
-        if (!dialogue.active && exit.active)
+        if (Timer.enabled == false && !dialogue.active && exitOpened)
         {
             GetComponent<Collider2D>().enabled = false;
 
@@ -39,7 +39,9 @@ public class LeftGlove : Interactable
 
             GameProgress.SaveProgress(0, stretchTime, true);
 
+            GameObject.Find("Timer Displays").GetComponent<Image>().enabled = true;
             Timer.Start(stretchTime);
+            AudioUtils.PlaySectionMusic();
         }
     }
 

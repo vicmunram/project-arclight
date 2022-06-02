@@ -1384,6 +1384,11 @@ PrefabInstance:
       propertyPath: newLevel
       value: new
       objectReference: {fileID: 0}
+    - target: {fileID: 1017626217515907414, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: stopMusic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -16,7 +16,7 @@ public class OptionsMenu : MonoBehaviour
     private void ChangeLanguage(string value)
     {
         PlayerPrefs.SetString("textLanguage", value == "English" ? "en" : "es");
-        Localization.LoadLocalization();
+        Localization.LoadLocalization(true);
         Localization.TranslateTexts(GameObject.FindObjectsOfType<Text>());
     }
 

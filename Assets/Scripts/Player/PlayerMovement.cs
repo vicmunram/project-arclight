@@ -334,6 +334,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     cc.enabled = true;
+                    AudioUtils.PlayEffect("collision");
                 }
             }
             else if (colLayer == LayerMask.NameToLayer(Layers.punchThrough))
@@ -385,6 +386,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     cc.enabled = true;
+                    AudioUtils.PlayEffect("collision");
                 }
             }
         }
@@ -413,13 +415,14 @@ public class PlayerMovement : MonoBehaviour
             maxSpeed = 7.5f;
             GetComponent<PlayerControl>().maxHits = 3;
             GetComponent<PlayerControl>().hits = 3;
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player3Barrier2");
         }
         else if (canPunch || canDash)
         {
             maxSpeed = 5f;
             GetComponent<PlayerControl>().maxHits = 2;
             GetComponent<PlayerControl>().hits = 2;
-            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player2");
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player2Barrier");
         }
         else
         {
@@ -436,7 +439,7 @@ public class PlayerMovement : MonoBehaviour
         float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-        AudioUtils.PlayEffect("reflect", 0.5f);
+        AudioUtils.PlayEffect("reflect");
     }
 
     public void ReceiveHit(bool kill)
@@ -491,6 +494,7 @@ public class PlayerMovement : MonoBehaviour
                 cc.enabled = true;
                 isPunching = false;
                 speed = maxSpeed;
+                AudioUtils.PlayEffect("collisionThrough");
             }
         }
         else
@@ -504,14 +508,22 @@ public class PlayerMovement : MonoBehaviour
     // Coroutines
     IEnumerator Punch(float startTime)
     {
+        bool firstPreparing = true;
         while (Input.GetKey(KeyCode.Mouse0) && Time.time - startTime <= punchPreparingTime)
         {
             isPreparing = true;
+            if (firstPreparing)
+            {
+                firstPreparing = false;
+                AudioUtils.PlayEffect(gameObject, false, "charging", true);
+            }
             yield return null;
         }
+
         isPreparing = false;
         if (Time.time - startTime >= punchCharge && Time.time - startTime < punchPreparingTime)
         {
+            AudioUtils.PlayEffect(gameObject, false, "reflect", false);
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
             movement = new Vector2(dir.x, dir.y).normalized;
@@ -520,6 +532,10 @@ public class PlayerMovement : MonoBehaviour
             CheckPunchCollisionsNear();
             rb.velocity = movement * speed;
             isPunching = true;
+        }
+        else
+        {
+            AudioUtils.PlayEffect(gameObject, false, "cancel", false);
         }
     }
 
@@ -550,6 +566,7 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         CheckDashCollisions();
         rb.velocity = movement * speed * 4f;
+        AudioUtils.PlayEffect("dash");
         yield return new WaitForSeconds(0.05f);
         speed = oldSpeed;
         yield return new WaitForSeconds(0.05f);

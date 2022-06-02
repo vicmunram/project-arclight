@@ -26,6 +26,7 @@ public class Dialogue : MonoBehaviour
 
     private void InitUI()
     {
+        Cursor.visible = false;
         dialogueUI = GameObject.Find("Dialogue UI");
 
         Canvas canvas = dialogueUI.GetComponentInChildren<Canvas>();
@@ -111,8 +112,8 @@ public class Dialogue : MonoBehaviour
                 }
             }
 
-            speaker.text = lineElements[2];
-            sentence.text = lineElements[3];
+            speaker.text = AddColorToText(lineElements[3], lineElements[2]);
+            sentence.text = lineElements[4];
 
             index++;
             interaction.text = index < lines.Length - 1 ? Localization.GetLocalizedString("NEXT") : Localization.GetLocalizedString("CLOSE");
@@ -125,6 +126,7 @@ public class Dialogue : MonoBehaviour
 
     public void Close()
     {
+        Cursor.visible = true;
         SceneManager.UnloadSceneAsync("Dialogue");
 
         if (reactivateTimer)
@@ -168,6 +170,11 @@ public class Dialogue : MonoBehaviour
                 AudioUtils.PlayEffect(dialogueUI, true);
             }
         }
+    }
+
+    private string AddColorToText(string text, string color)
+    {
+        return "<color=" + color + ">" + text + "</color>";
     }
 
     IEnumerator WaitLoadScene()

@@ -5,6 +5,8 @@ using System;
 public class SceneChanger : MonoBehaviour
 {
     [SerializeField] private string newLevel;
+    public AudioClip clip;
+    public bool stopMusic;
 
     void Start()
     {
@@ -31,6 +33,14 @@ public class SceneChanger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (clip != null)
+            {
+                AudioUtils.PlayMusic(clip);
+            }
+            else if (stopMusic)
+            {
+                AudioUtils.StopMusic();
+            }
             SceneManager.LoadScene(newLevel);
         }
     }

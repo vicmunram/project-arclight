@@ -1316,6 +1316,11 @@ PrefabInstance:
       propertyPath: canPunch
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3856167178672160110, guid: 4b10be72753fdc94ab0163b26194479f,
+        type: 3}
+      propertyPath: m_Volume
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 8244562798596256984, guid: 4b10be72753fdc94ab0163b26194479f,
         type: 3}
       propertyPath: orthographic size
@@ -1430,6 +1435,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341978397281452309, guid: 4b10be72753fdc94ab0163b26194479f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 13.199951
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b10be72753fdc94ab0163b26194479f, type: 3}
@@ -2112,7 +2122,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: da000799aa0579249ace4a8589bd366b, type: 3}
     m_FontSize: 15
     m_FontStyle: 1
     m_BestFit: 0

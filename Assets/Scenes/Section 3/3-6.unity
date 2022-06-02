@@ -12239,7 +12239,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628745069}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.190002, y: 0, z: 0.1}
+  m_LocalPosition: {x: 26.4, y: 0, z: 0.1}
   m_LocalScale: {x: 0.7083348, y: 0.33333334, z: 1}
   m_Children: []
   m_Father: {fileID: 1799649267}
@@ -12262,7 +12262,7 @@ MonoBehaviour:
   layerA: Solid
   layerB: Solid
   spriteA: {fileID: 21300000, guid: 7a960f8ec263d3846b3e222248f03d09, type: 3}
-  spriteB: {fileID: 21300000, guid: b81b2dca922080f499ec927cc081c815, type: 3}
+  spriteB: {fileID: 21300000, guid: 18691fe3ec7d0a54ca097504a4998316, type: 3}
 --- !u!50 &628745072
 Rigidbody2D:
   serializedVersion: 4
@@ -15327,6 +15327,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.050000045
       objectReference: {fileID: 0}
+    - target: {fileID: 5876743022890841197, guid: 70a5df220332af641ad2b0f9b0a6dab9,
+        type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876743022918315114, guid: 70a5df220332af641ad2b0f9b0a6dab9,
+        type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5876743022918315118, guid: 70a5df220332af641ad2b0f9b0a6dab9,
         type: 3}
       propertyPath: m_LocalRotation.z
@@ -15372,6 +15382,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.050000045
       objectReference: {fileID: 0}
+    - target: {fileID: 5876743022948859139, guid: 70a5df220332af641ad2b0f9b0a6dab9,
+        type: 3}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5876743022948859143, guid: 70a5df220332af641ad2b0f9b0a6dab9,
         type: 3}
       propertyPath: m_LocalRotation.z
@@ -15416,6 +15431,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.050000045
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876743023222713970, guid: 70a5df220332af641ad2b0f9b0a6dab9,
+        type: 3}
+      propertyPath: m_FlipY
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5876743023222713974, guid: 70a5df220332af641ad2b0f9b0a6dab9,
         type: 3}
@@ -15551,6 +15571,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.050000045
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876743023674218098, guid: 70a5df220332af641ad2b0f9b0a6dab9,
+        type: 3}
+      propertyPath: m_FlipY
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5876743023674218102, guid: 70a5df220332af641ad2b0f9b0a6dab9,
         type: 3}
@@ -22037,6 +22062,7 @@ GameObject:
   - component: {fileID: 1159417922}
   - component: {fileID: 1159417921}
   - component: {fileID: 1159417920}
+  - component: {fileID: 1159417924}
   m_Layer: 13
   m_Name: Trigger Dialogue (1)
   m_TagString: SceneChanger
@@ -22169,6 +22195,102 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!82 &1159417924
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159417918}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 54417cb8a1f92f444bdd3c1007d5453b, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.15
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1162384377 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5202704972612961566, guid: 283bcd5c0de1bba4eb6048489c4bd96e,
@@ -30240,8 +30362,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1495617268}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.1}
-  m_LocalScale: {x: 2.8, y: 0.33333334, z: 1}
+  m_LocalPosition: {x: -0.51, y: 0, z: 0.1}
+  m_LocalScale: {x: 3.7327151, y: 0.33333334, z: 1}
   m_Children: []
   m_Father: {fileID: 1799649267}
   m_RootOrder: 1
@@ -30263,7 +30385,7 @@ MonoBehaviour:
   layerA: Solid
   layerB: Solid
   spriteA: {fileID: 21300000, guid: 7a960f8ec263d3846b3e222248f03d09, type: 3}
-  spriteB: {fileID: 21300000, guid: b81b2dca922080f499ec927cc081c815, type: 3}
+  spriteB: {fileID: 21300000, guid: 18691fe3ec7d0a54ca097504a4998316, type: 3}
 --- !u!50 &1495617271
 Rigidbody2D:
   serializedVersion: 4
@@ -33102,8 +33224,8 @@ Transform:
   - {fileID: 1893343438}
   - {fileID: 1233362907}
   - {fileID: 987854425}
-  - {fileID: 246361585}
   - {fileID: 370474816}
+  - {fileID: 246361585}
   - {fileID: 1581308105}
   - {fileID: 380973930}
   - {fileID: 1934913025}
@@ -34405,8 +34527,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1783053675}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.1}
-  m_LocalScale: {x: 4.899999, y: 0.33333337, z: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0.1}
+  m_LocalScale: {x: 4.238533, y: 0.33333373, z: 1}
   m_Children: []
   m_Father: {fileID: 2132227091}
   m_RootOrder: 0
@@ -34428,7 +34550,7 @@ MonoBehaviour:
   layerA: Solid
   layerB: Solid
   spriteA: {fileID: 21300000, guid: 7a960f8ec263d3846b3e222248f03d09, type: 3}
-  spriteB: {fileID: 21300000, guid: b81b2dca922080f499ec927cc081c815, type: 3}
+  spriteB: {fileID: 21300000, guid: 18691fe3ec7d0a54ca097504a4998316, type: 3}
 --- !u!50 &1783053678
 Rigidbody2D:
   serializedVersion: 4
@@ -35346,6 +35468,7 @@ GameObject:
   - component: {fileID: 1857621792}
   - component: {fileID: 1857621791}
   - component: {fileID: 1857621790}
+  - component: {fileID: 1857621794}
   m_Layer: 13
   m_Name: Trigger Dialogue
   m_TagString: SceneChanger
@@ -35478,6 +35601,102 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!82 &1857621794
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857621788}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 54417cb8a1f92f444bdd3c1007d5453b, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.15
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1859775366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37239,7 +37458,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947438299}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.67, y: 0, z: 0.1}
+  m_LocalPosition: {x: -27.5, y: 0, z: 0.1}
   m_LocalScale: {x: 0.7601069, y: 0.33333334, z: 1}
   m_Children: []
   m_Father: {fileID: 1799649267}
@@ -37262,7 +37481,7 @@ MonoBehaviour:
   layerA: Solid
   layerB: Solid
   spriteA: {fileID: 21300000, guid: 7a960f8ec263d3846b3e222248f03d09, type: 3}
-  spriteB: {fileID: 21300000, guid: b81b2dca922080f499ec927cc081c815, type: 3}
+  spriteB: {fileID: 21300000, guid: 18691fe3ec7d0a54ca097504a4998316, type: 3}
 --- !u!50 &1947438302
 Rigidbody2D:
   serializedVersion: 4

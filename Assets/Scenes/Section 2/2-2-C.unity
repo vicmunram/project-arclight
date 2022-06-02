@@ -1091,6 +1091,11 @@ PrefabInstance:
       propertyPath: newLevel
       value: new
       objectReference: {fileID: 0}
+    - target: {fileID: 1017626217515907414, guid: 9df010371f354af47a84416ce1cab090,
+        type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5be2ff05a060bae42ad280ab447d3cfc, type: 3}
     - target: {fileID: 1017626218223416503, guid: 9df010371f354af47a84416ce1cab090,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -45,5 +45,6 @@ public class FirstTrap : Button
 
         PlayerControl playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
         playerControl.SetRespawnPoint(transform.position);
+        AudioUtils.PlayMusic("Boss3");
     }
 }

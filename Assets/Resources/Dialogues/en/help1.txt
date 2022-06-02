@@ -1,0 +1,8 @@
+gloves-player;
+L-gloves-Glov-Analizando situación...;
+L-gloves-Glov-Delante tuya se encuentra un foso, será mejor que no te acerques demasiado o podrías caerte.;
+L-gloves-Glov-Podrías intentar cruzarlo utilizando la función de transformación en láser <b>[BTN Izq]</b>.;
+L-gloves-Glov-Recuerda que cuenta con un pequeño tiempo de carga y que en cuanto te lances;
+L-gloves-Glov-no podrás volver al estado actual hasta colisionar con una superficie opaca.;
+L-gloves-Glov-Si ocurre algún accidente, no te preocupes. Cada una de las puertas;
+L-gloves-Glov-de la instalación cuenta con un sistema de escaneo de ADN, de modo que podrías ser "recuperado".;

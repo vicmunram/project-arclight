@@ -8,9 +8,9 @@ public static class Localization
     public static string textLanguage;
     public static Dictionary<string, string> textTranslations;
 
-    public static void LoadLocalization()
+    public static void LoadLocalization(bool force = false)
     {
-        if (textTranslations == null)
+        if (textTranslations == null || force)
         {
             textTranslations = new Dictionary<string, string>();
 

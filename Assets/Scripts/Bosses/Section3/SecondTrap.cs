@@ -35,6 +35,7 @@ public class SecondTrap : Button
     {
         Remove();
         interactText.text = null;
+        AudioUtils.StopMusic();
 
         dialogue.Activate();
     }
