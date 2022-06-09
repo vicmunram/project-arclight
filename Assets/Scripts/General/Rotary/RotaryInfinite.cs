@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class RotaryInfinite : Rotary
+﻿public class RotaryInfinite : Rotary
 {
     public bool BackWhenCompleted;
     public override void WhenCompleted()

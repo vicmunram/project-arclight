@@ -68,4 +68,10 @@ public abstract class Interactable : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         GetComponent<Renderer>().enabled = false;
     }
+
+    public void SetDefaultMessage(string key)
+    {
+        interactText.text = Localization.GetLocalizedString(key);
+        defaultMessage = key;
+    }
 }

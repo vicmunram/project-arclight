@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlayerControl : MonoBehaviour
 {
     public bool talking;
+    public bool terminal;
     public bool canInteract;
     public bool paused;
     private Vector3 checkpoint;
@@ -18,7 +18,6 @@ public class PlayerControl : MonoBehaviour
     {
         hits = maxHits;
         checkpoint = transform.position;
-        CheckHelp();
     }
 
     void Update()
@@ -33,6 +32,10 @@ public class PlayerControl : MonoBehaviour
         else if (!talking && Input.GetKeyDown(KeyCode.H))
         {
             AskForHelp();
+        }
+        else if (!talking && terminal)
+        {
+            CheckTerminal();
         }
 
         if (hits < 1 || Input.GetKeyDown(KeyCode.K))
@@ -88,6 +91,19 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void CheckTerminal()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GameObject.Find("Terminal").GetComponent<SecurityTerminal>().Next();
+
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            GameObject.Find("Terminal").GetComponent<SecurityTerminal>().Back();
+        }
+    }
+
     private void AskForHelp()
     {
         GameObject help = GameObject.Find("Help");
@@ -102,14 +118,7 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    private void CheckHelp()
-    {
-        GameObject help = GameObject.Find("Help");
-        if (help != null)
-        {
-            GameObject.Find("Help Button").GetComponent<Image>().enabled = true;
-        }
-    }
+
 
     public void SetRespawnPoint(Vector3 position)
     {
@@ -189,7 +198,7 @@ public class PlayerControl : MonoBehaviour
         int timeRemaining = 2;
         while (timeRemaining > 0)
         {
-            playerUI.timeDisplay.text = null;
+            playerUI.countdownDisplay.text = null;
             yield return new WaitForSeconds(1f);
             timeRemaining--;
         }

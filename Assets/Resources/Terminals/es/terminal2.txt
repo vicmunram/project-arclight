@@ -1,3 +1,7 @@
-Esto es una linea de texto
-Esto es otra linea
-Esta es la ultima linea
+Un amigo me ha puesto en contacto con alguien que a lo mejor puede ayudarnos.;
+Es científico y dice que cuenta con la tecnología para cristalizar todo tipo de materiales.;
+Me enseñó en funcionamiento su prototipo y parece que medianamente funciona.;
+Creo que es lo que necesitamos, pero no estoy seguro de si aceptar sus condiciones.;
+Él cree que el problema es la potencia del dispositivo y me ha pedido realizar un experimento;
+con un prototipo de mayor tamaño en una de nuestras minas. Podría acabar siendo un;
+desastre, pero total, no tenemos nada que perder, esas minas apenas cuentan ya con nada útil.

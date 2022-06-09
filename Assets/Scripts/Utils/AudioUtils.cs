@@ -50,7 +50,10 @@ public static class AudioUtils
 
     public static void PlayEffect(string clipName, float volume = 0.15f, bool atPoint = false)
     {
-        AudioSource.PlayClipAtPoint(GetEffect(clipName), Camera.main.transform.position, volume);
+        if (PlayerPrefs.GetInt("sound") == 1)
+        {
+            AudioSource.PlayClipAtPoint(GetEffect(clipName), Camera.main.transform.position, volume);
+        }
     }
 
     public static void ToggleMusic()

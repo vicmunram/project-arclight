@@ -59,8 +59,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 339247474619477407}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.11, y: 0.11, z: 1}
+  m_LocalPosition: {x: -0.8086, y: 0.8086, z: 0}
+  m_LocalScale: {x: 0.03103743, y: 0.03103743, z: 0.28215843}
   m_Children: []
   m_Father: {fileID: 339247474312407186}
   m_RootOrder: 0
@@ -104,7 +104,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 05707120fa8f8b54dafbbb31cdf3e878, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 21fc805afb3f4934aaacbae465f5802a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,18 +128,18 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 1.0339065, y: -0.020994186}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.48, y: 6.48}
+    oldSize: {x: 20.48, y: 20.48}
     newSize: {x: 9.97, y: 6.48}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6.48, y: 6.48}
+  m_Size: {x: 18.549393, y: 19.63253}
   m_EdgeRadius: 0
 --- !u!50 &339247474619477405
 Rigidbody2D:
@@ -176,5 +176,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactText: {fileID: 0}
   defaultMessage: READ
-  interacted: 0
+  interactedOnce: 0
   dialogueName: note1

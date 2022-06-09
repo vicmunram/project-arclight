@@ -1,8 +1,8 @@
-Glov-player;
-L-gloves-Glov-Analizando situación...;
-L-gloves-Glov-Delante tuya se encuentra un foso, será mejor que no te acerques demasiado o podrías caerte.;
-L-gloves-Glov-Podrías intentar cruzarlo utilizando la función de transformación en láser <b>[BTN Izq]</b>.;
-L-gloves-Glov-Recuerda que cuenta con un pequeño tiempo de carga y que en cuanto te lances;
-L-gloves-Glov-no podrás volver al estado actual hasta colisionar con una superficie opaca.;
-L-gloves-Glov-Si ocurre algún accidente, no te preocupes. Cada una de las puertas;
-L-gloves-Glov-de la instalación cuenta con un sistema de escaneo de ADN, de modo que podrías ser "recuperado".;
+gloves_player;
+L_gloves_blue_GloV1_Analizando situación...;
+L_gloves_blue_GloV1_Delante tuya se encuentra un foso, será mejor que no te acerques demasiado o podrías caerte.;
+L_gloves_blue_GloV1_Podrías intentar cruzarlo utilizando la función de lanzamiento <b>[BTN Izq]</b>.;
+L_gloves_blue_GloV1_Recuerda que cuenta con un pequeño tiempo de carga y que en cuanto te lances;
+L_gloves_blue_GloV1_no podrás volver al estado actual hasta colisionar con una superficie opaca.;
+L_gloves_blue_GloV1_Si ocurre algún accidente, no te preocupes. Cada una de las puertas;
+L_gloves_blue_GloV1_de la instalación cuenta con un sistema de escaneo de ADN, de modo que podrás ser "recuperado".;

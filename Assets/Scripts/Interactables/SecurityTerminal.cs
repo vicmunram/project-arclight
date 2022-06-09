@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Canvas))]
 public class SecurityTerminal : Interactable
 {
+    public Text auxInteractText;
     public bool login;
     public bool decrypted;
     public float stretchTime;
@@ -15,7 +16,7 @@ public class SecurityTerminal : Interactable
     private string[] lines;
     private int index = 0;
 
-    public void Start()
+    void Start()
     {
         infoMessage = GameObject.Find("Display").GetComponent<Text>();
         exit = GameObject.Find("Exit").GetComponentInChildren<MovableGroup>();
@@ -26,6 +27,7 @@ public class SecurityTerminal : Interactable
             Timer.Reset();
         }
     }
+
     public override void FirstInteraction()
     {
         lines = Localization.GetLocalizedText(sourcePath, path).text.Split(';');
@@ -38,7 +40,7 @@ public class SecurityTerminal : Interactable
             {
                 Timer.enabled = false;
                 GameProgress.SaveProgress(Timer.globalTime, stretchTime, false);
-                interactText.text = Localization.GetLocalizedString("ACCESS");
+                SetDefaultMessage("ACCESS");
             }
             else
             {
@@ -46,26 +48,25 @@ public class SecurityTerminal : Interactable
                 {
                     login = true;
                     infoMessage.text = Localization.GetLocalizedString("PROTECTED_DOC");
-                    infoMessage.fontSize = 9;
-                    interactText.text = Localization.GetLocalizedString("DECRYPT");
+                    infoMessage.fontSize = 7;
+                    SetDefaultMessage("DECRYPT");
                 }
                 else
                 {
-                    if (index < lines.Length - 1)
+                    if (index == 0)
                     {
-                        infoMessage.text = lines[index];
-                        index++;
-                        interactText.text = index < lines.Length - 1 ? Localization.GetLocalizedString("NEXT") : Localization.GetLocalizedString("CLOSE");
+                        infoMessage.alignment = TextAnchor.UpperLeft;
+                        infoMessage.text = lines[index].Trim();
+                        SetInteractText();
                     }
-                    else
+                    else if (index == lines.Length - 1)
                     {
+                        decrypted = true;
                         infoMessage.alignment = TextAnchor.MiddleCenter;
                         infoMessage.fontSize = 25;
-                        decrypted = true;
-                        defaultMessage = null;
-                        interactText.text = Localization.GetLocalizedString("SHOW_ROOMS");
                         infoMessage.text = null;
-                        defaultMessage = "SHOW_ROOMS";
+                        auxInteractText.text = null;
+                        SetDefaultMessage("SHOW_ROOMS");
 
                         exit.active = true;
                         Timer.Restart(stretchTime);
@@ -76,8 +77,7 @@ public class SecurityTerminal : Interactable
         }
         else
         {
-            interactText.text = null;
-            defaultMessage = "BLANK";
+            SetDefaultMessage("PICK_ROOM");
             InitButtons();
         }
     }
@@ -91,8 +91,20 @@ public class SecurityTerminal : Interactable
         }
     }
 
-    public override void OnEnter(Collider2D collision) { }
-    public override void OnExit(Collider2D collision) { }
+    public override void OnEnter(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<PlayerControl>().terminal = true;
+        }
+    }
+    public override void OnExit(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<PlayerControl>().terminal = false;
+        }
+    }
 
     public void InitButtons()
     {
@@ -116,7 +128,51 @@ public class SecurityTerminal : Interactable
             GameProgress.LoadCheckpoint(checkpoint);
             GameObject.Find("Player").GetComponent<PlayerControl>().Respawn(true);
         }
+    }
 
+    public void Next()
+    {
+        if (!decrypted && !Timer.enabled && login)
+        {
+            if (index >= 0 && index < lines.Length - 1)
+            {
+                index++;
+                infoMessage.text = lines[index].Trim();
+                SetInteractText();
+            }
+        }
+    }
+
+    public void Back()
+    {
+        if (!decrypted && !Timer.enabled && login)
+        {
+            if (index > 0 && index <= lines.Length - 1)
+            {
+                index--;
+                infoMessage.text = lines[index].Trim();
+                SetInteractText();
+            }
+        }
+    }
+
+    private void SetInteractText()
+    {
+        if (index == 0)
+        {
+            SetDefaultMessage("BLANK");
+            auxInteractText.text = "<color=grey><</color> >";
+        }
+        else if (index == lines.Length - 1)
+        {
+            SetDefaultMessage("CLOSE_TERMINAL");
+            auxInteractText.text = "< <color=grey>></color>";
+        }
+        else
+        {
+            SetDefaultMessage("BLANK");
+            auxInteractText.text = "< >";
+        }
     }
 
 }

@@ -28,10 +28,6 @@ public class RightGlove : Interactable
         {
             GetComponent<Collider2D>().enabled = false;
 
-            PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-            playerMovement.canDash = true;
-            playerMovement.SetPlayerState();
-
             GameProgress.SaveProgress(2, stretchTime, true);
             AudioUtils.PlaySectionMusic();
         }
@@ -42,6 +38,10 @@ public class RightGlove : Interactable
         GetComponent<Renderer>().enabled = false;
         interactText.text = null;
         Timer.Start(stretchTime);
+
+        PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        playerMovement.canDash = true;
+        playerMovement.SetPlayerState();
 
         dialogue.Activate();
     }

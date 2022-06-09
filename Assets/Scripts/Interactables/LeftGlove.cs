@@ -33,10 +33,6 @@ public class LeftGlove : Interactable
         {
             GetComponent<Collider2D>().enabled = false;
 
-            PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
-            playerMovement.canPunch = true;
-            playerMovement.SetPlayerState();
-
             GameProgress.SaveProgress(0, stretchTime, true);
 
             GameObject.Find("Timer Displays").GetComponent<Image>().enabled = true;
@@ -50,7 +46,9 @@ public class LeftGlove : Interactable
         Remove();
         interactText.text = null;
 
-        GameObject.Find("Player").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player2");
+        PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        playerMovement.canPunch = true;
+        playerMovement.SetPlayerState();
 
         dialogue.Activate();
     }

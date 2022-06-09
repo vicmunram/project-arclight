@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerUI : MonoBehaviour
 {
     // TIMER
-    public Text timeDisplay;
+    public Text countdownDisplay;
     public Text extraDisplay;
     private float extraTime;
     private bool fading;
@@ -21,15 +21,16 @@ public class PlayerUI : MonoBehaviour
     {
         Cursor.SetCursor(crosshair, new Vector2(crosshair.width / 2, crosshair.height / 2), CursorMode.Auto);
         playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
-        timeDisplay.text = Timer.enabled ? Timer.GetFormattedTime() : null;
+        countdownDisplay.text = Timer.enabled ? Timer.GetFormattedTime() : null;
+        CheckHelp();
     }
 
     void Update()
     {
         string time = Timer.GetFormattedTime();
-        if (Timer.enabled && !time.Equals(timeDisplay.text))
+        if (Timer.enabled && !time.Equals(countdownDisplay.text))
         {
-            timeDisplay.text = time;
+            countdownDisplay.text = time;
         }
 
         if (extraTime != 0 && !fading)
@@ -69,6 +70,15 @@ public class PlayerUI : MonoBehaviour
             {
                 Cursor.visible = false;
             }
+        }
+    }
+
+    private void CheckHelp()
+    {
+        GameObject help = GameObject.Find("Help");
+        if (help != null)
+        {
+            GameObject.Find("Help Button").GetComponent<Image>().enabled = true;
         }
     }
 

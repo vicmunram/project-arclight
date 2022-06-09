@@ -263,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
 
         RaycastHit2D[] solidHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, false);
         int solidCollisions = CollisionUtils.CountCollisions(solidHits, Tags.solid);
-        int mirrorCollisions = CollisionUtils.CountCollisions(solidHits, Tags.solid);
+        int mirrorCollisions = CollisionUtils.CountCollisions(solidHits, Tags.mirror);
 
         if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15) || solidCollisions == 20 || mirrorCollisions == 20)
         {
@@ -291,34 +291,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckPunchCollisions()
     {
-        // Basic collisions
+        AdvancedPunchCollisions();
+        BasicPunchCollisions();
+        DebugPunchCollisions();
+    }
+
+    private void BasicPunchCollisions()
+    {
         RaycastHit2D[] frontHits = CollisionUtils.CastHitsMovementFront(25, movement, transform, 0.2f, cc, false);
         RaycastHit2D closestFrontHit = CollisionUtils.CloserHit(frontHits, transform, Tags.any);
         RaycastHit2D[] backHits = CollisionUtils.CastHitsMovementBack(19, movement, transform, cc, false, false);
         RaycastHit2D closestBackHit = CollisionUtils.CloserHit(backHits, transform, Tags.any);
-
-        // Advanced collisions
-        RaycastHit2D[] extFrontHits = CollisionUtils.CastHitsMovementFrontExt(25, movement, transform, cc, false);
-        RaycastHit2D closestExtFrontHit = CollisionUtils.CloserHit(extFrontHits, transform, Tags.alwaysSolid);
-        RaycastHit2D closestExtFrontHitDanger = CollisionUtils.CloserHit(extFrontHits, transform, Tags.danger);
-
-        if (closestExtFrontHit.collider)
-        {
-            closestExtFrontHitDanger = CollisionUtils.CloserHitToHit(extFrontHits, closestExtFrontHit, Tags.danger);
-            float distance = Vector2.SqrMagnitude(closestExtFrontHit.point - closestExtFrontHitDanger.point);
-            if (closestExtFrontHitDanger.collider && distance < 0.05f)
-            {
-                cc.enabled = true;
-                ReceiveHit(true);
-                ResetPunch();
-            }
-        }
-        else if (closestExtFrontHitDanger.collider)
-        {
-            cc.enabled = true;
-            ReceiveHit(true);
-            ResetPunch();
-        }
 
         if (closestFrontHit.collider && cc.enabled == false)
         {
@@ -354,8 +337,35 @@ public class PlayerMovement : MonoBehaviour
         {
             EndPunchThrough(closestBackHit.collider);
         }
+    }
 
-        // Debug collisions
+    private void AdvancedPunchCollisions()
+    {
+        RaycastHit2D[] extFrontHits = CollisionUtils.CastHitsMovementFrontExt(25, movement, transform, cc, false);
+        RaycastHit2D closestExtFrontHit = CollisionUtils.CloserHit(extFrontHits, transform, Tags.alwaysSolid);
+        RaycastHit2D closestExtFrontHitDanger = CollisionUtils.CloserHit(extFrontHits, transform, Tags.danger);
+
+        if (closestExtFrontHit.collider)
+        {
+            closestExtFrontHitDanger = CollisionUtils.CloserHitToHit(extFrontHits, closestExtFrontHit, Tags.danger);
+            float distance = Vector2.SqrMagnitude(closestExtFrontHit.point - closestExtFrontHitDanger.point);
+            if (closestExtFrontHitDanger.collider && distance < 0.05f)
+            {
+                cc.enabled = true;
+                ReceiveHit(true);
+                ResetPunch();
+            }
+        }
+        else if (closestExtFrontHitDanger.collider)
+        {
+            cc.enabled = true;
+            ReceiveHit(true);
+            ResetPunch();
+        }
+    }
+
+    private void DebugPunchCollisions()
+    {
         RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, true);
         int solidCollisions = CollisionUtils.CountCollisions(outerHits, Tags.solid);
         int mirrorCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);

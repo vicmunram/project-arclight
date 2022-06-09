@@ -82,7 +82,7 @@ public class Dialogue : MonoBehaviour
 
         lines = Localization.GetLocalizedText(dialoguesPath, dialogueName).text.Split(';');
 
-        string[] lineElements = lines[index].Split('-');
+        string[] lineElements = lines[index].Split('_');
         leftSpeakerSprite = lineElements[0];
         leftSpeaker.sprite = Resources.Load<Sprite>(charactersPath + leftSpeakerSprite);
         rightSpeakerSprite = lineElements[1];
@@ -94,7 +94,7 @@ public class Dialogue : MonoBehaviour
     {
         if (index < lines.Length - 1)
         {
-            string[] lineElements = lines[index].Split('-');
+            string[] lineElements = lines[index].Split('_');
             if (lineElements[0].Trim() == "L")
             {
                 if (leftSpeakerSprite != lineElements[1])

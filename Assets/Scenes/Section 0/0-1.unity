@@ -977,7 +977,7 @@ MonoBehaviour:
   defaultMessage: PICK_UP
   interactedOnce: 0
   dialogueName: dialogue1
-  stretchTime: 20
+  stretchTime: 15
 --- !u!1 &719917315
 GameObject:
   m_ObjectHideFlags: 0
