@@ -33,6 +33,14 @@ public static class AudioUtils
         PlayEffect(gameobject, atPoint);
     }
 
+    public static void PlayEffect(string clipName, float volume = 0.15f, bool atPoint = false)
+    {
+        if (PlayerPrefs.GetInt("sound") == 1)
+        {
+            AudioSource.PlayClipAtPoint(GetEffect(clipName), Camera.main.transform.position, volume);
+        }
+    }
+
     public static AudioClip GetEffect(string clipName)
     {
         return Resources.Load<AudioClip>(effectsPath + clipName);
@@ -46,14 +54,6 @@ public static class AudioUtils
     public static void SetEffect(AudioSource audioSource, string clipName)
     {
         audioSource.clip = GetEffect(clipName);
-    }
-
-    public static void PlayEffect(string clipName, float volume = 0.15f, bool atPoint = false)
-    {
-        if (PlayerPrefs.GetInt("sound") == 1)
-        {
-            AudioSource.PlayClipAtPoint(GetEffect(clipName), Camera.main.transform.position, volume);
-        }
     }
 
     public static void ToggleMusic()

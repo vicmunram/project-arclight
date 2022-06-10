@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -43,11 +44,12 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1;
         AudioUtils.PlayMusic("MainMenu");
-        SceneManager.LoadScene("Main Menu");
+        StartCoroutine(PlayEffectAndLoadScene("Main Menu"));
     }
 
     private void QuitGame()
     {
+        AudioUtils.PlayEffect("menuButton");
         Application.Quit();
     }
 
@@ -74,6 +76,13 @@ public class PauseMenu : MonoBehaviour
         Toggle musicToggle = GameObject.Find("Toggle Music").GetComponent<Toggle>();
         musicToggle.onValueChanged.AddListener(delegate { SaveToggleMusic(musicToggle, "music"); });
         musicToggle.isOn = PlayerPrefs.GetInt("music", 1) == 1 ? true : false;
+    }
+
+    IEnumerator PlayEffectAndLoadScene(string scene)
+    {
+        AudioUtils.PlayEffect("menuButton");
+        yield return new WaitForSeconds(0.1f);
+        SceneManager.LoadScene(scene);
     }
 
 }

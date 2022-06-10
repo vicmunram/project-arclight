@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class OptionsMenu : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class OptionsMenu : MonoBehaviour
 
     private void Return()
     {
-        SceneManager.LoadScene("Main Menu");
+        StartCoroutine(PlayEffectAndLoadScene("Main Menu"));
     }
 
     private void InitGraphicSettings()
@@ -71,5 +72,12 @@ public class OptionsMenu : MonoBehaviour
     private void SetTextLanguage()
     {
         string language = PlayerPrefs.GetString("textLanguage", "es");
+    }
+
+    IEnumerator PlayEffectAndLoadScene(string scene)
+    {
+        AudioUtils.PlayEffect("menuButton");
+        yield return new WaitForSeconds(0.1f);
+        SceneManager.LoadScene(scene);
     }
 }
