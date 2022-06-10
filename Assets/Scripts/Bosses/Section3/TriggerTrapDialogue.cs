@@ -6,6 +6,7 @@ public class TriggerTrapDialogue : Changer
     public string dialogueName;
     private Dialogue dialogue;
     private MovableGroup exit;
+    private bool exitOpened;
 
     void Start()
     {
@@ -20,9 +21,10 @@ public class TriggerTrapDialogue : Changer
         if (dialogue.loaded)
         {
             Vector2Int dialogueLine = dialogue.GetDialogueLine();
-            if (dialogueLine.x == dialogueLine.y && !exit.active)
+            if (dialogueLine.x == dialogueLine.y && !exitOpened)
             {
                 exit.active = true;
+                exitOpened = true;
             }
         }
 

@@ -25,6 +25,7 @@ public class FirstTrap : Button
                 Destroy(GameObject.Find("Fake"));
 
                 extraInteractions[0].SetActive(true);
+                AudioUtils.PlayEffect("trap");
             }
         }
     }
@@ -32,6 +33,8 @@ public class FirstTrap : Button
     {
         Remove();
         interactText.text = null;
+
+        AudioUtils.PlayEffect("trap");
 
         PlayerCamera playerCamera = GameObject.Find("Player Camera").GetComponent<PlayerCamera>();
         playerCamera.Resize(14);

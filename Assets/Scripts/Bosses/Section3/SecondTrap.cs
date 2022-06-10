@@ -33,9 +33,10 @@ public class SecondTrap : Button
     }
     public override void FirstInteraction()
     {
-        Remove();
+        Disable();
         interactText.text = null;
         AudioUtils.StopMusic();
+        AudioUtils.PlayEffect("trap");
 
         dialogue.Activate();
     }

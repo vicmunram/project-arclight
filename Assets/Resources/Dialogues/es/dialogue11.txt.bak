@@ -1,9 +1,9 @@
-unknownCry-player;
-L-unknownCry-???-Creo que ese guante no te pertenece...;
-L-unknownCry-???-De hecho, ni siquiera eres miembro de CryCorp...;
-L-cry-Cry-Me presentaré. Soy Cry, la IA de seguridad de las instalaciones. Necesito que sueltes eso y te marches;
-L-cry-Cry-o me veré obligada a llamar a los cuerpos de seguridad para que te extraigan.;
-R-player-Tú-Lo siento mucho, pero no me iré de aquí hasta conseguir lo que busco.;
-L-cry-Cry-Lanzando protocolo de cuenta atrás. Tienes el tiempo que aparece en las pantallas para rendirte.;
-L-cry-Cry-Confío en que cambiarás de opinión.;
-R-player-Tú-Me da a mí que no. (Esa puerta se ha abierto, continuaré por ahí);
+unknownCry_niko;
+L_unknownCry_#c072ed_Cry_NOOOOOOOOOO.;
+R_niko_teal_Niko_¿Eh? ¿Y esa puerta? Porque se ha cerrado.;
+L_cry_#c072ed_Cry_JA. JAJA. JAJAJAJAJAJAJAJAJAJA.;
+R_niko_teal_Niko_¡¿Qué?!;
+L_cry_#c072ed_Cry_Niko, Niko, Niko... Y decías que no te suponía un reto. Me has decepcionado. Pero ya te lo he dicho, no puedo dejar que hundas la empresa.;
+L_cry_#c072ed_Cry_No es personal, bueno, un poco sí. Te vas a quedar aquí encerrado durante mucho tiempo.;
+L_cry_#c072ed_Cry_Disfruta la estancia.;
+R_niko_teal_Niko_...;

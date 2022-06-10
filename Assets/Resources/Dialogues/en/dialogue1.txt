@@ -1,9 +1,11 @@
-unknownCry-player;
-L-unknownCry-???-Creo que ese guante no te pertenece...;
-L-unknownCry-???-De hecho, ni siquiera eres miembro de CryCorp...;
-L-cry-Cry-Me presentaré. Soy Cry, la IA de seguridad de las instalaciones. Necesito que sueltes eso y te marches;
-L-cry-Cry-o me veré obligada a llamar a los cuerpos de seguridad para que te extraigan.;
-R-player-Tú-Lo siento mucho, pero no me iré de aquí hasta conseguir lo que busco.;
-L-cry-Cry-Lanzando protocolo de cuenta atrás. Tienes el tiempo que aparece en las pantallas para rendirte.;
-L-cry-Cry-Confío en que cambiarás de opinión.;
-R-player-Tú-Me da a mí que no. (Esa puerta se ha abierto, continuaré por ahí);
+unknownCry_niko;
+L_unknownCry_white_???_I think that thing you took doesn't belong to you... In fact, you're not even a member of <b>CryCorp</b>... What are you doing here...?;
+L_cry_#c072ed_Cry_Well, what are we without education, right? I'll introduce myself first. I'm <b>Cry</b>, the facility's security AI.;
+L_cry_#c072ed_Cry_I need you to drop that and leave or I'll have to call security to escort you out.;
+R_niko_teal_Niko_Eh... I'm <b>Niko</b>... and I'm... I'm really sorry, but I'm not leaving here until I get what I'm looking for.;
+L_cry_#c072ed_Cry_Be warned that <b>CryCorp</b> has very good relations with the prosecution, you are not interested in a problem with us.;
+R_niko_teal_Niko_Gulp... (I've come too far to turn around...);
+R_niko_teal_Niko_I don't care! I'm not afraid of CryCorp... well... a little. But you're not going to stop me!
+L_cry_#c072ed_Cry_If that's what you want, Niko... <i>Launching alarm protocol 742</i>.;
+L_cry_#c072ed_Cry_I'll be keeping you informed all the time of the time you have to surrender. I trust you will change your mind.;
+R_niko_teal_Niko_That's not going to happen. (That door has been opened, I will continue through there);

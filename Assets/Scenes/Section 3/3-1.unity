@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
-  dialogueName: dialogue7
+  dialogueName: dialogue6
 --- !u!50 &45224900
 Rigidbody2D:
   serializedVersion: 4

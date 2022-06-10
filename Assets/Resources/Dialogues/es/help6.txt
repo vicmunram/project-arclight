@@ -1,3 +1,5 @@
-L-gloves-Glov-Analizando situación...;
-L-gloves-Glov-En esta sala hay cristales especiales de CryCorp.;
-L-gloves-Glov-Si te lanzas hacia ellos utilizándome saldrás reflejado.;
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analizando situación...</i>;
+L_gloves_#475dff_GloV1_Detecto a mi compañero. Si lo recoges podrás utilizar la función de placaje <color=#475dff><b>[BTN Dcho Ratón]</b></color>.;
+L_gloves_#475dff_GloV1_Con ella podrás atravesar los <color=#ff9d00><b>cristales etéreos</b></color> de CryCorp, aunque con la función de lanzamiento también podrías.;
+L_gloves_#475dff_GloV1_Pero ten cuidado, si los tocas te harán daño. Por suerte, mi compañero podrá protegerte de otro golpe.; 

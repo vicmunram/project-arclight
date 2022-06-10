@@ -1,4 +1,6 @@
-document-player;
-L-document-Diario de desarrollo #16-Hemos descubierto una nueva funcionalidad de los guantes por accidente.;
-L-document-Diario de desarrollo #16-Al parecer si el portador se acerca mucho a uno de los sensores de seguridad, sin importar el estado en el que se encuentre, estos emitiran una descarga que fundirá el sensor.;
-L-document-Diario de desarrollo #16-Además, parece que la descarga es tan grande que incluso puede hacer que los sistemas se comporten de forma completamente contraria a la programada.;
+document_niko;
+L_document_white_Diario de desarrollo #12_Ese niñato engreído de Jin ha conseguido descubrir de donde cojones provenía el cristal.;
+L_document_white_Diario de desarrollo #12_Resulta que era de uno de los empleados de la mina que no se enteró que tenía que salir de ella para hacer el experimento.;
+L_document_white_Diario de desarrollo #12_Menudo imbécil. Lo peor de todo, es que ha averiguado que la extracción de energía es más eficiente por una proteína solo presente en el ser humano.;
+L_document_white_Diario de desarrollo #12_Y el rata ha ocultado todos sus avances hasta ahora, dejándome a un lado de todo el descubrimiento.;
+L_document_white_Diario de desarrollo #12_¿Qué quiere? ¿Quitarme el puesto? ¿En una empresa que saqué yo de la ruina? No le voy a dejar.;

@@ -7,6 +7,7 @@ public class LeftGlove : Interactable
     public float stretchTime;
     private Dialogue dialogue;
     private MovableGroup exit;
+    private bool displayActive;
     private bool exitOpened;
 
     void Start()
@@ -22,6 +23,13 @@ public class LeftGlove : Interactable
         if (dialogue.loaded)
         {
             Vector2Int dialogueLine = dialogue.GetDialogueLine();
+            if (dialogueLine.x == dialogueLine.y - 1 && !displayActive)
+            {
+                GameObject timerDisplays = GameObject.Find("Timer Displays");
+                timerDisplays.GetComponent<Image>().enabled = true;
+                timerDisplays.GetComponentsInChildren<Text>()[0].text = "00:00";
+                displayActive = true;
+            }
             if (dialogueLine.x == dialogueLine.y && !exitOpened)
             {
                 exit.active = true;
@@ -35,7 +43,6 @@ public class LeftGlove : Interactable
 
             GameProgress.SaveProgress(0, stretchTime, true);
 
-            GameObject.Find("Timer Displays").GetComponent<Image>().enabled = true;
             Timer.Start(stretchTime);
             AudioUtils.PlaySectionMusic();
         }

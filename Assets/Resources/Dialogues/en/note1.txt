@@ -1,5 +1,5 @@
 document_niko;
-L_document_white_Development Diary #23_Damn! I have been informed that another mishap has occurred with the gloves.;
-L_document_white_Development diary #23_Again it was for not reading the instructions and I sent a reminder to everyone.;
-L_document_white_Development Diary #23_Since it doesn't look like that will change, I've decided to include a small helper AI that assesses the wearer's situation.;
-L_document_white_Development diary #23_I'm going to put a button with a big <b>H</b> to activate it. Let's hope that no more accidents happen like this...;
+L_document_white_Development Diary #104_Damn! I have been informed that another mishap has occurred with the gloves.;
+L_document_white_Development Diary #104_Again it was for not reading the instructions and I sent a reminder to everyone.;
+L_document_white_Development Diary #104_As it doesn't look like that's going to change, I've decided to include a little helper AI that assesses the wearer's situation.;
+L_document_white_Development Diary #104_I'm going to put a button with a big <color=#475dff><b>[H]</b></color> to activate it. Let's hope that no more accidents happen like this...;

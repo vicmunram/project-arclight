@@ -2402,6 +2402,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 73.233765
       objectReference: {fileID: 0}
+    - target: {fileID: 8181396151428088291, guid: d37a1437eb7bb794593ff22c3cebfb4c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000022530556
+      objectReference: {fileID: 0}
     - target: {fileID: 8196598094423080176, guid: d37a1437eb7bb794593ff22c3cebfb4c,
         type: 3}
       propertyPath: m_Name
@@ -2452,7 +2457,7 @@ MonoBehaviour:
   timer: 0
   once: 1
   interactions: []
-  dialogueName: dialogue12
+  dialogueName: dialogue11
 --- !u!1001 &110649448
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7225,7 +7230,7 @@ MonoBehaviour:
   interactions:
   - {fileID: 238180166}
   - {fileID: 1704526579}
-  dialogueName: dialogue9
+  dialogueName: dialogue8
   extraInteractions:
   - {fileID: 1818658083}
 --- !u!1001 &363631357
@@ -22117,7 +22122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
-  dialogueName: dialogue11
+  dialogueName: dialogue10
 --- !u!50 &1159417921
 Rigidbody2D:
   serializedVersion: 4
@@ -35573,7 +35578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
-  dialogueName: dialogue10
+  dialogueName: dialogue9
 --- !u!50 &1857621791
 Rigidbody2D:
   serializedVersion: 4

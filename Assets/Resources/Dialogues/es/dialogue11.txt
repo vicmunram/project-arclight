@@ -1,6 +1,9 @@
-unknownCry-niko;
-L-unknownCry-white-???-Creo que eso que has cogido no te pertenece... De hecho, ni siquiera eres miembro de <color=#c072ed><b>CryCorp</b></color>... ¿Qué haces aquí?;
-L-cry-#c072ed-Cry-Bueno, primero me presentaré yo. Soy <color=#c072ed><b>Cry</b></color>, la IA de seguridad de las instalaciones. Necesito que sueltes eso y te marches o me veré obligado a llamar a los cuerpos de seguridad para que te escolten fuera.;
-R-niko-teal-Niko-Soy <color=teal><b>Niko</b></color> y lo... lo siento mucho, pero no me iré de aquí hasta conseguir lo que busco.;
-L-cry-#c072ed-Cry-Lanzando protocolo de alarma. Tienes el tiempo que aparece en esta pantalla para rendirte. Confío en que cambiarás de opinión.;
-R-niko-teal-Niko-Eso no va a pasar. (Esa puerta se ha abierto, continuaré por ahí);
+unknownCry_niko;
+L_unknownCry_#c072ed_Cry_¡NOOOOOOOOOO!;
+R_niko_teal_Niko_Menos mal, ya se ha acabado todo.;
+L_cry_#c072ed_Cry_JA. JAJA. JAJAJAJAJAJAJAJAJAJA.;
+R_niko_teal_Niko_¡¿Qué?!;
+L_cry_#c072ed_Cry_Niko, Niko, Niko... Y decías que no te suponía un reto. Me has decepcionado. Pero ya te lo he dicho, no puedo dejar que hundas la empresa.;
+L_cry_#c072ed_Cry_No es personal, bueno, un poco sí. Te vas a quedar aquí encerrado durante mucho tiempo.;
+L_cry_#c072ed_Cry_Disfruta la estancia.;
+R_niko_teal_Niko_...;

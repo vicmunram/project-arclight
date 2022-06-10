@@ -1,4 +1,6 @@
-document-player;
-L-document-Diario de desarrollo #16-Hemos descubierto una nueva funcionalidad de los guantes por accidente.;
-L-document-Diario de desarrollo #16-Al parecer si el portador se acerca mucho a uno de los sensores de seguridad, sin importar el estado en el que se encuentre, estos emitiran una descarga que fundirá el sensor.;
-L-document-Diario de desarrollo #16-Además, parece que la descarga es tan grande que incluso puede hacer que los sistemas se comporten de forma completamente contraria a la programada.;
+document_niko;
+L_document_white_Development Diary #95_We discovered a new glove functionality by accident.;
+L_document_white_Development Diary #95_Apparently they are used to destroy <color=grey><b>sensors</b></color>, specifically, the <b>Cry</b> security ones that are circular and gray.;
+L_document_white_Development Diary #95_This occurs when hovering over and activating the interact feature or hovering over using the cast feature.;
+L_document_white_Development Diary #95_Also, it seems that disconnecting them from the system in this way causes the protocols with timers to act contrary to what was programmed.;
+L_document_white_Development Diary #95_So you'd better be very careful and avoid them.;

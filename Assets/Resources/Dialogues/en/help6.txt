@@ -1,3 +1,5 @@
-L-gloves-Glov-Analizando situación...;
-L-gloves-Glov-En esta sala hay cristales especiales de CryCorp.;
-L-gloves-Glov-Si te lanzas hacia ellos utilizándome saldrás reflejado.;
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analyzing situation...</i>;
+L_gloves_#475dff_GloV1_I detect my partner. If you pick it up you can use the dash function <color=#475dff><b>[Mouse Right BTN]</b></color>.;
+L_gloves_#475dff_GloV1_With it you can go through the <color=#ff9d00><b>ethereal crystals</b></color> of CryCorp, although with the shoot function you could also.;
+L_gloves_#475dff_GloV1_But be careful, if you touch them they will hurt you. Luckily, my partner will be able to protect you from another hit.;

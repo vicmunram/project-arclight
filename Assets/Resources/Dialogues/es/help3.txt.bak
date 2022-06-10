@@ -1,4 +1,5 @@
-L;gloves;Glov;Analizando situación...
-L;gloves;Glov;En esta sala hay multitud de elementos que son mortales al contacto, aunque puedo protegerte de algunos golpes.
-L;gloves;Glov;Eso sí, si te lanzas hacia ellos utilizandome no podré hacer nada.
-L;gloves;Glov;Además, no recuperaré la función total de protección hasta que pasemos por un escáner de sala.
+gloves_niko;
+L_gloves_blue_GloV1_<i>Analizando situación...</i>;
+L_gloves_blue_GloV1_Cuidado porque hay multitud de elementos que son <color=#ded410><b>mortales</b></color> al contacto, aunque puedo protegerte de al menos un golpe.;
+L_gloves_blue_GloV1_Eso sí, si te lanzas hacia ellos utilizandome, no tendré tiempo para hacer nada.;
+L_gloves_blue_GloV1_Además, no recuperaré la función total de protección hasta que seas recuperado en un escáner o pasemos por otro.;

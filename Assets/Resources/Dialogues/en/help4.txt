@@ -1,3 +1,3 @@
-L-gloves-Glov-Analizando situación...;
-L-gloves-Glov-En esta sala hay cristales especiales de CryCorp.;
-L-gloves-Glov-Si te lanzas hacia ellos utilizándome saldrás reflejado.;
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analyzing situation...</i>;
+L_gloves_#475dff_GloV1_Here are <color=#6bc8fa><b>reflective glass</b></color> from CryCorp. If you use the shoot function, when colliding with them you will be reflected.;

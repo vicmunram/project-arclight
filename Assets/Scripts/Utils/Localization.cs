@@ -36,7 +36,15 @@ public static class Localization
 
     public static TextAsset GetLocalizedText(string path, string fileName)
     {
+        TextAsset textAsset = Resources.Load<TextAsset>(path + PlayerPrefs.GetString("textLanguage", "es") + "/" + fileName);
+        textAsset.text.Replace("<br>", "\n");
         return Resources.Load<TextAsset>(path + PlayerPrefs.GetString("textLanguage", "es") + "/" + fileName);
+    }
+
+    public static string GetFormattedText(string text)
+    {
+        string formattedText = text.Trim().Replace("<br>", "\n");
+        return formattedText;
     }
 
     public static void TranslateTexts(Text[] texts)

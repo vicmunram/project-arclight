@@ -56,7 +56,7 @@ public class SecurityTerminal : Interactable
                     if (index == 0)
                     {
                         infoMessage.alignment = TextAnchor.UpperLeft;
-                        infoMessage.text = lines[index].Trim();
+                        infoMessage.text = Localization.GetFormattedText(lines[index]);
                         SetInteractText();
                     }
                     else if (index == lines.Length - 1)
@@ -132,12 +132,12 @@ public class SecurityTerminal : Interactable
 
     public void Next()
     {
-        if (!decrypted && !Timer.enabled && login)
+        if (!decrypted && !Timer.enabled && login && infoMessage.alignment == TextAnchor.UpperLeft)
         {
             if (index >= 0 && index < lines.Length - 1)
             {
                 index++;
-                infoMessage.text = lines[index].Trim();
+                infoMessage.text = Localization.GetFormattedText(lines[index]);
                 SetInteractText();
             }
         }
@@ -145,12 +145,12 @@ public class SecurityTerminal : Interactable
 
     public void Back()
     {
-        if (!decrypted && !Timer.enabled && login)
+        if (!decrypted && !Timer.enabled && login && infoMessage.alignment == TextAnchor.UpperLeft)
         {
             if (index > 0 && index <= lines.Length - 1)
             {
                 index--;
-                infoMessage.text = lines[index].Trim();
+                infoMessage.text = Localization.GetFormattedText(lines[index]);
                 SetInteractText();
             }
         }

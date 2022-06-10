@@ -1,4 +1,6 @@
-document-player;
-L-document-Diario de desarrollo #16-Hemos descubierto una nueva funcionalidad de los guantes por accidente.;
-L-document-Diario de desarrollo #16-Al parecer si el portador se acerca mucho a uno de los sensores de seguridad, sin importar el estado en el que se encuentre, estos emitiran una descarga que fundirá el sensor.;
-L-document-Diario de desarrollo #16-Además, parece que la descarga es tan grande que incluso puede hacer que los sistemas se comporten de forma completamente contraria a la programada.;
+document_niko;
+L_document_white_Diario de desarrollo #95_Hemos descubierto una nueva funcionalidad de los guantes por accidente.;
+L_document_white_Diario de desarrollo #95_Al parecer sirven para destruir <color=grey><b>sensores</b></color>, concretamente, los de seguridad de <b>Cry</b> que son circulares y grises.;
+L_document_white_Diario de desarrollo #95_Esto ocurre al colocarse encima y activar la función de interacción o al pasar por encima usando la función de lanzamiento.;
+L_document_white_Diario de desarrollo #95_Además, parece que el desconectarlos así del sistema, hace que los protocolos con temporizadores actúen de forma contraria a la programada.;
+L_document_white_Diario de desarrollo #95_Así que será mejor tener mucho cuidado y evitarlos.;
