@@ -5,6 +5,7 @@ using System.Collections;
 public class PlayerControl : MonoBehaviour
 {
     public bool talking;
+    public bool terminal;
     public bool canInteract;
     public bool paused;
     private Vector3 checkpoint;
@@ -32,11 +33,16 @@ public class PlayerControl : MonoBehaviour
         {
             AskForHelp();
         }
+        else if (!talking && terminal)
+        {
+            CheckTerminal();
+        }
 
         if (hits < 1 || Input.GetKeyDown(KeyCode.K))
         {
             Respawn(false);
         }
+
         if (Timer.enabled)
         {
             if (Timer.Subtract(Time.deltaTime) <= 0)
@@ -44,6 +50,7 @@ public class PlayerControl : MonoBehaviour
                 Respawn(true);
             }
         }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!paused)
@@ -54,14 +61,6 @@ public class PlayerControl : MonoBehaviour
             {
                 Resume();
             }
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (paused)
-        {
-
         }
     }
 
@@ -92,6 +91,19 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    private void CheckTerminal()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            GameObject.Find("Terminal").GetComponent<SecurityTerminal>().Next();
+
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            GameObject.Find("Terminal").GetComponent<SecurityTerminal>().Back();
+        }
+    }
+
     private void AskForHelp()
     {
         GameObject help = GameObject.Find("Help");
@@ -106,9 +118,43 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+
+
     public void SetRespawnPoint(Vector3 position)
     {
         checkpoint = position;
+    }
+
+    public void SetHits(int currentHits)
+    {
+        string playerNumber = GetComponent<PlayerMovement>().canDash == true ? "3" : "2";
+        if (currentHits != 0)
+        {
+            AudioUtils.PlayEffect("hit");
+            if (currentHits == 3)
+            {
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player" + playerNumber + "Barrier2");
+            }
+            else if (currentHits == 2)
+            {
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player" + playerNumber + "Barrier");
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player" + playerNumber);
+            }
+        }
+        else
+        {
+            AudioUtils.PlayEffect("kill");
+            string path = "Sprites/Player" + playerNumber + "Barrier";
+            if (playerNumber == "3")
+            {
+                path = path + "2";
+            }
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(path);
+        }
+        hits = currentHits;
     }
 
     public void Respawn(bool loadCheckpoint)
@@ -128,6 +174,7 @@ public class PlayerControl : MonoBehaviour
     {
         paused = true;
         Time.timeScale = 0;
+        GetComponent<PlayerMovement>().canMove = false;
         SceneManager.LoadSceneAsync("Pause", LoadSceneMode.Additive);
     }
 
@@ -135,6 +182,7 @@ public class PlayerControl : MonoBehaviour
     {
         paused = false;
         Time.timeScale = 1;
+        GetComponent<PlayerMovement>().canMove = true;
         SceneManager.UnloadSceneAsync("Pause");
     }
 
@@ -146,10 +194,11 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         PlayerUI playerUI = GameObject.Find("Player UI").GetComponent<PlayerUI>();
+        playerUI.fullDisplay.text = Localization.GetLocalizedString("RESPAWNING");
         int timeRemaining = 2;
         while (timeRemaining > 0)
         {
-            playerUI.formattedTime.text = "Reapareciendo...";
+            playerUI.countdownDisplay.text = null;
             yield return new WaitForSeconds(1f);
             timeRemaining--;
         }

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -8,7 +6,11 @@ public class PlayerCamera : MonoBehaviour
     public Transform player;
     public float offset;
     public Vector2 xRange;
+    public bool xFixedMin;
+    public bool xFixedMax;
     public Vector2 yRange;
+    public bool yFixedMin;
+    public bool yFixedMax;
 
     //Resizing
     private bool resizing;
@@ -16,11 +18,14 @@ public class PlayerCamera : MonoBehaviour
     private float t = 0.0f;
     private float cameraSize;
 
-    //Resolution
-    float defaultWidth;
     void Start()
     {
-        this.transform.position = new Vector3(FixCoordinate(player.position.x, xRange.x, xRange.y), FixCoordinate(player.position.y, yRange.x, yRange.y), -2);
+        xFixedMin = xFixedMin || xRange.x != 0;
+        xFixedMax = xFixedMax || xRange.y != 0;
+        yFixedMin = yFixedMin || yRange.x != 0;
+        yFixedMax = yFixedMax || yRange.y != 0;
+
+        this.transform.position = new Vector3(FixCoordinate(player.position.x, xRange, xFixedMin, xFixedMax), FixCoordinate(player.position.y, yRange, yFixedMin, yFixedMax), -2);
         main = Camera.main;
     }
 
@@ -41,22 +46,22 @@ public class PlayerCamera : MonoBehaviour
 
     void FixedUpdate()
     {
-        this.transform.position = new Vector3(Mathf.Lerp(this.transform.position.x, FixCoordinate(player.position.x, xRange.x, xRange.y), Time.deltaTime * offset),
-                                          Mathf.Lerp(this.transform.position.y, FixCoordinate(player.position.y, yRange.x, yRange.y), Time.deltaTime * offset),
+        this.transform.position = new Vector3(Mathf.Lerp(this.transform.position.x, FixCoordinate(player.position.x, xRange, xFixedMin, xFixedMax), Time.deltaTime * offset),
+                                          Mathf.Lerp(this.transform.position.y, FixCoordinate(player.position.y, yRange, yFixedMin, yFixedMax), Time.deltaTime * offset),
                                           -2);
     }
 
-    private float FixCoordinate(float playerCoordinate, float min, float max)
+    private float FixCoordinate(float playerCoordinate, Vector2 range, bool fixedMin, bool fixedMax)
     {
         float coordinate = playerCoordinate;
 
-        if (min != 0 && coordinate < min)
+        if (fixedMin && coordinate < range.x)
         {
-            coordinate = min;
+            coordinate = range.x;
         }
-        else if (max != 0 && coordinate > max)
+        else if (fixedMax && coordinate > range.y)
         {
-            coordinate = max;
+            coordinate = range.y;
         }
 
         return coordinate;
@@ -70,5 +75,28 @@ public class PlayerCamera : MonoBehaviour
             t = 0.0f;
             cameraSize = size;
         }
+    }
+
+    public void ChangeRange(Vector2 newXRange, Vector2 newYRange)
+    {
+        if (!xFixedMin)
+        {
+            xFixedMin = newXRange.x != xRange.x;
+        }
+        if (!xFixedMax)
+        {
+            xFixedMax = xFixedMax || newXRange.y != xRange.y;
+        }
+        xRange = newXRange;
+
+        if (!yFixedMin)
+        {
+            yFixedMin = yFixedMin || newYRange.x != yRange.x;
+        }
+        if (!yFixedMax)
+        {
+            yFixedMax = yFixedMax || newYRange.y != yRange.y;
+        }
+        yRange = newYRange;
     }
 }

@@ -4,8 +4,8 @@ public class RightCircle : Button
 {
     public override void FirstInteraction()
     {
-        Remove();
         interactText.text = null;
+        defaultMessage = "BLANK";
 
         RotaryInfinite[] rotaries = GameObject.Find("Right Circle").GetComponentsInChildren<RotaryInfinite>();
         foreach (RotaryInfinite rotary in rotaries)
@@ -16,7 +16,7 @@ public class RightCircle : Button
         MovableLoop[] movables = GameObject.Find("Movable Blades").GetComponentsInChildren<MovableLoop>();
         foreach (MovableLoop movable in movables)
         {
-            movable.isMoving = true;
+            movable.Activate();
         }
 
         GameObject.Find("Second Door").GetComponent<MovableGroup>().active = true;

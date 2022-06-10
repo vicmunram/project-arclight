@@ -49,6 +49,29 @@ public abstract class Movable : MonoBehaviour
         }
     }
 
+    public void Activate()
+    {
+        isMoving = true;
+
+        AudioUtils.PlayEffect(gameObject, true);
+    }
+
+    public void Deactivate()
+    {
+        isMoving = false;
+
+        AudioSource audioSource = GetComponent<AudioSource>();
+        if (audioSource != null && audioSource.loop)
+        {
+            audioSource.Stop();
+        }
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
+    }
+
     public void CheckCompleted()
     {
         if (ReachedOrPassed(targetPosition))

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.UI;
 
 public class LeftGlove : Interactable
 {
@@ -7,6 +7,8 @@ public class LeftGlove : Interactable
     public float stretchTime;
     private Dialogue dialogue;
     private MovableGroup exit;
+    private bool displayActive;
+    private bool exitOpened;
 
     void Start()
     {
@@ -21,33 +23,39 @@ public class LeftGlove : Interactable
         if (dialogue.loaded)
         {
             Vector2Int dialogueLine = dialogue.GetDialogueLine();
-            if (dialogueLine.x == dialogueLine.y && !exit.active)
+            if (dialogueLine.x == dialogueLine.y - 1 && !displayActive)
+            {
+                GameObject timerDisplays = GameObject.Find("Timer Displays");
+                timerDisplays.GetComponent<Image>().enabled = true;
+                timerDisplays.GetComponentsInChildren<Text>()[0].text = "00:00";
+                displayActive = true;
+            }
+            if (dialogueLine.x == dialogueLine.y && !exitOpened)
             {
                 exit.active = true;
+                exitOpened = true;
             }
         }
 
-        if (!dialogue.active && exit.active)
+        if (Timer.enabled == false && !dialogue.active && exitOpened)
         {
             GetComponent<Collider2D>().enabled = false;
-
-            GameObject player = GameObject.Find("Player");
-            PlayerControl playerControl = player.GetComponent<PlayerControl>();
-            playerControl.maxHits = 2;
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            playerMovement.maxSpeed = 5f;
-            playerMovement.canPunch = true;
 
             GameProgress.SaveProgress(0, stretchTime, true);
 
             Timer.Start(stretchTime);
+            AudioUtils.PlaySectionMusic();
         }
     }
 
     public override void FirstInteraction()
     {
-        GetComponent<Renderer>().enabled = false;
+        Remove();
         interactText.text = null;
+
+        PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        playerMovement.canPunch = true;
+        playerMovement.SetPlayerState();
 
         dialogue.Activate();
     }

@@ -15,7 +15,6 @@ public class CameraChanger : Changer
     protected override void Change()
     {
         playerCamera.Resize(size);
-        playerCamera.xRange = xRange;
-        playerCamera.yRange = yRange;
+        playerCamera.ChangeRange(xRange, yRange);
     }
 }

@@ -1,0 +1,6 @@
+document_niko;
+L_document_white_Diario de desarrollo #5_Llevo meses investigando esos puñeteros cristales y nada. No entiendo porqué tienen una mejor extracción de energía que el resto.;
+L_document_white_Diario de desarrollo #5_Su aspecto, composición... ¡todo es prácticamente igual! Y lo peor de todo es que Reynald me está presionando para que le dé resultados.;
+L_document_white_Diario de desarrollo #5_Empiezo a notar como mis fuerzas se apagan, y es que, no se cuando fue la última vez que dormí más de 4 horas.;
+L_document_white_Diario de desarrollo #5_Por suerte, Reynald me ha dicho que va a mandarme un ayudante. Acaba de salir de la universidad, pero algo de trabajo me quitará.;
+L_document_white_Diario de desarrollo #5_En fin, más vale que siga con los ensayos...;

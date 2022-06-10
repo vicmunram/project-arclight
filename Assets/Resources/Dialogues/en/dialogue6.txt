@@ -1,0 +1,10 @@
+cry_niko;
+L_cry_#c072ed_Cry_I thought that to thank you for what you've done I'm not going to reactivate the alarm.;
+R_niko_teal_Niko_Th-thanks.;
+L_cry_#c072ed_Cry_Can I ask you something?;
+R_niko_teal_Niko_Eh, yes, of course.;
+L_cry_#c072ed_Cry_Why are you doing all this?;
+R_niko_teal_Niko_I want to show society the truth about CryCorp. They can't keep taking advantage of us.;
+L_cry_#c072ed_Cry_Hmm, I'll try to help you. I can't bear to belong to such a miserable company.;
+R_niko_teal_Niko_Really? I was wrong about you, I guess.;
+L_cry_#c072ed_Cry_Don't worry, continue here.;

@@ -1,0 +1,3 @@
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analyzing situation...</i>;
+L_gloves_#475dff_GloV1_With the shoot function you can use CryCorp's <color=#6ab0aa><b>anchor crystals</b></color> to move around the room.;

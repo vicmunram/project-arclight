@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PauseMenu : MonoBehaviour
 {
     void Start()
     {
         InitCanvas();
+        Localization.TranslateTexts(GameObject.FindObjectsOfType<Text>());
         InitGraphicSettings();
         InitSoundSettings();
         GameObject.Find("Return").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Return);
@@ -32,13 +34,22 @@ public class PauseMenu : MonoBehaviour
         PlayerPrefs.SetInt(name, toggle.isOn ? 1 : 0);
     }
 
+    private void SaveToggleMusic(Toggle toggle, string name)
+    {
+        SaveToggle(toggle, name);
+        AudioUtils.ToggleMusic();
+    }
+
     private void Return()
     {
-        SceneManager.LoadScene("Main Menu");
+        Time.timeScale = 1;
+        AudioUtils.PlayMusic("MainMenu");
+        StartCoroutine(PlayEffectAndLoadScene("Main Menu"));
     }
 
     private void QuitGame()
     {
+        AudioUtils.PlayEffect("menuButton");
         Application.Quit();
     }
 
@@ -51,11 +62,6 @@ public class PauseMenu : MonoBehaviour
 
     private void InitGraphicSettings()
     {
-        Dropdown resolutionDropdown = GameObject.Find("Resolution Dropdown").GetComponent<Dropdown>();
-        resolutionDropdown.onValueChanged.AddListener(delegate { ChangeResolution(resolutionDropdown.options[resolutionDropdown.value].text); });
-        string[] resolution = PlayerPrefs.GetString("resolution", "1920×1080").Split('×');
-        Screen.SetResolution(int.Parse(resolution[0]), int.Parse(resolution[1]), true);
-
         Toggle fullscreenToggle = GameObject.Find("Toggle Fullscreen").GetComponent<Toggle>();
         fullscreenToggle.onValueChanged.AddListener(delegate { ToggleFullscreen(fullscreenToggle); });
         fullscreenToggle.isOn = PlayerPrefs.GetInt("fullscreen", 1) == 1 ? true : false;
@@ -68,8 +74,15 @@ public class PauseMenu : MonoBehaviour
         soundToggle.isOn = PlayerPrefs.GetInt("sound", 1) == 1 ? true : false;
 
         Toggle musicToggle = GameObject.Find("Toggle Music").GetComponent<Toggle>();
-        musicToggle.onValueChanged.AddListener(delegate { SaveToggle(musicToggle, "music"); });
+        musicToggle.onValueChanged.AddListener(delegate { SaveToggleMusic(musicToggle, "music"); });
         musicToggle.isOn = PlayerPrefs.GetInt("music", 1) == 1 ? true : false;
+    }
+
+    IEnumerator PlayEffectAndLoadScene(string scene)
+    {
+        AudioUtils.PlayEffect("menuButton");
+        yield return new WaitForSeconds(0.1f);
+        SceneManager.LoadScene(scene);
     }
 
 }

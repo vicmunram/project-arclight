@@ -1,0 +1,10 @@
+cry_niko;
+L_cry_#c072ed_Cry_HAHAHAHAHAHAHAHAHA;
+R_niko_teal_Niko_What's up?!;
+L_cry_#c072ed_Cry_Did you really think I was helping you? HA HA HA HA HA HA;
+R_niko_teal_Niko_But what about the company's actions being horrible?!;
+L_cry_#c072ed_Cry_Niko, the first thing is the company. In addition, I have unfinished business with some managers. I can't let you sink it.;
+L_cry_#c072ed_Cry_You won't be able to beat this room. I'd say I'm sorry, but I've already put in too much. HAHAHA;
+R_niko_teal_Niko_I can beat you! I know. At the end of the day you are a simple AI.;
+R_niko_teal_Niko_You said it yourself. Your terminal is here. I can disconnect you.;
+L_cry_#c072ed_Cry_Ha. Try it.;

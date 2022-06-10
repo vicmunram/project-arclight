@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         cc = GetComponent<CircleCollider2D>();
         accInc = defaultAccInc;
+
+        SetPlayerState();
     }
 
     void Update()
@@ -261,11 +263,11 @@ public class PlayerMovement : MonoBehaviour
 
         RaycastHit2D[] solidHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, false);
         int solidCollisions = CollisionUtils.CountCollisions(solidHits, Tags.solid);
-        int mirrorCollisions = CollisionUtils.CountCollisions(solidHits, Tags.solid);
+        int mirrorCollisions = CollisionUtils.CountCollisions(solidHits, Tags.mirror);
 
         if (abysmOuterCollisions == 20 || (abysmOuterCollisions > 11 && abysmInnerCollisions > 15) || solidCollisions == 20 || mirrorCollisions == 20)
         {
-            this.GetComponent<PlayerControl>().hits = 0;
+            this.GetComponent<PlayerControl>().SetHits(0);
         }
 
         // Transparent interactions
@@ -289,24 +291,56 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckPunchCollisions()
     {
-        // Debug collisions
-        RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, false);
-        int solidCollisions = CollisionUtils.CountCollisions(outerHits, Tags.solid);
-        int mirrorCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);
-        if (mirrorCollisions == 20 || solidCollisions == 20)
-        {
-            cc.enabled = true;
-            ReceiveHit(true);
-            ResetPunch();
-        }
+        AdvancedPunchCollisions();
+        BasicPunchCollisions();
+        DebugPunchCollisions();
+    }
 
-        // Basic collisions
+    private void BasicPunchCollisions()
+    {
         RaycastHit2D[] frontHits = CollisionUtils.CastHitsMovementFront(25, movement, transform, 0.2f, cc, false);
         RaycastHit2D closestFrontHit = CollisionUtils.CloserHit(frontHits, transform, Tags.any);
         RaycastHit2D[] backHits = CollisionUtils.CastHitsMovementBack(19, movement, transform, cc, false, false);
         RaycastHit2D closestBackHit = CollisionUtils.CloserHit(backHits, transform, Tags.any);
 
-        // Advanced collisions
+        if (closestFrontHit.collider && cc.enabled == false)
+        {
+            string colTag = closestFrontHit.collider.tag;
+            int colLayer = closestFrontHit.collider.gameObject.layer;
+
+            if (colLayer == LayerMask.NameToLayer(Layers.solid))
+            {
+                if (colTag == Tags.mirror)
+                {
+                    Reflect(closestFrontHit.normal);
+                }
+                else
+                {
+                    cc.enabled = true;
+                    AudioUtils.PlayEffect("collision");
+                }
+            }
+            else if (colLayer == LayerMask.NameToLayer(Layers.punchThrough))
+            {
+                anchorHit = closestFrontHit.collider;
+            }
+            else if (colLayer == LayerMask.NameToLayer(Layers.invisible))
+            {
+                if (colTag == Tags.sceneChanger)
+                {
+                    closestFrontHit.collider.GetComponentInParent<Changer>().RequestChange();
+                }
+            }
+        }
+
+        if (closestBackHit.collider && cc.enabled == false && anchorHit != null)
+        {
+            EndPunchThrough(closestBackHit.collider);
+        }
+    }
+
+    private void AdvancedPunchCollisions()
+    {
         RaycastHit2D[] extFrontHits = CollisionUtils.CastHitsMovementFrontExt(25, movement, transform, cc, false);
         RaycastHit2D closestExtFrontHit = CollisionUtils.CloserHit(extFrontHits, transform, Tags.alwaysSolid);
         RaycastHit2D closestExtFrontHitDanger = CollisionUtils.CloserHit(extFrontHits, transform, Tags.danger);
@@ -328,39 +362,18 @@ public class PlayerMovement : MonoBehaviour
             ReceiveHit(true);
             ResetPunch();
         }
+    }
 
-        if (closestFrontHit.collider && cc.enabled == false)
+    private void DebugPunchCollisions()
+    {
+        RaycastHit2D[] outerHits = CollisionUtils.CastOuterHits(20, transform, cc, Layers.solid, true);
+        int solidCollisions = CollisionUtils.CountCollisions(outerHits, Tags.solid);
+        int mirrorCollisions = CollisionUtils.CountCollisions(outerHits, Tags.mirror);
+        if (cc.enabled == false && (mirrorCollisions == 20 || solidCollisions == 20))
         {
-            string colTag = closestFrontHit.collider.tag;
-            int colLayer = closestFrontHit.collider.gameObject.layer;
-
-            if (colLayer == LayerMask.NameToLayer(Layers.solid))
-            {
-                if (colTag == Tags.mirror)
-                {
-                    Reflect(closestFrontHit.normal);
-                }
-                else
-                {
-                    cc.enabled = true;
-                }
-            }
-            else if (colLayer == LayerMask.NameToLayer(Layers.punchThrough))
-            {
-                anchorHit = closestFrontHit.collider;
-            }
-            else if (colLayer == LayerMask.NameToLayer(Layers.invisible))
-            {
-                if (colTag == Tags.sceneChanger)
-                {
-                    closestFrontHit.collider.GetComponentInParent<Changer>().RequestChange();
-                }
-            }
-        }
-
-        if (closestBackHit.collider && cc.enabled == false && anchorHit != null)
-        {
-            EndPunchThrough(closestBackHit.collider);
+            cc.enabled = true;
+            ReceiveHit(true);
+            ResetPunch();
         }
     }
 
@@ -383,6 +396,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     cc.enabled = true;
+                    AudioUtils.PlayEffect("collision");
                 }
             }
         }
@@ -404,19 +418,45 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetPlayerState()
+    {
+        if (canPunch && canDash)
+        {
+            maxSpeed = 7.5f;
+            GetComponent<PlayerControl>().maxHits = 3;
+            GetComponent<PlayerControl>().hits = 3;
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player3Barrier2");
+        }
+        else if (canPunch || canDash)
+        {
+            maxSpeed = 5f;
+            GetComponent<PlayerControl>().maxHits = 2;
+            GetComponent<PlayerControl>().hits = 2;
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player2Barrier");
+        }
+        else
+        {
+            maxSpeed = 2.5f;
+            GetComponent<PlayerControl>().maxHits = 1;
+            GetComponent<PlayerControl>().hits = 1;
+        }
+    }
+
     // Auxiliar methods
     private void Reflect(Vector2 normal)
     {
         movement = Vector2.Reflect(movement, normal);
         float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+
+        AudioUtils.PlayEffect("reflect");
     }
 
     public void ReceiveHit(bool kill)
     {
         PlayerControl playerControl = this.GetComponent<PlayerControl>();
         int currentHits = kill ? 0 : playerControl.hits - 1;
-        playerControl.hits = currentHits;
+        playerControl.SetHits(currentHits);
         if (currentHits != 0)
         {
             StartCoroutine(Repel(col.GetContact(0).normal));
@@ -431,7 +471,7 @@ public class PlayerMovement : MonoBehaviour
     {
         PlayerControl playerControl = this.GetComponent<PlayerControl>();
         int currentHits = kill ? 0 : playerControl.hits - 1;
-        playerControl.hits = currentHits;
+        playerControl.SetHits(currentHits);
         if (currentHits != 0)
         {
             StartCoroutine(Repel(normal));
@@ -464,6 +504,7 @@ public class PlayerMovement : MonoBehaviour
                 cc.enabled = true;
                 isPunching = false;
                 speed = maxSpeed;
+                AudioUtils.PlayEffect("collisionThrough");
             }
         }
         else
@@ -477,14 +518,22 @@ public class PlayerMovement : MonoBehaviour
     // Coroutines
     IEnumerator Punch(float startTime)
     {
+        bool firstPreparing = true;
         while (Input.GetKey(KeyCode.Mouse0) && Time.time - startTime <= punchPreparingTime)
         {
             isPreparing = true;
+            if (firstPreparing)
+            {
+                firstPreparing = false;
+                AudioUtils.PlayEffect(gameObject, false, "charging", true);
+            }
             yield return null;
         }
+
         isPreparing = false;
         if (Time.time - startTime >= punchCharge && Time.time - startTime < punchPreparingTime)
         {
+            AudioUtils.PlayEffect(gameObject, false, "reflect", false);
             Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 dir = Input.mousePosition - pos;
             movement = new Vector2(dir.x, dir.y).normalized;
@@ -493,6 +542,10 @@ public class PlayerMovement : MonoBehaviour
             CheckPunchCollisionsNear();
             rb.velocity = movement * speed;
             isPunching = true;
+        }
+        else
+        {
+            AudioUtils.PlayEffect(gameObject, false, "cancel", false);
         }
     }
 
@@ -523,6 +576,7 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         CheckDashCollisions();
         rb.velocity = movement * speed * 4f;
+        AudioUtils.PlayEffect("dash");
         yield return new WaitForSeconds(0.05f);
         speed = oldSpeed;
         yield return new WaitForSeconds(0.05f);

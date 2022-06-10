@@ -1,0 +1,6 @@
+document_niko;
+L_document_white_Development Diary #95_We discovered a new glove functionality by accident.;
+L_document_white_Development Diary #95_Apparently they are used to destroy <color=grey><b>sensors</b></color>, specifically, the <b>Cry</b> security ones that are circular and gray.;
+L_document_white_Development Diary #95_This occurs when hovering over and activating the interact feature or hovering over using the cast feature.;
+L_document_white_Development Diary #95_Also, it seems that disconnecting them from the system in this way causes the protocols with timers to act contrary to what was programmed.;
+L_document_white_Development Diary #95_So you'd better be very careful and avoid them.;

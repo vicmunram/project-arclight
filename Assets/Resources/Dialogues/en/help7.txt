@@ -1,0 +1,4 @@
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analyzing situation...</i>;
+L_gloves_#475dff_GloV1_With the dash function you can also temporarily destroy the <color=#b8b1a5><b>drained crystals</b></color> that CryCorp uses for its energy.;
+L_gloves_#475dff_GloV1_Much of it has been removed and they have broken. But even so, they still retain a little, so after a while they will recompose themselves.;

@@ -1,0 +1,5 @@
+cry_niko;
+L_cry_#c072ed_Cry_Niko, en la siguiente sala se encuentra la terminal que me controla. Espero que no me guardes rencor, jaja.;
+L_cry_#c072ed_Cry_Igualmente, te he preparado un botón con el que publicar todos los datos oscuros de CryCorp en la red.;
+R_niko_teal_Niko_De acuerdo. Gracias, Cry. Y no te preocupes, no te guardo ningún tipo de rencor.;
+L_cry_#c072ed_Cry_Me alegro.;

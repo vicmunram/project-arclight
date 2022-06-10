@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class BreakableGroup : MonoBehaviour
 {
+    public GameObject CheckBlock;
     private Breakable[] breakables;
+    private bool broken = false;
 
     void Start()
     {
@@ -19,8 +22,15 @@ public class BreakableGroup : MonoBehaviour
             }
         }
 
-        if (positioneds == breakables.Length)
+        if (positioneds < breakables.Length && !broken)
         {
+            broken = true;
+            AudioUtils.PlayEffect("broken");
+        }
+
+        if (positioneds == breakables.Length && broken)
+        {
+            StartCoroutine(Repair());
             foreach (Breakable breakable in breakables)
             {
                 BoxCollider2D bc = breakable.GetComponent<BoxCollider2D>();
@@ -29,6 +39,15 @@ public class BreakableGroup : MonoBehaviour
                     bc.enabled = true;
                 }
             }
+            broken = false;
         }
+    }
+
+    IEnumerator Repair()
+    {
+        CheckBlock.GetComponent<SpriteRenderer>().enabled = true;
+        AudioUtils.PlayEffect(gameObject, true, "repaired", false);
+        yield return new WaitForSeconds(0.5f);
+        CheckBlock.GetComponent<SpriteRenderer>().enabled = false;
     }
 }

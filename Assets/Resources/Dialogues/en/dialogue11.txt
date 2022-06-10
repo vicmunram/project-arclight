@@ -1,0 +1,9 @@
+unknownCry_niko;
+L_unknownCry_#c072ed_Cry_NOOOOOOOOOO!;
+R_niko_teal_Niko_Thank God, it's all over now.;
+L_cry_#c072ed_Cry_HA. HAHA. HAHAHAHAHAHAHAHAHAHA.;
+R_niko_teal_Niko_What?!;
+L_cry_#c072ed_Cry_Niko, Niko, Niko... And you said it wasn't a challenge for you. You have disappointed me. But I already told you, I can't let you sink the company;
+L_cry_#c072ed_Cry_Not personal, well, kind of. You're going to be stuck here for a long time.;
+L_cry_#c072ed_Cry_Enjoy the stay.;
+R_niko_teal_Niko_...;

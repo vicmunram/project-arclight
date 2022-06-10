@@ -1,0 +1,4 @@
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analyzing situation...</i>;
+L_gloves_#475dff_GloV1_In this room is one of the <color=#475dff><b>switches</b></color> that you can use thanks to me with the interaction function <color=#475dff><b>[E]</b></color>.;
+L_gloves_#475dff_GloV1_Also, there is a <color=#e4a6f5><b>spawn point</b></color>. Interacting with it will change your spawn location in case of an accident.;

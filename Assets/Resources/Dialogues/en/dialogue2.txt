@@ -1,0 +1,9 @@
+cry_niko;
+L_cry_#c072ed_Cry_I'm so sorry, Niko, but this is going too far already. I am not allowed to attack you, but I am allowed to complicate your life.;
+R_niko_teal_Niko_H-how? What do you mean?;
+L_cry_#c072ed_Cry_You see, CryCorp's technology is quite advanced, and this is their main headquarters as you well know.;
+L_cry_#c072ed_Cry_Well, I can modify the facility rooms to my liking, in fact, all the places you've been through;
+L_cry_#c072ed_Cry_have been created by me as you went along. I've had a lot of fun with you, really, but that's enough.;
+L_cry_#c072ed_Cry_You will not pass from here.;
+R_niko_teal_Niko_I'm not going to be scared. It has been very easy to get here (more or less), you are not a challenge for me.;
+R_niko_teal_Niko_(I have to focus. This room has to have a way forward just like the rest);

@@ -7,12 +7,52 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5721758749054218150, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721758749054218150, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.border.y
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721758749054218150, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0.14999999
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721758749054218150, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.border.w
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721758749054218150, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.drawMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721758749054218150, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_AutoTiling
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5784400685444741838, guid: 1ed970c80291240429720d3be6ade1a1,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 5210fdee4df865e46a04e4d5906bbfb0,
+      objectReference: {fileID: 21300000, guid: 29d6cce04731e9747ae770b28c161ba9,
         type: 3}
+    - target: {fileID: 5784400685444741838, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_DrawMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5784400685444741838, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7199795527356061166, guid: 1ed970c80291240429720d3be6ade1a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -26,7 +66,7 @@ PrefabInstance:
     - target: {fileID: 7199795527356061166, guid: 1ed970c80291240429720d3be6ade1a1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7199795527356061166, guid: 1ed970c80291240429720d3be6ade1a1,
         type: 3}
@@ -68,10 +108,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7199795527356061166, guid: 1ed970c80291240429720d3be6ade1a1,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.38996992
+      objectReference: {fileID: 0}
     - target: {fileID: 8153012242922643716, guid: 1ed970c80291240429720d3be6ade1a1,
         type: 3}
       propertyPath: m_Name
-      value: Danger Wall 4x1 Variant
+      value: Danger Wall 4x1 Variant Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8153012242922643716, guid: 1ed970c80291240429720d3be6ade1a1,
         type: 3}

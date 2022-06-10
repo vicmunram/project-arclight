@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class SecondTrap : Button
 {
@@ -23,12 +25,25 @@ public class SecondTrap : Button
                 GameObject.Find("Last Trap Door").GetComponent<MovableGroup>().active = true;
             }
         }
+
+        if (!lastLine)
+        {
+            StartCoroutine(EndGame());
+        }
     }
     public override void FirstInteraction()
     {
-        Remove();
+        Disable();
         interactText.text = null;
+        AudioUtils.StopMusic();
+        AudioUtils.PlayEffect("trap");
 
         dialogue.Activate();
+    }
+
+    IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(10f);
+        SceneManager.LoadScene("Thanks");
     }
 }

@@ -1,0 +1,14 @@
+phone_niko;
+L_phone_white_Niko's phone_<i>Brrrr, brrr...</i>;
+R_niko_teal_Niko_The phone they gave me is ringing, I have to answer it.;
+L_unmasking_lightblue_UnmasKing_Hello Niko, it looks like you've managed to infiltrate successfully. We congratulate you.;
+R_niko_teal_Niko_Thanks, it hasn't been particularly easy, really.;
+L_unmasking_lightblue_UnmasKing_We imagined it. Keep in mind that the more you progress the more complicated the communication will be, so remember:;
+L_unmasking_lightblue_UnmasKing_Your goal is to extract sensitive data from <b>CryCorp</b> that demonstrates how its success as a mega-corporation stems from the suffering of others.;
+L_unmasking_lightblue_UnmasKing_Don't forget, you are alone in there. Be very careful.;
+R_niko_teal_Niko_Don't worry, I trained before the mission.;
+L_unmasking_lightblue_UnmasKing_<b>Niko</b>, you have not been chosen for your strength, but for your hacking skills. Keep it in mind.;
+R_niko_teal_Niko_Okay... You can trust me.;
+L_unmasking_lightblue_UnmasKing_We hope so.;
+L_phone_white_Niko's phone_<i>Beep</i>;
+R_niko_teal_Niko_Sigh...;
