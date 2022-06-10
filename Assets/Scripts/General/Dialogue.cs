@@ -19,13 +19,16 @@ public class Dialogue : MonoBehaviour
     private string charactersPath = "Characters/";
     private string[] lines;
     private int index = -1;
-    private string nextSentence = "[E] Next";
-    private string closeDialogue = "[E] Close";
     private bool reactivateTimer = false;
+
+    // UI
+    private GameObject dialogueUI;
 
     private void InitUI()
     {
-        GameObject dialogueUI = GameObject.Find("Dialogue UI");
+        Cursor.visible = false;
+        dialogueUI = GameObject.Find("Dialogue UI");
+
         Canvas canvas = dialogueUI.GetComponentInChildren<Canvas>();
         canvas.worldCamera = Camera.main;
         canvas.planeDistance = 1;
@@ -77,15 +80,22 @@ public class Dialogue : MonoBehaviour
         leftSpeaker.enabled = true;
         rightSpeaker.enabled = true;
 
-        lines = Resources.Load<TextAsset>(dialoguesPath + dialogueName).text.Split(';');
+        lines = Localization.GetLocalizedText(dialoguesPath, dialogueName).text.Split(';');
+
+        string[] lineElements = lines[index].Split('_');
+        leftSpeakerSprite = lineElements[0];
+        leftSpeaker.sprite = Resources.Load<Sprite>(charactersPath + leftSpeakerSprite);
+        rightSpeakerSprite = lineElements[1];
+        rightSpeaker.sprite = Resources.Load<Sprite>(charactersPath + rightSpeakerSprite);
+        index++;
     }
 
     public void Read()
     {
         if (index < lines.Length - 1)
         {
-            string[] lineElements = lines[index].Split('-');
-            if (lineElements[0] == "L")
+            string[] lineElements = lines[index].Split('_');
+            if (lineElements[0].Trim() == "L")
             {
                 if (leftSpeakerSprite != lineElements[1])
                 {
@@ -102,11 +112,11 @@ public class Dialogue : MonoBehaviour
                 }
             }
 
-            speaker.text = lineElements[2];
-            sentence.text = lineElements[3];
+            speaker.text = AddColorToText(lineElements[3], lineElements[2]);
+            sentence.text = lineElements[4];
 
             index++;
-            interaction.text = index < lines.Length ? nextSentence : closeDialogue;
+            interaction.text = index < lines.Length - 1 ? Localization.GetLocalizedString("NEXT") : Localization.GetLocalizedString("CLOSE");
         }
         else
         {
@@ -116,6 +126,7 @@ public class Dialogue : MonoBehaviour
 
     public void Close()
     {
+        Cursor.visible = true;
         SceneManager.UnloadSceneAsync("Dialogue");
 
         if (reactivateTimer)
@@ -156,8 +167,14 @@ public class Dialogue : MonoBehaviour
             if (loaded && Input.GetKeyDown(KeyCode.E))
             {
                 Read();
+                AudioUtils.PlayEffect(dialogueUI, true);
             }
         }
+    }
+
+    private string AddColorToText(string text, string color)
+    {
+        return "<color=" + color + ">" + text + "</color>";
     }
 
     IEnumerator WaitLoadScene()

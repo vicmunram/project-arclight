@@ -1,0 +1,5 @@
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analyzing situation...</i>;
+L_gloves_#475dff_GloV1_Be careful because there are many elements that are <color=#ded410><b>deadly</b></color> on contact, although I can protect you from at least one hit.;
+L_gloves_#475dff_GloV1_Of course, if you shoot yourself at them, I won't have time to do anything.;
+L_gloves_#475dff_GloV1_Also, I will not regain full protection function until you are recovered in one scanner or we go through another.;

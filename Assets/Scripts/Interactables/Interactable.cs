@@ -6,11 +6,19 @@ public abstract class Interactable : MonoBehaviour
 {
     public Text interactText;
     public string defaultMessage;
-    public bool interacted = false;
+    public bool interactedOnce;
     public abstract void FirstInteraction();
     public abstract void EveryInteraction();
     public abstract void OnEnter(Collider2D collision);
     public abstract void OnExit(Collider2D collision);
+
+    // Audio
+    private AudioSource audioSource;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
@@ -19,7 +27,7 @@ public abstract class Interactable : MonoBehaviour
             collision.GetComponent<PlayerControl>().OpenInteraction();
             if (interactText != null)
             {
-                interactText.text = defaultMessage;
+                interactText.text = Localization.GetLocalizedString(defaultMessage);
             }
         }
         OnEnter(collision);
@@ -40,13 +48,14 @@ public abstract class Interactable : MonoBehaviour
 
     public void Interact()
     {
-        if (!interacted)
+        if (!interactedOnce)
         {
             FirstInteraction();
-            interacted = true;
+            interactedOnce = true;
         }
 
         EveryInteraction();
+        AudioUtils.PlayEffect(gameObject, false);
     }
 
     public void Disable()
@@ -58,5 +67,11 @@ public abstract class Interactable : MonoBehaviour
     {
         GetComponent<Collider2D>().enabled = false;
         GetComponent<Renderer>().enabled = false;
+    }
+
+    public void SetDefaultMessage(string key)
+    {
+        interactText.text = Localization.GetLocalizedString(key);
+        defaultMessage = key;
     }
 }

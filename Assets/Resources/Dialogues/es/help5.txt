@@ -1,0 +1,3 @@
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analizando situación...</i>;
+L_gloves_#475dff_GloV1_Te presento los <color=#ebb0f7><b>cristales transparentes</b></color> de CryCorp. Si utilizas la función de lanzamiento, podrás pasar a través de ellos.;

@@ -1,0 +1,6 @@
+document_niko;
+L_document_white_Development Diary #5_I've been researching those bloody crystals for months and nothing. I don't understand why they have a better energy extraction than the rest.;
+L_document_white_Development Diary #5_Its appearance, composition... everything is pretty much the same! And worst of all, Reynald is pressuring me to give him results;
+L_document_white_Development Diary #5_I'm beginning to notice how my strength is fading, and I don't know when was the last time I slept more than 4 hours.;
+L_document_white_Development Diary #5_Luckily, Reynald told me that he is going to send me a helper. He just got out of college, but some work will take me away.;
+L_document_white_Development Diary #5_Anyway, I'd better keep testing...;

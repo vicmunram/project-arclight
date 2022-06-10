@@ -24,20 +24,12 @@ public class RightGlove : Interactable
             }
         }
 
-        if (!dialogue.active && dialogueClosed)
+        if (Timer.enabled == false && !dialogue.active && dialogueClosed)
         {
             GetComponent<Collider2D>().enabled = false;
 
-            GameObject player = GameObject.Find("Player");
-            PlayerControl playerControl = player.GetComponent<PlayerControl>();
-            playerControl.maxHits = 3;
-            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            playerMovement.maxSpeed = 7.5f;
-            playerMovement.canDash = true;
-
             GameProgress.SaveProgress(2, stretchTime, true);
-
-            Timer.Start(stretchTime);
+            AudioUtils.PlaySectionMusic();
         }
     }
 
@@ -45,6 +37,11 @@ public class RightGlove : Interactable
     {
         GetComponent<Renderer>().enabled = false;
         interactText.text = null;
+        Timer.Start(stretchTime);
+
+        PlayerMovement playerMovement = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        playerMovement.canDash = true;
+        playerMovement.SetPlayerState();
 
         dialogue.Activate();
     }

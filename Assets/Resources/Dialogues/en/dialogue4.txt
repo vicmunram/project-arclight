@@ -1,0 +1,7 @@
+cry_niko;
+L_cry_#c072ed_Cry_Once again taking something that doesn't belong to you, too bad, Niko.;
+R_niko_teal_Niko_Ah! What are you doing here again?!;
+L_cry_#c072ed_Cry_Did you really think you turned me off? Come on, you're smarter.;
+L_cry_#c072ed_Cry_I've been preparing this whole new section for you. You are going to see new things, a little more dangerous maybe.;
+L_cry_#c072ed_Cry_But I know you can handle it, you've taught me before, come on, move on.;
+R_niko_teal_Niko_Sigh...;

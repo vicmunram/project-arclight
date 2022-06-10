@@ -1,18 +1,15 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class LastHit : Button
 {
     public override void FirstInteraction()
     {
-        Remove();
         interactText.text = null;
+        defaultMessage = "BLANK";
 
         StopMovables("Arrows");
-        StopMovables("Left Mirrors");
-        StopMovables("Right Mirrors");
         StopMovables("Dangers");
+        StopMovables("Crystals");
 
         ExtraTime[] extras = GameObject.Find("Extras").GetComponentsInChildren<ExtraTime>();
         foreach (ExtraTime extra in extras)
@@ -21,7 +18,8 @@ public class LastHit : Button
         }
 
         GameProgress.SaveProgress(Timer.globalTime, 0, true);
-        GameObject.Find("Player").GetComponent<PlayerControl>().SetRespawnPoint(new Vector3(0, 1.75f, 0));
+        GameObject.Find("Player").GetComponent<PlayerControl>().SetRespawnPoint(new Vector3(0, 0, 0));
+        AudioUtils.StopMusic();
     }
 
     private void StopMovables(string name)
@@ -30,7 +28,7 @@ public class LastHit : Button
         foreach (Movable movable in movables)
         {
             movable.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            movable.isMoving = false;
+            movable.Deactivate();
         }
     }
 }

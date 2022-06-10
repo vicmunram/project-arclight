@@ -4,8 +4,8 @@ public class LeftCircle : Button
 {
     public override void FirstInteraction()
     {
-        Remove();
         interactText.text = null;
+        defaultMessage = "BLANK";
 
         RotaryInfinite[] rotaries = GameObject.Find("Left Circle").GetComponentsInChildren<RotaryInfinite>();
         foreach (RotaryInfinite rotary in rotaries)

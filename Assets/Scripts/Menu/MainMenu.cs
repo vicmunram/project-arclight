@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
@@ -16,62 +18,85 @@ public class MainMenu : MonoBehaviour
     {
         if (!File.Exists(GameProgress.GetFullPath()))
         {
-            GameObject.Find("Continue").GetComponent<UnityEngine.UI.Button>().interactable = false;
+            GameObject.Find("Continue Bt").GetComponent<UnityEngine.UI.Button>().interactable = false;
         }
         else
         {
-            GameObject.Find("Continue").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Continue);
+            GameObject.Find("Continue Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Continue);
         }
 
-        GameObject.Find("New Game").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(NewGame);
-        GameObject.Find("Options").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Options);
-        GameObject.Find("Quit").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(QuitGame);
+        GameObject.Find("New Game Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(NewGame);
+        GameObject.Find("Options Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Options);
+        GameObject.Find("Quit Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(QuitGame);
     }
 
     private void NewGame()
     {
+
         if (!File.Exists(GameProgress.GetFullPath()))
         {
-            SceneManager.LoadScene("0-1");
+            StartCoroutine(PlayEffectAndLoadScene("0-1"));
+            AudioUtils.StopMusic();
         }
         else
         {
+            AudioUtils.PlayEffect("menuButton");
             disclaimerPanel.SetActive(true);
-            GameObject.Find("Yes").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Yes);
-            GameObject.Find("No").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(No);
+            Localization.TranslateTexts(disclaimerPanel.GetComponentsInChildren<Text>());
+            GameObject.Find("Yes Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(Yes);
+            GameObject.Find("No Bt").GetComponent<UnityEngine.UI.Button>().onClick.AddListener(No);
         }
     }
 
     private void Yes()
     {
         GameProgress.DeleteProgress();
-        SceneManager.LoadScene("0-1");
+        StartCoroutine(PlayEffectAndLoadScene("0-1"));
+        AudioUtils.StopMusic();
     }
 
     private void No()
     {
+        AudioUtils.PlayEffect("menuButton");
         disclaimerPanel.SetActive(false);
     }
 
     private void Continue()
     {
+        AudioUtils.PlayEffect("menuButton");
         GameProgress.LoadLastCheckpoint();
+        AudioUtils.StopMusic();
     }
 
     private void Options()
     {
-        SceneManager.LoadScene("Options");
+        StartCoroutine(PlayEffectAndLoadScene("Options"));
     }
 
     private void QuitGame()
     {
+        AudioUtils.PlayEffect("menuButton");
         Application.Quit();
     }
 
     private void LoadConfiguration()
     {
+        Application.targetFrameRate = 120;
         string[] resolution = PlayerPrefs.GetString("resolution", "1920×1080").Split('×');
         Screen.SetResolution(int.Parse(resolution[0]), int.Parse(resolution[1]), true);
         Screen.fullScreen = PlayerPrefs.GetInt("fullscreen", 1) == 1 ? true : false;
+
+        Localization.LoadLocalization();
+        Localization.TranslateTexts(GameObject.FindObjectsOfType<Text>());
+
+        AudioUtils.ToggleMusic();
     }
+
+    IEnumerator PlayEffectAndLoadScene(string scene)
+    {
+        AudioUtils.PlayEffect("menuButton");
+        yield return new WaitForSeconds(0.1f);
+        SceneManager.LoadScene(scene);
+    }
+
 }

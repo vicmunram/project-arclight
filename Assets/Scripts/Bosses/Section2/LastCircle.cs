@@ -4,8 +4,8 @@ public class LastCircle : Button
 {
     public override void FirstInteraction()
     {
-        Remove();
         interactText.text = null;
+        defaultMessage = "BLANK";
 
         ExtraTime[] extras = GameObject.Find("Extras").GetComponentsInChildren<ExtraTime>();
         foreach (ExtraTime extra in extras)
@@ -18,7 +18,7 @@ public class LastCircle : Button
         MovableLoop[] movables = blades.GetComponentsInChildren<MovableLoop>();
         foreach (MovableLoop movable in movables)
         {
-            movable.isMoving = false;
+            movable.Deactivate();
         }
         RotaryInfinite[] rotaries = blades.GetComponentsInChildren<RotaryInfinite>();
         foreach (RotaryInfinite rotary in rotaries)
@@ -31,6 +31,7 @@ public class LastCircle : Button
 
         GameProgress.SaveProgress(Timer.globalTime, 0, true);
         GameObject.Find("Player").GetComponent<PlayerControl>().SetRespawnPoint(gameObject.transform.position);
+        AudioUtils.StopMusic();
     }
 
 }

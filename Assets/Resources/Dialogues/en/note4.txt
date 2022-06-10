@@ -1,0 +1,6 @@
+document_niko;
+L_document_white_Development Diary #12_That cocky brat Jin managed to figure out where the hell the crystal came from.;
+L_document_white_Development Diary #12_Turns out it was from one of the mine employees who didn't realize he had to leave it to do the experiment.;
+L_document_white_Development Diary #12_What a jerk. Worst of all, he has found out that the extraction of energy is more efficient by a protein only present in the human being.;
+L_document_white_Development Diary #12_And the rat has hidden all progress from me until now, leaving me aside from all discovery.;
+L_document_white_Development Diary #12_What does he want? Take my position? In a company that I brought out of ruin? I'm not going to leave him.;

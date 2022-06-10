@@ -1,0 +1,5 @@
+cry_niko;
+L_cry_#c072ed_Cry_Niko, in the next room is the terminal that controls me. I hope you don't hold a grudge against me, haha.;
+L_cry_#c072ed_Cry_Similarly, I have prepared a button for you to publish all the dark data of CryCorp on the web.;
+R_niko_teal_Niko_Okay. Thank you Cry. And don't worry, I don't hold any grudge against you.;
+L_cry_#c072ed_Cry_I'm glad.;

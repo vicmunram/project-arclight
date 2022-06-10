@@ -1,19 +1,17 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class LeftHit : Button
 {
     public override void FirstInteraction()
     {
-        Remove();
         interactText.text = null;
+        defaultMessage = "BLANK";
 
         DecreaseSize("Left Mirrors");
         DecreaseSize("Right Mirrors");
 
         PlayerControl playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
-        playerControl.SetRespawnPoint(new Vector3(0, 0, 1.75f));
+        playerControl.SetRespawnPoint(new Vector3(0, 0, 0));
         playerControl.hits = 0;
     }
 
@@ -24,9 +22,9 @@ public class LeftHit : Button
 
         foreach (Transform transform in transforms)
         {
-            if (transform.localScale.y != 1)
+            if (transform.localScale.x != 1)
             {
-                transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z);
+                transform.localScale = new Vector3(transform.localScale.x / 2, transform.localScale.y, transform.localScale.z);
             }
         }
     }

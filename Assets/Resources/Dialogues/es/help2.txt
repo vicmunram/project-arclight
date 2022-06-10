@@ -1,0 +1,4 @@
+gloves_niko;
+L_gloves_#475dff_GloV1_<i>Analizando situación...</i>;
+L_gloves_#475dff_GloV1_En esta sala se encuentra uno de los <color=#475dff><b>interruptores</b></color> que puedes usar gracias a mí con la función de interacción <color=#475dff><b>[E]</b></color>.;
+L_gloves_#475dff_GloV1_Además, hay un <color=#e4a6f5><b>punto de reaparación</b></color>. Si interactúas con él, modificarás tu lugar de reaparación en caso de sufrir un accidente.;

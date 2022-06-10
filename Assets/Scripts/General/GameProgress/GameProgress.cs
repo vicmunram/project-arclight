@@ -100,7 +100,6 @@ public static class GameProgress
             Timer.enabled = true;
             Timer.Reset();
         }
-
     }
 
     public static void DeleteProgress()

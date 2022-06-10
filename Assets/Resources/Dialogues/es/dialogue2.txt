@@ -1,0 +1,9 @@
+cry_niko;
+L_cry_#c072ed_Cry_Lo siento mucho, Niko, pero esto está yendo ya demasiado lejos. No tengo permitido atacarte, pero si complicarte la vida.;
+R_niko_teal_Niko_¿Co-cómo?¿Qué quieres decir?;
+L_cry_#c072ed_Cry_Verás, la tecnología de CryCorp es bastante avanzada, y esta es su sede principal como bien sabrás.;
+L_cry_#c072ed_Cry_Pues bien, puedo modificar las salas de las instalaciones a mi gusto, de hecho, todos los lugares por los que has pasado;
+L_cry_#c072ed_Cry_han sido creados por mí a medida que avanzabas. Me he divertido mucho contigo, la verdad, pero es suficiente.;
+L_cry_#c072ed_Cry_De aquí no vas a pasar.;
+R_niko_teal_Niko_No voy a asustarme. Ha sido muy fácil llegar hasta aquí (más o menos), no me supones un reto.;
+R_niko_teal_Niko_(Tengo que centrarme. Esta sala tiene que tener una forma para avanzar al igual que el resto);

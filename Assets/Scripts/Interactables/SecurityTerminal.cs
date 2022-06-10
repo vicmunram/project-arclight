@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Canvas))]
 public class SecurityTerminal : Interactable
 {
+    public Text auxInteractText;
     public bool login;
     public bool decrypted;
     public float stretchTime;
@@ -16,7 +16,7 @@ public class SecurityTerminal : Interactable
     private string[] lines;
     private int index = 0;
 
-    public void Start()
+    void Start()
     {
         infoMessage = GameObject.Find("Display").GetComponent<Text>();
         exit = GameObject.Find("Exit").GetComponentInChildren<MovableGroup>();
@@ -27,9 +27,10 @@ public class SecurityTerminal : Interactable
             Timer.Reset();
         }
     }
+
     public override void FirstInteraction()
     {
-        lines = Resources.Load<TextAsset>(sourcePath + path).text.Split(';');
+        lines = Localization.GetLocalizedText(sourcePath, path).text.Split(';');
     }
     public override void EveryInteraction()
     {
@@ -39,42 +40,44 @@ public class SecurityTerminal : Interactable
             {
                 Timer.enabled = false;
                 GameProgress.SaveProgress(Timer.globalTime, stretchTime, false);
-                interactText.text = "[E] Access";
+                SetDefaultMessage("ACCESS");
             }
             else
             {
                 if (!login)
                 {
                     login = true;
-                    infoMessage.text = "Protected document";
-                    infoMessage.fontSize = 9;
-                    interactText.text = "[E] Decrypt";
+                    infoMessage.text = Localization.GetLocalizedString("PROTECTED_DOC");
+                    infoMessage.fontSize = 7;
+                    SetDefaultMessage("DECRYPT");
                 }
                 else
                 {
-                    if (index < lines.Length - 1)
+                    if (index == 0)
                     {
-                        infoMessage.text = lines[index];
-                        index++;
-                        interactText.text = index < lines.Length ? "[E] Next" : "[E] Close";
+                        infoMessage.alignment = TextAnchor.UpperLeft;
+                        infoMessage.text = Localization.GetFormattedText(lines[index]);
+                        SetInteractText();
                     }
-                    else
+                    else if (index == lines.Length - 1)
                     {
+                        decrypted = true;
                         infoMessage.alignment = TextAnchor.MiddleCenter;
                         infoMessage.fontSize = 25;
-                        decrypted = true;
-                        defaultMessage = null;
-                        interactText.text = null;
                         infoMessage.text = null;
+                        auxInteractText.text = null;
+                        SetDefaultMessage("SHOW_ROOMS");
 
                         exit.active = true;
                         Timer.Restart(stretchTime);
+                        AudioUtils.PlaySectionMusic();
                     }
                 }
             }
         }
         else
         {
+            SetDefaultMessage("PICK_ROOM");
             InitButtons();
         }
     }
@@ -88,8 +91,20 @@ public class SecurityTerminal : Interactable
         }
     }
 
-    public override void OnEnter(Collider2D collision) { }
-    public override void OnExit(Collider2D collision) { }
+    public override void OnEnter(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<PlayerControl>().terminal = true;
+        }
+    }
+    public override void OnExit(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<PlayerControl>().terminal = false;
+        }
+    }
 
     public void InitButtons()
     {
@@ -101,7 +116,7 @@ public class SecurityTerminal : Interactable
         {
             UnityEngine.UI.Button button = buttons[index];
             button.GetComponent<Image>().enabled = true;
-            button.GetComponentInChildren<Text>().text = "Security Room " + index;
+            button.GetComponentInChildren<Text>().text = Localization.GetLocalizedString("SEC_ROOM") + " " + index;
             button.interactable = saveData.currentCheckpointLevel != (checkpoint.Key);
             button.onClick.AddListener(() => OnClick(checkpoint));
             index++;
@@ -109,10 +124,55 @@ public class SecurityTerminal : Interactable
 
         void OnClick(KeyValuePair<int, TimeData> checkpoint)
         {
+            AudioUtils.PlayEffect(gameObject, false);
             GameProgress.LoadCheckpoint(checkpoint);
             GameObject.Find("Player").GetComponent<PlayerControl>().Respawn(true);
         }
+    }
 
+    public void Next()
+    {
+        if (!decrypted && !Timer.enabled && login && infoMessage.alignment == TextAnchor.UpperLeft)
+        {
+            if (index >= 0 && index < lines.Length - 1)
+            {
+                index++;
+                infoMessage.text = Localization.GetFormattedText(lines[index]);
+                SetInteractText();
+            }
+        }
+    }
+
+    public void Back()
+    {
+        if (!decrypted && !Timer.enabled && login && infoMessage.alignment == TextAnchor.UpperLeft)
+        {
+            if (index > 0 && index <= lines.Length - 1)
+            {
+                index--;
+                infoMessage.text = Localization.GetFormattedText(lines[index]);
+                SetInteractText();
+            }
+        }
+    }
+
+    private void SetInteractText()
+    {
+        if (index == 0)
+        {
+            SetDefaultMessage("BLANK");
+            auxInteractText.text = "<color=grey><</color> >";
+        }
+        else if (index == lines.Length - 1)
+        {
+            SetDefaultMessage("CLOSE_TERMINAL");
+            auxInteractText.text = "< <color=grey>></color>";
+        }
+        else
+        {
+            SetDefaultMessage("BLANK");
+            auxInteractText.text = "< >";
+        }
     }
 
 }

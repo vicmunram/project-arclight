@@ -25,6 +25,7 @@ public class FirstTrap : Button
                 Destroy(GameObject.Find("Fake"));
 
                 extraInteractions[0].SetActive(true);
+                AudioUtils.PlayEffect("trap");
             }
         }
     }
@@ -33,10 +34,11 @@ public class FirstTrap : Button
         Remove();
         interactText.text = null;
 
+        AudioUtils.PlayEffect("trap");
+
         PlayerCamera playerCamera = GameObject.Find("Player Camera").GetComponent<PlayerCamera>();
         playerCamera.Resize(14);
-        playerCamera.xRange = new Vector2(-1, 1);
-        playerCamera.yRange = new Vector2(26.5f, 27.5f);
+        playerCamera.ChangeRange(new Vector2(-1, 1), new Vector2(26.5f, 27.5f));
         GameObject.Find("Main Resizer").GetComponent<CameraChanger>().active = true;
         GameObject.Find("Black PTs").GetComponent<MovableGroup>().active = true;
 
@@ -46,5 +48,6 @@ public class FirstTrap : Button
 
         PlayerControl playerControl = GameObject.Find("Player").GetComponent<PlayerControl>();
         playerControl.SetRespawnPoint(transform.position);
+        AudioUtils.PlayMusic("Boss3");
     }
 }

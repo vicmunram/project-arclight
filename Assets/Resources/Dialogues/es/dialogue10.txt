@@ -1,0 +1,5 @@
+cry_niko;
+L_cry_#c072ed_Cry_Venga, razonemos. Te puedo ayudar a publicar los datos de verdad.;
+R_niko_teal_Niko_...;
+L_cry_#c072ed_Cry_¿Niko?;
+R_niko_teal_Niko_...;

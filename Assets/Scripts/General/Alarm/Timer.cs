@@ -33,6 +33,7 @@ public static class Timer
     public static float Add(float time)
     {
         globalTime += time;
+        GameObject.Find("Player UI").GetComponent<PlayerUI>().AddTime(time);
         return globalTime;
     }
 

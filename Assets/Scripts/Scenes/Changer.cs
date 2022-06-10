@@ -8,6 +8,7 @@ public abstract class Changer : MonoBehaviour
     {
         if (other.CompareTag("Player") && active)
         {
+            AudioUtils.PlayEffect(gameObject, false);
             Change();
         }
     }

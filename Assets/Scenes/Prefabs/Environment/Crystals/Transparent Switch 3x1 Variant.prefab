@@ -65,12 +65,27 @@ PrefabInstance:
     - target: {fileID: 808477025482685088, guid: 44b28c0bd6544c24faa27bf24a4c4cac,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.45
+      value: 0.43871614
       objectReference: {fileID: 0}
     - target: {fileID: 1396173269569327715, guid: 44b28c0bd6544c24faa27bf24a4c4cac,
         type: 3}
       propertyPath: m_Name
-      value: Transparent Switch 3x1
+      value: Transparent Switch 3x1 Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6550713641802051432, guid: 44b28c0bd6544c24faa27bf24a4c4cac,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.border.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6550713641802051432, guid: 44b28c0bd6544c24faa27bf24a4c4cac,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.border.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6550713641802051432, guid: 44b28c0bd6544c24faa27bf24a4c4cac,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 6.48
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44b28c0bd6544c24faa27bf24a4c4cac, type: 3}

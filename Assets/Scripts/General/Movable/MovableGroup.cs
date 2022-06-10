@@ -38,7 +38,7 @@ public class MovableGroup : MonoBehaviour
         bool doorsMoving = false;
         foreach (Movable movable in movables)
         {
-            if (typeof(Door).IsInstanceOfType(movable) && movable.isMoving)
+            if (typeof(Door).IsInstanceOfType(movable) && movable.IsMoving())
             {
                 doorsMoving = true;
             }
@@ -48,11 +48,11 @@ public class MovableGroup : MonoBehaviour
         {
             if (typeof(Door).IsInstanceOfType(movable) && !doorsMoving)
             {
-                movable.isMoving = true;
+                movable.Activate();
             }
             else
             {
-                movable.isMoving = true;
+                movable.Activate();
             }
         }
 
@@ -65,7 +65,7 @@ public class MovableGroup : MonoBehaviour
 
         foreach (Movable movable in movables)
         {
-            movable.isMoving = true;
+            movable.Activate();
             yield return new WaitForSeconds(moveRate);
         }
     }

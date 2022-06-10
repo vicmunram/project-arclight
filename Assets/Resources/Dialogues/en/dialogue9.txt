@@ -1,0 +1,3 @@
+cry_niko;
+L_cry_#c072ed_Cry_Niko, stop. Don't turn me off;
+R_niko_teal_Niko_...;
