@@ -38,7 +38,7 @@ public class PlayerControl : MonoBehaviour
             CheckTerminal();
         }
 
-        if (hits < 1 || Input.GetKeyDown(KeyCode.K))
+        if (hits < 1)
         {
             Respawn(false);
         }
@@ -113,6 +113,7 @@ public class PlayerControl : MonoBehaviour
             PlayerMovement playerMovement = GetComponent<PlayerMovement>();
             if (!playerMovement.isPreparing && !playerMovement.isPunching && !playerMovement.isDashing && !playerMovement.isRepelled)
             {
+                AudioUtils.PlayEffect("triggerDialogue");
                 helpDialogue.Activate();
             }
         }

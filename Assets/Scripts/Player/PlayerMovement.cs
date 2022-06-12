@@ -74,25 +74,25 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isPunching)
+        {
+            CheckPunchCollisions();
+        }
+        else if (isDashing)
+        {
+            CheckDashCollisions();
+        }
+        else
+        {
+            if (wasPunching)
+            {
+                wasPunching = false;
+            }
+            CheckCollisions();
+        }
+
         if (canMove)
         {
-            if (isPunching)
-            {
-                CheckPunchCollisions();
-            }
-            else if (isDashing)
-            {
-                CheckDashCollisions();
-            }
-            else
-            {
-                if (wasPunching)
-                {
-                    wasPunching = false;
-                }
-                CheckCollisions();
-            }
-
             if (!isDashing && !isRepelled)
             {
                 MovePlayer();

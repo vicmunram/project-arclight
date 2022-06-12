@@ -82,8 +82,6 @@ public class MainMenu : MonoBehaviour
     private void LoadConfiguration()
     {
         Application.targetFrameRate = 120;
-        string[] resolution = PlayerPrefs.GetString("resolution", "1920×1080").Split('×');
-        Screen.SetResolution(int.Parse(resolution[0]), int.Parse(resolution[1]), true);
         Screen.fullScreen = PlayerPrefs.GetInt("fullscreen", 1) == 1 ? true : false;
 
         Localization.LoadLocalization();
