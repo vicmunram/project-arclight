@@ -9,6 +9,6 @@ L_unmasking_lightblue_UnmasKing_No lo olvides, estás solo ahí dentro. Ten much
 R_niko_teal_Niko_No se preocupen, me he entrenado antes de la misión.;
 L_unmasking_lightblue_UnmasKing_<b>Niko</b>, no has sido escogido por tu fuerza, sino por tus habilidades de hacking. Mantenlo en mente.;
 R_niko_teal_Niko_De acuerdo... Pueden confiar en mí.;
-L_unmasking_lightblue_UnmasKing_Eso esperammos.;
+L_unmasking_lightblue_UnmasKing_Eso esperamos.;
 L_phone_white_Teléfono de Niko_<i>Bip.</i>;
 R_niko_teal_Niko_Ains...;

@@ -28,7 +28,7 @@ public class TriggerTrapDialogue : Changer
             }
         }
 
-        if (!dialogue.active && exit.active)
+        if (!dialogue.active && exitOpened)
         {
             GameProgress.SaveProgress(Timer.globalTime, 0, true);
         }
